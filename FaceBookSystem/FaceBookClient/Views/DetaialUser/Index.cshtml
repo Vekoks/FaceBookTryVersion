@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNet.Identity
+
+@model FaceBookClient.Models.UserDetailsViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        .form-horizontal {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>@User.Identity.GetUserName()</h1>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <h2>@Model.FirstName</h2>
+                @*@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })*@
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <h2>@Model.LastName</h2>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <h2>@Model.Age</h2>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Adress, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <h2>@Model.Adress</h2>
+            </div>
+        </div>
+
+        <button onclick="IdetInfo()">Idet information</button>
+
+        @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @id="formInfo", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Edit information for user.</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Adress, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Save Details" />
+                </div>
+            </div>
+        }
+
+    </div>
+
+
+</body>
+</html>
