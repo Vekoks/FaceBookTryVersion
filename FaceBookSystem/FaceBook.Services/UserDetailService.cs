@@ -1,5 +1,6 @@
 ﻿using FaceBook.Data.Repository;
 using FaceBook.Model;
+using FaceBook.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FaceBook.Services
 {
-    public class UserDetailService
+    public class UserDetailService : IUserDetailService
     {
         private readonly IRepository<UserDetails> _userDetailRepo;
 

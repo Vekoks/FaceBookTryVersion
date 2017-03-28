@@ -2,6 +2,7 @@
 using FaceBook.Data.Repository;
 using FaceBook.Model;
 using FaceBook.Services;
+using FaceBook.Services.Contracts;
 using FaceBookClient.Models;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,14 @@ namespace FaceBookClient.Controllers
 {
     public class DetaialUserController : Controller
     {
-        static FaceBookDbContext db = new FaceBookDbContext();
+        private readonly IUserDetailService _detailService;
+        private readonly IUserService _userService;
 
-        static Repository<UserDetails> detailRepo = new Repository<UserDetails>(db);
-
-        static UserDetailService detailService = new UserDetailService(detailRepo);
-
-
-        static Repository<User> userRepo = new Repository<User>(db);
-
-        static UserService userService = new UserService(userRepo);
+        public DetaialUserController(IUserService userService, IUserDetailService detailService)
+        {
+            this._detailService = detailService;
+            this._userService = userService;
+        }
 
         // GET: DetaialUser
         public ActionResult Index()
@@ -30,9 +29,9 @@ namespace FaceBookClient.Controllers
           
             var name = User.Identity.Name;
 
-            var user = userService.GetUserByUserName(name);
+            var user = _userService.GetUserByUserName(name);
 
-            var details = detailService.GetDetailByUserId(user.Id);
+            var details = _detailService.GetDetailByUserId(user.Id);
 
             if (details == null)
             {
@@ -82,9 +81,9 @@ namespace FaceBookClient.Controllers
         {
             var name = User.Identity.Name;
 
-            var user = userService.GetUserByUserName(name);
+            var user = _userService.GetUserByUserName(name);
 
-            var userDetail = detailService.GetDetailByUserId(user.Id);
+            var userDetail = _detailService.GetDetailByUserId(user.Id);
 
             if (userDetail != null)
             {
@@ -93,7 +92,7 @@ namespace FaceBookClient.Controllers
                 userDetail.Adress = model.Adress;
                 userDetail.Age = model.Age;
 
-                detailService.UpdataDetail(userDetail);
+                _detailService.UpdataDetail(userDetail);
             }
 
             else
@@ -108,7 +107,7 @@ namespace FaceBookClient.Controllers
                     UserId = user.Id
                 };
 
-                detailService.AddDetails(newDetails);
+                _detailService.AddDetails(newDetails);
 
             }
 
