@@ -58,12 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FaceBookDbContext.cs" />
+    <Compile Include="IFaceBookDbContext.cs" />
     <Compile Include="Migrations\201703271930367_InitialCreate.cs" />
     <Compile Include="Migrations\201703271930367_InitialCreate.Designer.cs">
       <DependentUpon>201703271930367_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

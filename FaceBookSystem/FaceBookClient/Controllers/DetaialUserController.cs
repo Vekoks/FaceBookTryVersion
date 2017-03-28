@@ -1,5 +1,7 @@
 ﻿using FaceBook.Data;
+using FaceBook.Data.Repository;
 using FaceBook.Model;
+using FaceBook.Services;
 using FaceBookClient.Models;
 using System;
 using System.Collections.Generic;
@@ -11,16 +13,26 @@ namespace FaceBookClient.Controllers
 {
     public class DetaialUserController : Controller
     {
+        static FaceBookDbContext db = new FaceBookDbContext();
+
+        static Repository<UserDetails> detailRepo = new Repository<UserDetails>(db);
+
+        static UserDetailService detailService = new UserDetailService(detailRepo);
+
+
+        static Repository<User> userRepo = new Repository<User>(db);
+
+        static UserService userService = new UserService(userRepo);
+
         // GET: DetaialUser
         public ActionResult Index()
         {
-            var db = new FaceBookDbContext();
-
+          
             var name = User.Identity.Name;
 
-            var idOfUser = db.Users.Where(x => x.UserName == name).FirstOrDefault();
+            var user = userService.GetUserByUserName(name);
 
-            var details = db.UserDetails.Where(x => x.UserId == idOfUser.Id).FirstOrDefault();
+            var details = detailService.GetDetailByUserId(user.Id);
 
             if (details == null)
             {
@@ -68,13 +80,11 @@ namespace FaceBookClient.Controllers
         [HttpPost]
         public ActionResult Create(UserDetailsViewModel model)
         {
-            var db = new FaceBookDbContext();
-
             var name = User.Identity.Name;
 
-            var idOfUser = db.Users.Where(x => x.UserName == name).FirstOrDefault();
+            var user = userService.GetUserByUserName(name);
 
-            var userDetail = db.UserDetails.Where(x => x.UserId == idOfUser.Id).FirstOrDefault();
+            var userDetail = detailService.GetDetailByUserId(user.Id);
 
             if (userDetail != null)
             {
@@ -82,23 +92,25 @@ namespace FaceBookClient.Controllers
                 userDetail.LastName = model.LastName;
                 userDetail.Adress = model.Adress;
                 userDetail.Age = model.Age;
+
+                detailService.UpdataDetail(userDetail);
             }
 
             else
             {
 
-                db.UserDetails.Add(new UserDetails()
+                var newDetails = new UserDetails()
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Adress = model.Adress,
                     Age = model.Age,
-                    UserId = idOfUser.Id
-                });
+                    UserId = user.Id
+                };
+
+                detailService.AddDetails(newDetails);
 
             }
-
-            db.SaveChanges();
 
             return RedirectToAction("Index", "DetaialUser");
         }

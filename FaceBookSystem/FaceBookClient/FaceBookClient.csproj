@@ -262,6 +262,10 @@
       <Project>{5daf34f1-3a00-4a8c-b7f4-96d30c279aeb}</Project>
       <Name>FaceBook.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FaceBook.Services\FaceBook.Services.csproj">
+      <Project>{9670b051-2162-45d0-a816-e96a0182e130}</Project>
+      <Name>FaceBook.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

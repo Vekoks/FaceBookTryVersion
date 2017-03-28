@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FaceBook.Data
 {
-    public class FaceBookDbContext : IdentityDbContext<User>
+    public class FaceBookDbContext : IdentityDbContext<User>, IFaceBookDbContext
     {
         public FaceBookDbContext() : base("FaceBookSystem")
         {
