@@ -49,6 +49,7 @@
             </div>
         </div>
 
+
         <button onclick="IdetInfo()">Idet information</button>
 
         @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @id="formInfo", @class = "form-horizontal" }))
@@ -87,6 +88,16 @@
                 </div>
             </div>
         }
+
+        <div>
+            <h3>Friend</h3>
+            @{
+                foreach (var friend in Model.Friends)
+                {
+                    <p>@Html.ActionLink(@friend.UserName, "Details/" + friend.UserName.ToString(), "DetaialUser")</p>
+                }
+            }
+        </div>
 
     </div>
 

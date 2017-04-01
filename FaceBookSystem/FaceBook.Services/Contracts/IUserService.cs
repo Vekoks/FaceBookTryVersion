@@ -12,5 +12,10 @@ namespace FaceBook.Services.Contracts
         IEnumerable<User> GetAllUsers();
 
         User GetUserByUserName(string userName);
+
+        bool CkeckForFriend(User logged, User friend);
+
+        void AddFriend(User logged, User friend);
+
     }
 }

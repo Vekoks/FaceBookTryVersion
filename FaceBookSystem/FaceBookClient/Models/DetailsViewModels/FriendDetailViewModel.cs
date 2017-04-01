@@ -5,8 +5,10 @@ using System.Web;
 
 namespace FaceBookClient.Models
 {
-    public class UserDetailsViewModel
+    public class FriendDetailViewModel
     {
+        public string UserName { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -15,5 +17,6 @@ namespace FaceBookClient.Models
 
         public string Adress { get; set; }
 
+        public bool CheckForFriend { get; set; }
     }
 }

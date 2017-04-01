@@ -26,12 +26,11 @@ namespace FaceBookClient.Controllers
         // GET: DetaialUser
         public ActionResult Index()
         {
-          
             var name = User.Identity.Name;
 
-            var user = _userService.GetUserByUserName(name);
+            var userLogged = _userService.GetUserByUserName(name);
 
-            var details = _detailService.GetDetailByUserId(user.Id);
+            var details = _detailService.GetDetailByUserId(userLogged.Id);
 
             if (details == null)
             {
@@ -40,7 +39,8 @@ namespace FaceBookClient.Controllers
                     FirstName = "undefined",
                     LastName = "undefined",
                     Adress = "undefined",
-                    Age = 0
+                    Age = 0,
+                    Friends = new List<User>()
                 };
 
                 return View(model);
@@ -53,21 +53,45 @@ namespace FaceBookClient.Controllers
                     FirstName = details.FirstName,
                     LastName = details.LastName,
                     Adress = details.Adress,
-                    Age = details.Age
+                    Age = details.Age,
+                    Friends = userLogged.Friend
+                   
                 };
 
                 return View(model);
             }
 
 
-            
+
         }
 
-        // GET: DetaialUser/Details/5
-        public ActionResult Details(int id)
+        // GET: DetaialUser/Details/UserName
+        public ActionResult Details(string UserName)
         {
-            return View();
+            var name = User.Identity.Name;
+
+            var userLogged = _userService.GetUserByUserName(name);
+
+            var userFriend = _userService.GetUserByUserName(UserName);
+
+            var details = _detailService.GetDetailByUserId(userFriend.Id);
+
+            var ckeckFriend = _userService.CkeckForFriend(userLogged, userFriend);
+
+            var model = new FriendDetailViewModel()
+            {
+                UserName = userFriend.UserName,
+                FirstName = details.FirstName,
+                LastName = details.LastName,
+                Adress = details.Adress,
+                Age = details.Age,
+                CheckForFriend = ckeckFriend
+            };
+
+            return View("FriendDetailsView", model);
+
         }
+
 
         // GET: DetaialUser/Create
         public ActionResult Create()
@@ -112,6 +136,19 @@ namespace FaceBookClient.Controllers
             }
 
             return RedirectToAction("Index", "DetaialUser");
+        }
+
+        public ActionResult AddFriend(string UserName)
+        {
+            var name = User.Identity.Name;
+
+            var userLogged = _userService.GetUserByUserName(name);
+
+            var userFriend = _userService.GetUserByUserName(UserName);
+
+            _userService.AddFriend(userLogged, userFriend);
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: DetaialUser/Edit/5

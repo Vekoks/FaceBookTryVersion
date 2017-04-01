@@ -12,11 +12,27 @@ namespace FaceBook.Model
 {
     public class User : IdentityUser
     {
+        private ICollection<User> friend;
+
+        public User()
+        {
+            this.friend = new List<User>();
+        }
+
         public override string Id { get; set; }
 
         public override string UserName { get; set; }
 
         public override string Email { get; set; }
+
+        public virtual string FriendId { get; set; }
+
+        public virtual ICollection<User> Friend
+        {
+            get { return friend; }
+            set { friend = value; }
+        }
+
 
         public ClaimsIdentity GenerateUserIdentity(UserManager<User> manager)
         {

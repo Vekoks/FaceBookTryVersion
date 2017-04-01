@@ -32,11 +32,11 @@
     </div>
 
     <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Chat</button>
+        <button onclick="myFunction()" class="dropbtn">Users</button>
         <div id="myDropdown" class="dropdown-content">
             @foreach (var item in Model)
             {
-                <p>@Html.ActionLink(@item.Name, "Index", "DetaialUser")</p>
+                <p>@Html.ActionLink(@item.Name, "Details/" + item.Name.ToString(), "DetaialUser")</p>
             }
         </div>
     </div>

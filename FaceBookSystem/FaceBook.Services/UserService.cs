@@ -18,6 +18,30 @@ namespace FaceBook.Services
             this._userDetailRepo = userDetailRepo;
         }
 
+        public void AddFriend(User logged, User friend)
+        {
+            logged.Friend.Add(friend);
+            _userDetailRepo.SaveChanges();
+        }
+
+        public bool CkeckForFriend(User logged, User friend)
+        {
+
+
+            User ckeckFriend = logged.Friend.Where(x => x.Id == friend.Id).FirstOrDefault();
+
+            try
+            {
+                var name = ckeckFriend.UserName;
+            }
+            catch (NullReferenceException e)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             return this._userDetailRepo.All();
