@@ -25,31 +25,30 @@ namespace FaceBookClient.Controllers
 
             var userLogged = _userService.GetUserByUserName(name);
 
-            var list = new List<ChatViewModel>();
-
             if (userLogged == null)
             {
-                return View(list);
+                var notUserModel = new HomeIndexViewModel()
+                {
+                    AllUsers = new List<User>(),
+                    AllAskForFriend = new List<InvitationForFriend>(),
+                    CountAskForFriend = 0
+                };
+
+                return View(notUserModel);
             }
 
-            //var users = userLogged.Friend.ToList();
+            var allAskForFriend = userLogged.AskForFriend.ToList();
 
             var users = _userService.GetAllUsers();
 
-
-            foreach (var item in users)
+            var model = new HomeIndexViewModel()
             {
+                AllUsers = users,
+                AllAskForFriend = allAskForFriend,
+                CountAskForFriend = allAskForFriend.Count
+            };
 
-                list.Add(new ChatViewModel()
-                {
-                    Id = item.Id,
-                    Name = item.UserName
-                }
-                );
-
-            }
-
-            return View(list);
+            return View(model);
         }
 
         public ActionResult About()
@@ -65,5 +64,27 @@ namespace FaceBookClient.Controllers
 
             return View();
         }
+
+
+        public ActionResult ConferFriend(string UserName, string confer)
+        {
+            var loggedUser = _userService.GetUserByUserName(User.Identity.Name);
+
+            var userAsk = _userService.GetUserByUserName(UserName);
+
+            if (confer.Contains("accept"))
+            {
+                _userService.AddNewFriend(loggedUser, userAsk);
+            }
+
+            else if (confer.Contains("delete"))
+            {
+                _userService.RemoveInvitationForFriend(loggedUser, userAsk);
+            }
+
+            return RedirectToAction("Index", "Home");
+            
+        }
+
     }
 }

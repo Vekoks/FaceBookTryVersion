@@ -193,8 +193,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ChatViewModel.cs" />
     <Compile Include="Models\DetailsViewModels\FriendDetailViewModel.cs" />
+    <Compile Include="Models\HomeIndexViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\DetailsViewModels\UserDetailsViewModel.cs" />

@@ -14,9 +14,12 @@ namespace FaceBook.Model
     {
         private ICollection<User> friend;
 
+        private ICollection<InvitationForFriend> askForFriend;
+
         public User()
         {
             this.friend = new List<User>();
+            this.askForFriend = new LinkedList<InvitationForFriend>();
         }
 
         public override string Id { get; set; }
@@ -25,12 +28,16 @@ namespace FaceBook.Model
 
         public override string Email { get; set; }
 
-        public virtual string FriendId { get; set; }
-
         public virtual ICollection<User> Friend
         {
             get { return friend; }
             set { friend = value; }
+        }
+
+        public virtual ICollection<InvitationForFriend> AskForFriend
+        {
+            get { return askForFriend; }
+            set { askForFriend = value; }
         }
 
 

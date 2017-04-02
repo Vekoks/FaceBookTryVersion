@@ -18,16 +18,39 @@ namespace FaceBook.Services
             this._userDetailRepo = userDetailRepo;
         }
 
-        public void AddFriend(User logged, User friend)
+
+        public void AddInvitationForFriend(User logged, InvitationForFriend friend)
         {
-            logged.Friend.Add(friend);
+            logged.AskForFriend.Add(friend);
             _userDetailRepo.SaveChanges();
         }
 
+       
+        public void AddNewFriend(User logged, User userAskForFriend)
+        {
+            //add friend both users
+            logged.Friend.Add(userAskForFriend);
+            userAskForFriend.Friend.Add(logged);
+
+            //delete ask
+            var askForFriend = logged.AskForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
+            logged.AskForFriend.Remove(askForFriend);
+
+            _userDetailRepo.SaveChanges();
+        }
+
+
+        public void RemoveInvitationForFriend(User logged, User userAskForFriend)
+        {
+            var askForFriend = logged.AskForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
+            logged.AskForFriend.Remove(askForFriend);
+
+            _userDetailRepo.SaveChanges();
+        }
+
+        //check friend for show button for add
         public bool CkeckForFriend(User logged, User friend)
         {
-
-
             User ckeckFriend = logged.Friend.Where(x => x.Id == friend.Id).FirstOrDefault();
 
             try

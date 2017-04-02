@@ -14,6 +14,12 @@ namespace FaceBookClient
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+               name: "ArtistImages",                                              
+               url: "{controller}/{action}/{userName}/{confer}",                          
+               defaults: new { controller = "Home", action = "ConferFriend", userName = "", confer = "" }  
+            );
+
+            routes.MapRoute(
                name: "Details",
                url: "{controller}/{action}/{UserName}",
                defaults: new { controller = "DetaialUse", action = "Details", UserName = UrlParameter.Optional }

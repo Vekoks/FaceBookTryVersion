@@ -15,7 +15,11 @@ namespace FaceBook.Services.Contracts
 
         bool CkeckForFriend(User logged, User friend);
 
-        void AddFriend(User logged, User friend);
+        void AddInvitationForFriend(User logged, InvitationForFriend friend);
+
+        void AddNewFriend(User logged, User userAskForFriend);
+
+        void RemoveInvitationForFriend(User logged, User userAskForFriend);
 
     }
 }

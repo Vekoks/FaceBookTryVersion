@@ -20,6 +20,8 @@ namespace FaceBook.Data
 
         public IDbSet<UserDetails> UserDetails { get; set; }
 
+        public IDbSet<InvitationForFriend> AskForFriends { get; set; }
+
         public static FaceBookDbContext Create()
         {
             return new FaceBookDbContext();

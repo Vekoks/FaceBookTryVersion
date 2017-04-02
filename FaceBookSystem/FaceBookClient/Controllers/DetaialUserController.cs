@@ -92,13 +92,6 @@ namespace FaceBookClient.Controllers
 
         }
 
-
-        // GET: DetaialUser/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: DetaialUser/Create
         [HttpPost]
         public ActionResult Create(UserDetailsViewModel model)
@@ -138,7 +131,8 @@ namespace FaceBookClient.Controllers
             return RedirectToAction("Index", "DetaialUser");
         }
 
-        public ActionResult AddFriend(string UserName)
+        //ddd invitation for friend
+        public ActionResult AddInvitationFriend(string UserName)
         {
             var name = User.Identity.Name;
 
@@ -146,7 +140,12 @@ namespace FaceBookClient.Controllers
 
             var userFriend = _userService.GetUserByUserName(UserName);
 
-            _userService.AddFriend(userLogged, userFriend);
+            var newAskForFriend = new InvitationForFriend()
+            {
+                Username = userLogged.UserName
+            };
+
+            _userService.AddInvitationForFriend(userFriend, newAskForFriend);
 
             return RedirectToAction("Index", "Home");
         }
