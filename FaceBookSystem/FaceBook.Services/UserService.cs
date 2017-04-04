@@ -27,28 +27,20 @@ namespace FaceBook.Services
 
         public void ChangeOnline(User loggedUser)
         {
-            try
+            if (loggedUser.IsOnline)
             {
-                if (loggedUser.IsOnline)
-                {
-                    loggedUser.IsOnline = false;
-                    _userDetailRepo.SaveChanges();
-                }
-                else
-                {
-                    loggedUser.IsOnline = true;
-                    _userDetailRepo.SaveChanges();
-                }
+                loggedUser.IsOnline = false;
+                _userDetailRepo.SaveChanges();
             }
-            catch (NullReferenceException e)
+            else
             {
-                return;
+                loggedUser.IsOnline = true;
+                _userDetailRepo.SaveChanges();
             }
 
-           
         }
 
-       
+
         public void AddNewFriend(User logged, User userAskForFriend)
         {
             //add friend both users
