@@ -28,6 +28,8 @@ namespace FaceBook.Model
 
         public override string Email { get; set; }
 
+        public bool IsOnline { get; set; }
+
         public virtual ICollection<User> Friend
         {
             get { return friend; }

@@ -14,11 +14,11 @@
     <p>Invitations from Friend: @Model.CountAskForFriend</p>
     @foreach (var ask in Model.AllAskForFriend)
             {
-        <p>
-            @ask.Username
-            <p>@Html.ActionLink("Accept invitation", "ConferFriend/"+ask.Username + "/accept", "Home")</p>
-            <p>@Html.ActionLink("Detele invitation", "ConferFriend/" + ask.Username + "/delete", "Home")</p>
-        </p>
+        <div>
+            <p>@ask.Username</p>
+            <p>@Html.ActionLink("Accept invitation", "ConferFriend/"+ask.Username + "/accept", "Home", new { @class = "btn btn-info" })</p>
+            <p>@Html.ActionLink("Detele invitation", "ConferFriend/" + ask.Username + "/delete", "Home", new { @class = "btn btn-info" })</p>
+        </div>
 
 
     }
@@ -54,7 +54,13 @@
         <div id="myDropdown" class="dropdown-content">
             @foreach (var user in Model.AllUsers)
             {
-                <p>@Html.ActionLink(@user.UserName, "Details/" + user.UserName.ToString(), "DetaialUser")</p>
+                <p>
+                    @Html.ActionLink(@user.UserName, "Details/" + user.UserName.ToString(), "DetaialUser")
+                    @if (user.IsOnline)
+                    {
+                        <div style="border: 5px solid red;"></div>
+                    }
+                </p>
             }
         </div>
     </div>

@@ -21,5 +21,7 @@ namespace FaceBook.Services.Contracts
 
         void RemoveInvitationForFriend(User logged, User userAskForFriend);
 
+        void ChangeOnline(User loggedUser);
+
     }
 }

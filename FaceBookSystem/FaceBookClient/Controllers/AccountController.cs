@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using FaceBookClient.Models;
 using FaceBook.Data;
 using FaceBook.Model;
+using FaceBook.Services.Contracts;
 
 namespace FaceBookClient.Controllers
 {
@@ -19,15 +20,18 @@ namespace FaceBookClient.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private UserManager _userManager;
+        private readonly IUserService _userService;
 
-        public AccountController()
+        public AccountController(IUserService userService)
         {
+            this._userService = userService;
         }
 
-        public AccountController(UserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(UserManager userManager, ApplicationSignInManager signInManager, IUserService userService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            this._userService = userService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -74,6 +78,10 @@ namespace FaceBookClient.Controllers
             {
                 return View(model);
             }
+
+            //change online User
+            var userLogged = _userService.GetUserByUserName(model.Username);
+            _userService.ChangeOnline(userLogged);
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -158,6 +166,10 @@ namespace FaceBookClient.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    //change online User
+                    var userLogged = _userService.GetUserByUserName(user.UserName);
+                    _userService.ChangeOnline(userLogged);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -394,6 +406,12 @@ namespace FaceBookClient.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            //change online User
+            var name = this.User.Identity.Name;
+            var userLogged = _userService.GetUserByUserName(name);
+            _userService.ChangeOnline(userLogged);
+
+
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

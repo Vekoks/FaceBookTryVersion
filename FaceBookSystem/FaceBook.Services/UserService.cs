@@ -25,6 +25,29 @@ namespace FaceBook.Services
             _userDetailRepo.SaveChanges();
         }
 
+        public void ChangeOnline(User loggedUser)
+        {
+            try
+            {
+                if (loggedUser.IsOnline)
+                {
+                    loggedUser.IsOnline = false;
+                    _userDetailRepo.SaveChanges();
+                }
+                else
+                {
+                    loggedUser.IsOnline = true;
+                    _userDetailRepo.SaveChanges();
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                return;
+            }
+
+           
+        }
+
        
         public void AddNewFriend(User logged, User userAskForFriend)
         {
