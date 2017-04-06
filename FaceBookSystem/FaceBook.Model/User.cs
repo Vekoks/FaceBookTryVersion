@@ -36,7 +36,7 @@ namespace FaceBook.Model
             set { friend = value; }
         }
 
-        public virtual ICollection<InvitationForFriend> AskForFriend
+        public virtual ICollection<InvitationForFriend> InvitationForFriend
         {
             get { return askForFriend; }
             set { askForFriend = value; }

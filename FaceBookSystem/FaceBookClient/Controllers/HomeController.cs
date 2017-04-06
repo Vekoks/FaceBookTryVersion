@@ -38,7 +38,7 @@ namespace FaceBookClient.Controllers
                 return View(notUserModel);
             }
 
-            var allAskForFriend = userLogged.AskForFriend.ToList();
+            var allAskForFriend = userLogged.InvitationForFriend.ToList();
 
             var model = new HomeIndexViewModel()
             {

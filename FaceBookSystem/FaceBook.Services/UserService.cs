@@ -21,7 +21,7 @@ namespace FaceBook.Services
 
         public void AddInvitationForFriend(User logged, InvitationForFriend friend)
         {
-            logged.AskForFriend.Add(friend);
+            logged.InvitationForFriend.Add(friend);
             _userDetailRepo.SaveChanges();
         }
 
@@ -48,8 +48,8 @@ namespace FaceBook.Services
             userAskForFriend.Friend.Add(logged);
 
             //delete ask
-            var askForFriend = logged.AskForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
-            logged.AskForFriend.Remove(askForFriend);
+            var askForFriend = logged.InvitationForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
+            logged.InvitationForFriend.Remove(askForFriend);
 
             _userDetailRepo.SaveChanges();
         }
@@ -57,8 +57,8 @@ namespace FaceBook.Services
 
         public void RemoveInvitationForFriend(User logged, User userAskForFriend)
         {
-            var askForFriend = logged.AskForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
-            logged.AskForFriend.Remove(askForFriend);
+            var askForFriend = logged.InvitationForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
+            logged.InvitationForFriend.Remove(askForFriend);
 
             _userDetailRepo.SaveChanges();
         }

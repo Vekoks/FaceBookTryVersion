@@ -18,7 +18,7 @@ namespace FaceBook.Model
 
         public string Adress { get; set; }
 
-        public virtual string UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual User User { get; set; }
 
