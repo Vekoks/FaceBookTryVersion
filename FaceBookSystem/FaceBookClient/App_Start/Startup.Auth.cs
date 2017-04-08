@@ -8,6 +8,8 @@ using Owin;
 using FaceBookClient.Models;
 using FaceBook.Data;
 using FaceBook.Model;
+using Microsoft.AspNet.SignalR;
+using FaceBookClient.Hubs;
 
 namespace FaceBookClient
 {
@@ -65,6 +67,8 @@ namespace FaceBookClient
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            app.MapSignalR();
         }
     }
 }

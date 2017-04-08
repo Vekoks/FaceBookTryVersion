@@ -26,11 +26,14 @@ namespace FaceBookClient.Controllers
 
             var users = _userService.GetAllUsers();
 
+            var userNames = _userService.GetAllUsers().Select(x =>x.UserName);
+
             if (userLogged == null)
             {
                 var notUserModel = new HomeIndexViewModel()
                 {
                     AllUsers = users,
+                    AllUserNames = userNames,
                     AllAskForFriend = new List<InvitationForFriend>(),
                     CountAskForFriend = 0
                 };
@@ -43,6 +46,7 @@ namespace FaceBookClient.Controllers
             var model = new HomeIndexViewModel()
             {
                 AllUsers = users,
+                AllUserNames = userNames,
                 AllAskForFriend = allAskForFriend,
                 CountAskForFriend = allAskForFriend.Count
             };

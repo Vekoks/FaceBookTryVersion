@@ -16,7 +16,7 @@
             {
         <div>
             <p>@ask.Username</p>
-            <p>@Html.ActionLink("Accept invitation", "ConferFriend/" + ask.Username + "/accept", "Home", new { @class = "btn btn-info" })</p>
+            <p>@Html.ActionLink("Accept invitation", "ConferFriend/"+ask.Username + "/accept", "Home", new { @class = "btn btn-info" })</p>
             <p>@Html.ActionLink("Detele invitation", "ConferFriend/" + ask.Username + "/delete", "Home", new { @class = "btn btn-info" })</p>
         </div>
 
@@ -27,51 +27,20 @@
 
 
 <div class="row">
-
-    <table style="float: left; border:2px solid red">
-        <tr>
-            <td>
-                <div>
-                    @Html.DropDownListFor(m => m.AllUserNames, new SelectList(Model.AllUserNames), "-----Select your friend-----", new { @id = "UserNameDrobDown" })
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <div id="ChatWithUser">
-
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <div>
-                    <input type="text" id="message" class="modal-body" value="message " />
-                </div>
-            </td>
-        </tr>
-
-       
-
-        <tr>
-            <td style="padding-left: 50px">
-                <button id="send-message" class="btn btn-info">Send</button>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <div id="messages">
-                </div>
-            </td>
-        </tr>
-    </table>
+    <div>
+        <input type="text" id="room" value="Room" />
+        <button id="join-room">Join</button>
+        <br />
+        <input type="text" id="message" value="message" />
+        <button id="send-message">Send</button>
+        <br />
+        <input type="text" id="room-message" value="message" />
+        <button id="send-message-to-room">Send To Rooms Only</button>
+    </div>
 
 
 
-    <div class="dropdown" style="float: right; right: 5%">
+    <div class="dropdown">
         <button onclick="myFunction()" class="dropbtn">Users</button>
         <div id="myDropdown" class="dropdown-content">
             @foreach (var user in Model.AllUsers)

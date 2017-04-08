@@ -33,7 +33,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET FaceBook</p>
         </footer>
     </div>
 
@@ -41,6 +41,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     @Scripts.Render("~/bundles/MyScripts")
+
+    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+    <script src="~/signalr/hubs" type="text/javascript"></script>
+    <script src="~/Scripts/ScriptForChat.js"></script>
+    
 
 </body>
 </html>
