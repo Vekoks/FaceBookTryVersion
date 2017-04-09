@@ -1,6 +1,16 @@
 ﻿
 var rooms = [];
 
+$("#UserName").on("click", "#specifik", function (e) {
+    var userName = $(this).find("#User").text();
+
+    var divForChatWithFRiend = $("#Chat").find("#ChatWithUser");
+
+    divForChatWithFRiend.text("");
+
+    divForChatWithFRiend.append('<a href="/DetaialUser/Details/' + userName + '">' + userName + '</a>');
+});
+
 $(document).ready(function () {
 
     $.connection.hub.start();

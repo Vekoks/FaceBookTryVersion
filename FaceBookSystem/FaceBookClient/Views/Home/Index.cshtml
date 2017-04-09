@@ -28,8 +28,8 @@
 
 <div class="row">
 
-    <table style="float: left; border:2px solid red">
-        <tr>
+    <table id="Chat" style="float: left; border:2px solid red">
+        @*<tr>
             <td>
                 <div>
                     @Html.DropDownListFor(m => m.AllUserNames, 
@@ -37,7 +37,7 @@
                    new { @id = "UserNameDrobDown", @class= "btn btn-success dropdown-toggle" })
                 </div>
             </td>
-        </tr>
+        </tr>*@
 
         <tr>
             <td>
@@ -73,7 +73,7 @@
 
 
 
-    <div class="dropdown" style="float: right; right: 5%">
+    @*<div class="dropdown" style="float: right; right: 5%">
         <button onclick="myFunction()" class="dropbtn">Users</button>
         <div id="myDropdown" class="dropdown-content">
             @foreach (var user in Model.AllUsers)
@@ -87,5 +87,26 @@
                 </p>
             }
         </div>
+    </div>*@
+
+    <div style="float: right; right: 5%">
+        <h2>Users:</h2>
+        <ul id="UserName" class="list-group" style="border: 2px solid">
+            @foreach (var user in Model.AllUsers)
+            {
+                <li id="specifik" class="list-group-item">
+                    @*@Html.ActionLink(@user.UserName, "Details/" + user.UserName.ToString(), "DetaialUser")*@
+
+                    <div id="User" class="btn btn-default">@user.UserName</div>
+
+                    @if (user.IsOnline)
+                    {
+                        <div class="label label-info">Online</div>
+                    }
+
+                </li>
+            }
+        </ul>
     </div>
+
 </div>
