@@ -32,7 +32,9 @@
         <tr>
             <td>
                 <div>
-                    @Html.DropDownListFor(m => m.AllUserNames, new SelectList(Model.AllUserNames), "-----Select your friend-----", new { @id = "UserNameDrobDown" })
+                    @Html.DropDownListFor(m => m.AllUserNames, 
+                   new SelectList(Model.AllUserNames), "-----Select your friend-----", 
+                   new { @id = "UserNameDrobDown", @class= "btn btn-success dropdown-toggle" })
                 </div>
             </td>
         </tr>
