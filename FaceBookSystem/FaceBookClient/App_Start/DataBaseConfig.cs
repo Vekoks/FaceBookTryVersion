@@ -13,8 +13,7 @@ namespace FaceBookClient.App_Start
         public static void Init()
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<FaceBookDbContext, Configuration>());
-
-            var db = new FaceBookDbContext();
+            FaceBookDbContext.Create().Database.Initialize(true);
         }
     }
 }

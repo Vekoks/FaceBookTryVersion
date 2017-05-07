@@ -1,9 +1,11 @@
 ﻿using FaceBook.Data;
 using FaceBook.Model;
 using FaceBook.Services.Contracts;
+using FaceBookClient.Hubs;
 using FaceBookClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,7 +28,7 @@ namespace FaceBookClient.Controllers
 
             var users = _userService.GetAllUsers();
 
-            var userNames = _userService.GetAllUsers().Select(x =>x.UserName);
+            var userNames = _userService.GetAllUsers().Select(x => x.UserName);
 
             if (userLogged == null)
             {
@@ -86,7 +88,23 @@ namespace FaceBookClient.Controllers
             }
 
             return RedirectToAction("Index", "Home");
-            
+        }
+
+
+        public JsonResult Result()
+        {
+            SqlDependency dependency = new SqlDependency();
+            dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+
+            var result = _userService.GetAllUsers();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        {
+            JobHub.Show();
         }
 
     }

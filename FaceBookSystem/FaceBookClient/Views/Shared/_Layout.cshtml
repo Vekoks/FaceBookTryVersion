@@ -47,5 +47,43 @@
     <script src="~/Scripts/ScriptForChat.js"></script>
     
 
+    <script type="text/javascript">
+
+        $(function () {
+
+            // Proxy created on the fly
+            var job = $.connection.jobHub;
+
+            // Declare a function on the job hub so the server can invoke it
+            job.client.displayStatus = function () {
+                getData();
+            };
+
+            // Start the connection
+            $.connection.hub.start();
+            getData();
+        });
+
+        function getData() {
+            var $tbl = $('#tblJobInfo');
+            $.ajax({
+                url: 'Result',
+                type: 'GET',
+                datatype: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        $tbl.empty();
+                        $tbl.append(' <tr><th>Name</th><th>Last Executed Date</th><th>Status</th></tr>');
+                        var rows = [];
+                        for (var i = 0; i < data.length; i++) {
+                            rows.push(' <tr><td>' + data[i].UserName + '</td></tr>');
+                        }
+                        $tbl.append(rows.join(''));
+                    }
+                }
+            });
+        }
+    </script>
+
 </body>
 </html>
