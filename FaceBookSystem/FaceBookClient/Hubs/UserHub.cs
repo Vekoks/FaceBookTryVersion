@@ -2,11 +2,11 @@
 
 namespace FaceBookClient.Hubs
 {
-    public class JobHub : Hub
+    public class UserHub : Hub
     {
         public static void Show()
         {
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<JobHub>();
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<UserHub>();
             context.Clients.All.displayStatus();
         }
     }

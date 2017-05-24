@@ -15,6 +15,7 @@ namespace FaceBookClient.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
+        private UsersInfo info = new UsersInfo();
 
         public HomeController(IUserService userService)
         {
@@ -26,16 +27,10 @@ namespace FaceBookClient.Controllers
             var name = this.User.Identity.Name;
             var userLogged = _userService.GetUserByUserName(name);
 
-            var users = _userService.GetAllUsers();
-
-            var userNames = _userService.GetAllUsers().Select(x => x.UserName);
-
             if (userLogged == null)
             {
                 var notUserModel = new HomeIndexViewModel()
                 {
-                    AllUsers = users,
-                    AllUserNames = userNames,
                     AllAskForFriend = new List<InvitationForFriend>(),
                     CountAskForFriend = 0
                 };
@@ -47,8 +42,6 @@ namespace FaceBookClient.Controllers
 
             var model = new HomeIndexViewModel()
             {
-                AllUsers = users,
-                AllUserNames = userNames,
                 AllAskForFriend = allAskForFriend,
                 CountAskForFriend = allAskForFriend.Count
             };
@@ -90,21 +83,12 @@ namespace FaceBookClient.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-        public JsonResult Result()
+        [HttpGet]
+        public JsonResult ResultInfoFOrUsers()
         {
-            SqlDependency dependency = new SqlDependency();
-            dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
-
-            var result = _userService.GetAllUsers();
+            var result = info.GetData();
 
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-
-        private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
-        {
-            JobHub.Show();
         }
 
     }

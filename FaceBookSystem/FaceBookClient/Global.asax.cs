@@ -1,6 +1,8 @@
 ﻿using FaceBookClient.App_Start;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,6 +22,9 @@ namespace FaceBookClient
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DataBaseConfig.Init();
+
+            SqlDependency.Start(ConfigurationManager.ConnectionStrings["FaceBookSystem"].ConnectionString);
+
         }
     }
 }

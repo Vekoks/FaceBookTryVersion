@@ -8,10 +8,6 @@ namespace FaceBookClient.Models
 {
     public class HomeIndexViewModel
     {
-        public IEnumerable<User> AllUsers { get; set; }
-
-        public IEnumerable<string> AllUserNames { get; set; }
-
         public IEnumerable<InvitationForFriend> AllAskForFriend { get; set; }
 
         public int CountAskForFriend { get; set; }

@@ -1,9 +1,9 @@
 ﻿
 var rooms = [];
 
-$("#UserName").on("click", "#specifik", function (e) {
+$("#UsersList").on("click", "#specifik", function (e) {
     var userName = $(this).find("#User").text();
-
+    console.log("here");
     var divForChatWithFRiend = $("#Chat").find("#ChatWithUser");
 
     divForChatWithFRiend.text("");

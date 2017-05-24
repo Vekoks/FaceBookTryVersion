@@ -91,11 +91,20 @@
 
     <div style="float: right; right: 5%">
         <h2>Users:</h2>
+        <ul id="UsersList" class="list-group" style="border: 2px solid">
+          
+        </ul>
+    </div>
+
+</div>
+
+@*<div style="float: right; right: 5%">
+        <h2>Users:</h2>
         <ul id="UserName" class="list-group" style="border: 2px solid">
             @foreach (var user in Model.AllUsers)
             {
                 <li id="specifik" class="list-group-item">
-                    @*@Html.ActionLink(@user.UserName, "Details/" + user.UserName.ToString(), "DetaialUser")*@
+                    Html.ActionLink(@user.UserName, "Details/" + user.UserName.ToString(), "DetaialUser")
 
                     <div id="User" class="btn btn-default">@user.UserName</div>
 
@@ -107,10 +116,4 @@
                 </li>
             }
         </ul>
-    </div>
-
-</div>
-
-<div>
-    <table id="tblJobInfo" style="text-align:center;margin-left:10px"></table>
-</div>
+    </div>*@
