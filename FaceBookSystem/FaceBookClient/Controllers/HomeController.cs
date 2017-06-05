@@ -16,6 +16,7 @@ namespace FaceBookClient.Controllers
     {
         private readonly IUserService _userService;
         private UsersInfo info = new UsersInfo();
+        private AskFriendInfo infoFriend = new AskFriendInfo();
 
         public HomeController(IUserService userService)
         {
@@ -84,11 +85,30 @@ namespace FaceBookClient.Controllers
         }
 
         [HttpGet]
-        public JsonResult ResultInfoFOrUsers()
+        public JsonResult ResultInfoForUsers()
         {
             var result = info.GetData();
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ResultInfoForAskFriend()
+        {
+            var loggedUser = _userService.GetUserByUserName(User.Identity.Name);
+
+            if (loggedUser != null)
+            {
+
+                var result = infoFriend.GetData(loggedUser.Id);
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            else
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
         }
 
     }

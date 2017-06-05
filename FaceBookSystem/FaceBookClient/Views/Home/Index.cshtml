@@ -10,18 +10,21 @@
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 
-<div>
+@*<div id="AskFriendList">
     <p>Invitations from Friend: @Model.CountAskForFriend</p>
     @foreach (var ask in Model.AllAskForFriend)
-            {
+    {
         <div>
             <p>@ask.Username</p>
             <p>@Html.ActionLink("Accept invitation", "ConferFriend/" + ask.Username + "/accept", "Home", new { @class = "btn btn-info" })</p>
             <p>@Html.ActionLink("Detele invitation", "ConferFriend/" + ask.Username + "/delete", "Home", new { @class = "btn btn-info" })</p>
         </div>
-
-
     }
+</div>*@
+
+
+<div id="AskFriendList">
+
 </div>
 
 
@@ -30,14 +33,14 @@
 
     <table id="Chat" style="float: left; border:2px solid red">
         @*<tr>
-            <td>
-                <div>
-                    @Html.DropDownListFor(m => m.AllUserNames, 
-                   new SelectList(Model.AllUserNames), "-----Select your friend-----", 
-                   new { @id = "UserNameDrobDown", @class= "btn btn-success dropdown-toggle" })
-                </div>
-            </td>
-        </tr>*@
+                <td>
+                    <div>
+                        @Html.DropDownListFor(m => m.AllUserNames,
+                       new SelectList(Model.AllUserNames), "-----Select your friend-----",
+                       new { @id = "UserNameDrobDown", @class= "btn btn-success dropdown-toggle" })
+                    </div>
+                </td>
+            </tr>*@
 
         <tr>
             <td>
@@ -55,7 +58,7 @@
             </td>
         </tr>
 
-       
+
 
         <tr>
             <td style="padding-left: 50px">
@@ -74,26 +77,24 @@
 
 
     @*<div class="dropdown" style="float: right; right: 5%">
-        <button onclick="myFunction()" class="dropbtn">Users</button>
-        <div id="myDropdown" class="dropdown-content">
-            @foreach (var user in Model.AllUsers)
-            {
-                <p>
-                    @Html.ActionLink(@user.UserName, "Details/" + user.UserName.ToString(), "DetaialUser")
-                    @if (user.IsOnline)
-                    {
-                        <div style="border: 5px solid red;"></div>
-                    }
-                </p>
-            }
-        </div>
-    </div>*@
+            <button onclick="myFunction()" class="dropbtn">Users</button>
+            <div id="myDropdown" class="dropdown-content">
+                @foreach (var user in Model.AllUsers)
+                {
+                    <p>
+                        @Html.ActionLink(@user.UserName, "Details/" + user.UserName.ToString(), "DetaialUser")
+                        @if (user.IsOnline)
+                        {
+                            <div style="border: 5px solid red;"></div>
+                        }
+                    </p>
+                }
+            </div>
+        </div>*@
 
     <div style="float: right; right: 5%">
         <h2>Users:</h2>
-        <ul id="UsersList" class="list-group" style="border: 2px solid">
-          
-        </ul>
+        <ul id="UsersList" class="list-group" style="border: 2px solid"></ul>
     </div>
 
 </div>
@@ -117,3 +118,4 @@
             }
         </ul>
     </div>*@
+
