@@ -45,107 +45,10 @@
     <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
     <script src="~/signalr/hubs" type="text/javascript"></script>
     <script src="~/Scripts/ScriptForChat.js"></script>
+    <script src="~/Scripts/ScriptForUserInfo.js"></script>
+    <script src="~/Scripts/ScriptForAskFriend.js"></script>
     
 
-    <script type="text/javascript">
-
-        $(function () {
-
-            // Proxy created on the fly
-            var job = $.connection.userHub;
-
-            // Declare a function on the job hub so the server can invoke it
-            job.client.displayUser = function () {
-                getDataUserInfo();
-            };
-
-            // Start the connection
-            $.connection.hub.start();
-            getDataUserInfo();
-        });
-
-
-        function getDataUserInfo() {
-            var $tbl = $('#UsersList');
-            $.ajax({
-                url: 'ResultInfoForUsers',
-                type: 'GET',
-                datatype: 'json',
-                success: function (data) {
-                    if (data.length > 0) {
-                        $tbl.empty();
-                        var rows = [];
-                        for (var i = 0; i < data.length; i++) {
-                            rows.push(' <li id="specifik" class="list-group-item">');
-                            rows.push(' <div id="User" class="btn btn-default">' + data[i].Name + '</div>');
-                            if (data[i].IsOnline) {
-                                rows.push(' <div class="label label-info">Online</div>');
-                            }
-                            rows.push(' </li>');
-                        }
-
-                        $tbl.append(rows.join(''));
-                    }
-                }
-            });
-        }
-
-        $("#UsersList").on("click", "#specifik", function (e) {
-            var userName = $(this).find("#User").text();
-
-            var divForChatWithFRiend = $("#Chat").find("#ChatWithUser");
-
-            divForChatWithFRiend.text("");
-
-            divForChatWithFRiend.append('<a href="/DetaialUser/Details/' + userName + '">' + userName + '</a>');
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        $(function () {
-
-            // Proxy created on the fly
-            var job = $.connection.userHub;
-
-            // Declare a function on the job hub so the server can invoke it
-            job.client.displayAskFriend = function () {
-                getDataForAskFriend();
-            };
-
-            // Start the connection
-            $.connection.hub.start();
-            getDataForAskFriend();
-        });
-
-
-        function getDataForAskFriend() {
-            var $tbl = $('#AskFriendList');
-            debugger;
-            $.ajax({
-                url: 'ResultInfoForAskFriend',
-                type: 'GET',
-                datatype: 'json',
-                success: function (data) {
-                    if (data.length > 0) {
-                        $tbl.empty();
-                        var rows = [];
-                        rows.push(' <p>Invitations from Friend:'+ data.length +'</p>');
-                        for (var i = 0; i < data.length; i++) {
-                            rows.push(' <div>');
-                            rows.push('  <p>' + data[i].Name + '</p>');
-                            rows.push('  <a href="ConferFriend/' + data[i].Name + '/accept" class = "btn btn-info" >Accept invitation</a>');
-                            rows.push('  <a href="ConferFriend/' + data[i].Name + '/delete" class = "btn btn-info" >Detele invitation</a>');
-
-                            rows.push(' </div>');
-                        }
-
-                        $tbl.append(rows.join(''));
-                    }
-                }
-            });
-        }
-    </script>
  
 </body>
 </html>

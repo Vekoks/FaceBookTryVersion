@@ -1,23 +1,23 @@
 ﻿$(function () {
-
+    debugger;
     // Proxy created on the fly
-    var job = $.connection.jobHub;
+    var job = $.connection.userHub;
 
     // Declare a function on the job hub so the server can invoke it
-    job.client.displayStatus = function () {
-        getData();
+    job.client.displayUser = function () {
+        getDataUserInfo();
     };
 
     // Start the connection
     $.connection.hub.start();
-    getData();
+    getDataUserInfo();
 });
 
 
-function getData() {
+function getDataUserInfo() {
     var $tbl = $('#UsersList');
     $.ajax({
-        url: 'ResultInfoFOrUsers',
+        url: 'ResultInfoForUsers',
         type: 'GET',
         datatype: 'json',
         success: function (data) {
@@ -32,7 +32,6 @@ function getData() {
                     }
                     rows.push(' </li>');
                 }
-                console.log(rows);
 
                 $tbl.append(rows.join(''));
             }
@@ -40,12 +39,77 @@ function getData() {
     });
 }
 
+
 $("#UsersList").on("click", "#specifik", function (e) {
+    var $tbl = $("#Chat");
+
+    var rows = [];
+    rows.push(' <tr>');
+    rows.push(' <td>');
+    rows.push(' <div id="ChatWithUser"></div>');
+    rows.push(' <button id="Exit" class="btn btn-danger">X</button>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    rows.push(' <tr>');
+    rows.push(' <td>');
+    rows.push(' <div><input type="text" id="message" class="modal-body" value="message " /></div>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    rows.push(' <tr>');
+    rows.push(' <td style="padding-left: 50px">');
+    rows.push(' <button id="send-message" class="btn btn-info">Send</button>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    rows.push(' <tr>');
+    rows.push(' <td>');
+    rows.push(' <div id="messages"></div>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    $tbl.append(rows.join(''));
+
     var userName = $(this).find("#User").text();
-    console.log("here");
+
     var divForChatWithFRiend = $("#Chat").find("#ChatWithUser");
 
     divForChatWithFRiend.text("");
 
-    divForChatWithFRiend.append('<a href="/DetaialUser/Details/' + userName + '">' + userName + '</a>');
+    divForChatWithFRiend.append('<a id="UserName" href="/DetaialUser/Details/' + userName + '">' + userName + '</a>');
+
+    //Send message
+    $('#message').keyup(function (e) {
+        if (e.keyCode == 13) {
+            var chat = $.connection.chat;
+
+            var userName = $("#Chat").find("#UserName").text();
+
+            var msg = $('#message').val();
+
+            chat.server.sendMessage(username, msg);
+
+            $('#message').val("");
+        }
+    });
+
+    $('#send-message').click(function () {
+
+        var chat = $.connection.chat;
+
+        var userName = $("#Chat").find("#UserName").text();
+
+        var msg = $('#message').val();
+
+        chat.server.sendMessage(userName, msg);
+
+    });
+
+    $('#Exit').click(function () {
+
+        var $tbl = $("#Chat");
+        $tbl.empty();
+
+    });
 });

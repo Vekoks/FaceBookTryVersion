@@ -65,7 +65,6 @@ $(document).ready(function () {
 });
 
 function addMessage(message) {
-    debugger;
     $('#messages').append('<div>' + message + '</div>');
 }
 
