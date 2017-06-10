@@ -199,11 +199,13 @@
     <Compile Include="Controllers\DetaialUserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\AskFriendHub.cs" />
     <Compile Include="Hubs\Chat.cs" />
+    <Compile Include="Hubs\PostHub.cs" />
     <Compile Include="Hubs\UserHub.cs" />
     <Compile Include="Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Models\AccountViewModels\ExternalLoginListViewModel.cs" />
@@ -214,11 +216,13 @@
     <Compile Include="Models\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="Models\AccountViewModels\VerifyCodeViewModel.cs" />
-    <Compile Include="Models\AskFriendInfo.cs" />
+    <Compile Include="Models\HomeViewModels\HomePostModel.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\AllPostInf.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\AskFriendInfo.cs" />
     <Compile Include="Models\DetailsViewModels\FriendDetailViewModel.cs" />
-    <Compile Include="Models\HomeIndexViewModel.cs" />
+    <Compile Include="Models\HomeViewModels\HomeIndexViewModel.cs" />
     <Compile Include="Models\DetailsViewModels\UserDetailsViewModel.cs" />
-    <Compile Include="Models\UsersInfo.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\UsersInfo.cs" />
     <Compile Include="Models\ManageViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="Models\ManageViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ManageViewModels\ConfigureTwoFactorViewModel.cs" />
@@ -297,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -22,6 +22,12 @@ namespace FaceBook.Data
 
         public IDbSet<InvitationForFriend> InvitationsForFriend { get; set; }
 
+        public IDbSet<Message> Messages { get; set; }
+
+        public IDbSet<Notification> Notifications { get; set; }
+
+        public IDbSet<Post> Posts { get; set; }
+
         public static FaceBookDbContext Create()
         {
             return new FaceBookDbContext();

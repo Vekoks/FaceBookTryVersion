@@ -18,5 +18,7 @@ namespace FaceBookClient.Models
 
         public IEnumerable<User> Friends { get; set; }
 
+        public IEnumerable<Post> Post { get; set; }
+
     }
 }

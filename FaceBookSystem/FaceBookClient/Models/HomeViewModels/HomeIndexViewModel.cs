@@ -11,5 +11,7 @@ namespace FaceBookClient.Models
         public IEnumerable<InvitationForFriend> AllAskForFriend { get; set; }
 
         public int CountAskForFriend { get; set; }
+
+        public List<Message> Messages { get; set; }
     }
 }

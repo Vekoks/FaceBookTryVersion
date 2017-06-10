@@ -17,6 +17,7 @@ namespace FaceBookClient.Controllers
         private readonly IUserService _userService;
         private UsersInfo info = new UsersInfo();
         private AskFriendInfo infoFriend = new AskFriendInfo();
+        private AllPostInf infoPost = new AllPostInf();
 
         public HomeController(IUserService userService)
         {
@@ -33,6 +34,7 @@ namespace FaceBookClient.Controllers
                 var notUserModel = new HomeIndexViewModel()
                 {
                     AllAskForFriend = new List<InvitationForFriend>(),
+                    Messages = new List<Message>(),
                     CountAskForFriend = 0
                 };
 
@@ -40,10 +42,12 @@ namespace FaceBookClient.Controllers
             }
 
             var allAskForFriend = userLogged.InvitationForFriend.ToList();
+            var message = userLogged.Message.ToList();
 
             var model = new HomeIndexViewModel()
             {
                 AllAskForFriend = allAskForFriend,
+                Messages = message,
                 CountAskForFriend = allAskForFriend.Count
             };
 
@@ -111,5 +115,23 @@ namespace FaceBookClient.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetAllPostFromUsers()
+        {
+            var result = infoPost.GetDataAllPost();
+
+            var resultPost = new List<HomePostModel>();
+
+            foreach (var post in result)
+            {
+                resultPost.Add(new HomePostModel
+                {
+                    UserName = _userService.GetUserById(post.UserId).UserName,
+                    DiscriptionPost = post.Discription
+                });
+            }
+
+            return Json(resultPost, JsonRequestBehavior.AllowGet);
+        }
     }
 }

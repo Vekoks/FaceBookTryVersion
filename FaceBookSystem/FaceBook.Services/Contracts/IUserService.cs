@@ -13,6 +13,8 @@ namespace FaceBook.Services.Contracts
 
         User GetUserByUserName(string userName);
 
+        User GetUserById(string id);
+
         bool CkeckForFriend(User logged, User friend);
 
         void AddInvitationForFriend(User logged, InvitationForFriend friend);
@@ -22,6 +24,8 @@ namespace FaceBook.Services.Contracts
         void RemoveInvitationForFriend(User logged, User userAskForFriend);
 
         void ChangeOnline(User loggedUser);
+
+        void AddPostToUser(string UserName, string discriptinPost);
 
     }
 }

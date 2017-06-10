@@ -40,7 +40,8 @@ namespace FaceBookClient.Controllers
                     LastName = "undefined",
                     Adress = "undefined",
                     Age = 0,
-                    Friends = new List<User>()
+                    Friends = new List<User>(),
+                    Post = new List<Post>()
                 };
 
                 return View(model);
@@ -54,8 +55,8 @@ namespace FaceBookClient.Controllers
                     LastName = details.LastName,
                     Adress = details.Adress,
                     Age = details.Age,
-                    Friends = userLogged.Friend
-                   
+                    Friends = userLogged.Friend,
+                    Post = userLogged.Post
                 };
 
                 return View(model);

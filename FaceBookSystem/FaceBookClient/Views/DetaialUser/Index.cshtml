@@ -8,88 +8,139 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+
     <style>
-        .form-horizontal {
-            display: none;
+        #left {
+            width: 40%;
+            float: left;
+        }
+
+        #central {
+            width: 20%;
+            float: left;
+        }
+
+        #right {
+            width: 20%;
+            float: right;
         }
     </style>
+
 </head>
 <body>
-    <div>
-        <h1>@User.Identity.GetUserName()</h1>
+    <div id="container">
+        <div id="left">
+            <h1>@User.Identity.GetUserName()</h1>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <h2>@Model.FirstName</h2>
-                @*@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })*@
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <h2>@Model.LastName</h2>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <h2>@Model.Age</h2>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Adress, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <h2>@Model.Adress</h2>
-            </div>
-        </div>
-
-
-        <button onclick="IdetInfo()">Idet information</button>
-
-        @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @id="formInfo", @class = "form-horizontal" }))
-        {
-            @Html.AntiForgeryToken()
-            <h4>Edit information for user.</h4>
-            <hr />
-            @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                    <h2>@Model.FirstName</h2>
+                    @*@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })*@
                 </div>
             </div>
+
+
             <div class="form-group">
                 @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                    <h2>@Model.LastName</h2>
                 </div>
             </div>
+
+
             <div class="form-group">
                 @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+                    <h2>@Model.Age</h2>
                 </div>
             </div>
+
             <div class="form-group">
                 @Html.LabelFor(m => m.Adress, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
+                    <h2>@Model.Adress</h2>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default" value="Save Details" />
-                </div>
-            </div>
-        }
 
-        <div>
+            <button onclick="IdetInfo()">Idet information</button>
+
+            <div id="FormInfo" class="hidden">
+                @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h4>Edit information for user.</h4>
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Adress, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-default" value="Save Details" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        <div id="central">
+            @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label>Write post information</label>
+                    <div>
+                        <input type="text" name="discriptin" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        <input type="submit" class="btn btn-default" value="Create Post" />
+                    </div>
+                </div>
+            }
+
+            <div id="PostList">
+                @{ 
+                    foreach (var post in Model.Post)
+                    {
+                        <table style="border:2px solid red">
+                            <tr>
+                                <td style="text-align:center; padding:10px">@post.Disctription</td>
+                            </tr>
+                        </table>
+                    }
+                }
+            </div>
+        </div>
+
+
+
+
+        <div id="right">
             <h3>Friend</h3>
             @{
                 foreach (var friend in Model.Friends)
@@ -100,7 +151,6 @@
         </div>
 
     </div>
-
 
 </body>
 </html>

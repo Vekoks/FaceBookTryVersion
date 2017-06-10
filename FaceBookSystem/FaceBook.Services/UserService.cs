@@ -11,18 +11,18 @@ namespace FaceBook.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<User> _userDetailRepo;
+        private readonly IRepository<User> _userRepo;
 
-        public UserService(IRepository<User> userDetailRepo)
+        public UserService(IRepository<User> userRepo)
         {
-            this._userDetailRepo = userDetailRepo;
+            this._userRepo = userRepo;
         }
 
 
         public void AddInvitationForFriend(User logged, InvitationForFriend friend)
         {
             logged.InvitationForFriend.Add(friend);
-            _userDetailRepo.SaveChanges();
+            _userRepo.SaveChanges();
         }
 
         public void ChangeOnline(User loggedUser)
@@ -30,12 +30,12 @@ namespace FaceBook.Services
             if (loggedUser.IsOnline)
             {
                 loggedUser.IsOnline = false;
-                _userDetailRepo.SaveChanges();
+                _userRepo.SaveChanges();
             }
             else
             {
                 loggedUser.IsOnline = true;
-                _userDetailRepo.SaveChanges();
+                _userRepo.SaveChanges();
             }
 
         }
@@ -51,7 +51,7 @@ namespace FaceBook.Services
             var askForFriend = logged.InvitationForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
             logged.InvitationForFriend.Remove(askForFriend);
 
-            _userDetailRepo.SaveChanges();
+            _userRepo.SaveChanges();
         }
 
 
@@ -60,7 +60,7 @@ namespace FaceBook.Services
             var askForFriend = logged.InvitationForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
             logged.InvitationForFriend.Remove(askForFriend);
 
-            _userDetailRepo.SaveChanges();
+            _userRepo.SaveChanges();
         }
 
         //check friend for show button for add
@@ -82,7 +82,7 @@ namespace FaceBook.Services
 
         public IEnumerable<User> GetAllUsers()
         {
-            return this._userDetailRepo.All();
+            return this._userRepo.All();
         }
 
         public User GetUserByUserName(string userName)
@@ -92,5 +92,23 @@ namespace FaceBook.Services
             return allUser.Where(x => x.UserName == userName).FirstOrDefault();
         }
 
+        public void AddPostToUser(string UserName, string discriptinPost)
+        {
+            var user = this.GetAllUsers().Where(x => x.UserName == UserName).FirstOrDefault();
+
+            user.Post.Add(new Post
+            {
+                Disctription = discriptinPost
+            });
+
+            _userRepo.SaveChanges();
+        }
+
+        public User GetUserById(string id)
+        {
+            var userFind = this.GetAllUsers().Where(x => x.Id == id).FirstOrDefault();
+
+            return userFind;
+        }
     }
 }

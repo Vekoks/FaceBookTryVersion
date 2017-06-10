@@ -12,12 +12,21 @@ namespace FaceBook.Model
 {
     public class User : IdentityUser
     {
+        private ICollection<Notification> notification;
+
+        private ICollection<Post> post;
+
+        private ICollection<Message> messages;
+
         private ICollection<User> friend;
 
         private ICollection<InvitationForFriend> askForFriend;
 
         public User()
         {
+            this.notification = new List<Notification>();
+            this.post = new List<Post>();
+            this.messages = new List<Message>();
             this.friend = new List<User>();
             this.askForFriend = new LinkedList<InvitationForFriend>();
         }
@@ -29,6 +38,24 @@ namespace FaceBook.Model
         public override string Email { get; set; }
 
         public bool IsOnline { get; set; }
+
+        public virtual ICollection<Notification> Notification
+        {
+            get { return notification; }
+            set { notification = value; }
+        }
+
+        public virtual ICollection<Post> Post
+        {
+            get { return post; }
+            set { post = value; }
+        }
+        
+        public virtual ICollection<Message> Message
+        {
+            get { return messages; }
+            set { messages = value; }
+        }
 
         public virtual ICollection<User> Friend
         {

@@ -1,10 +1,7 @@
-﻿function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
+﻿
 function IdetInfo() {
-    var form = $("#formInfo");
+    var form = $("#FormInfo");
 
-    form.removeClass("form-horizontal");
+    form.removeClass("hidden");
 
 }
