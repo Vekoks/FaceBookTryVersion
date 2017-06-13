@@ -1,0 +1,86 @@
+﻿@model FaceBookClient.Models.HomeIndexViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Begining</title>
+</head>
+<body>
+
+    <div id="PostList"></div>
+
+    <div id="AskFriendList"></div>
+
+
+    <div class="row">
+        <div id="Chat"></div>
+        <div style="float: right; right: 5%">
+            <h2>Users:</h2>
+            <ul id="UsersList" class="list-group" style="border: 2px solid; float:right"></ul>
+        </div>
+
+    </div>
+
+    <h3>Messages: </h3>
+    @{
+        foreach (var message in Model.Messages)
+        {
+            <div>
+                <p style="float:left">@message.UserName:</p>
+                <p> @message.Letter</p>
+            </div>
+        }
+    }
+
+
+    <script src="~/Scripts/ScriptForChat.js"></script>
+    <script src="~/Scripts/ScriptForUserInfo.js"></script>
+    <script src="~/Scripts/ScriptForAskFriend.js"></script>
+
+    <script>
+
+    $(function () {
+
+        // Proxy created on the fly
+        var job = $.connection.postHub;
+
+        // Declare a function on the job hub so the server can invoke it
+        job.client.displayAllPost = function () {
+            getDataForAllPost();
+        };
+
+        // Start the connection
+        $.connection.hub.start();
+        getDataForAllPost();
+    });
+
+
+    function getDataForAllPost() {
+        var $tbl = $('#PostList');
+
+        $.ajax({
+            url: 'GetAllPostFromUsers',
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                if (data.length > 0) {
+                    $tbl.empty();
+                    var rows = [];
+                    rows.push(' <p>Post</p>');
+                    for (var i = 0; i < data.length; i++) {
+                        rows.push(' <div>');
+                        rows.push('  <a id="UserName" href="/DetaialUser/Details/' + data[i].UserName + '">' + data[i].UserName + '</a>');
+                        rows.push('  <p>Post:' + data[i].DiscriptionPost + '</p>');
+                        rows.push(' </div>');
+                    }
+
+                    $tbl.append(rows.join(''));
+                }
+            }
+        });
+    }
+    </script>
+</body>
+</html>

@@ -148,7 +148,7 @@ namespace FaceBookClient.Controllers
 
             _userService.AddInvitationForFriend(userFriend, newAskForFriend);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Begining", "Home");
         }
 
         // GET: DetaialUser/Edit/5

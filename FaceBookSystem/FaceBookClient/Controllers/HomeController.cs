@@ -26,6 +26,16 @@ namespace FaceBookClient.Controllers
 
         public ActionResult Index()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Begining", "Home");
+            }
+
+            return View();
+        }
+
+        public ActionResult Begining()
+        {
             var name = this.User.Identity.Name;
             var userLogged = _userService.GetUserByUserName(name);
 
@@ -85,7 +95,7 @@ namespace FaceBookClient.Controllers
                 _userService.RemoveInvitationForFriend(loggedUser, userAsk);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Begining", "Home");
         }
 
         [HttpGet]

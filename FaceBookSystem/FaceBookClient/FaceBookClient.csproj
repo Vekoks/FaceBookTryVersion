@@ -298,6 +298,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\DetaialUser\Index.cshtml" />
     <Content Include="Views\DetaialUser\FriendDetailsView.cshtml" />
+    <Content Include="Views\Home\Begining.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
