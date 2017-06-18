@@ -15,13 +15,18 @@ namespace FaceBookClient.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
-        private UsersInfo info = new UsersInfo();
-        private AskFriendInfo infoFriend = new AskFriendInfo();
-        private AllPostInf infoPost = new AllPostInf();
+        private readonly IUsersInfo infoAllUser;
+        private readonly IAskFriendInfo infoForAskFriend;
+        private readonly IAllPostInf infoForAllPost;
+        private readonly INoSeenMessage infoNoSeenMessage;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IUsersInfo infoUser, IAskFriendInfo infoFriend, IAllPostInf infoPost, INoSeenMessage infoNoSeenMessage)
         {
             this._userService = userService;
+            this.infoAllUser = infoUser;
+            this.infoForAskFriend = infoFriend;
+            this.infoForAllPost = infoPost;
+            this.infoNoSeenMessage = infoNoSeenMessage;
         }
 
         public ActionResult Index()
@@ -101,7 +106,7 @@ namespace FaceBookClient.Controllers
         [HttpGet]
         public JsonResult ResultInfoForUsers()
         {
-            var result = info.GetData();
+            var result = infoAllUser.GetData();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -114,7 +119,7 @@ namespace FaceBookClient.Controllers
             if (loggedUser != null)
             {
 
-                var result = infoFriend.GetData(loggedUser.Id);
+                var result = infoForAskFriend.GetDataForAskFriend(loggedUser.Id);
 
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -128,7 +133,7 @@ namespace FaceBookClient.Controllers
         [HttpGet]
         public JsonResult GetAllPostFromUsers()
         {
-            var result = infoPost.GetDataAllPost();
+            var result = infoForAllPost.GetDataAllPost();
 
             var resultPost = new List<HomePostModel>();
 
@@ -145,6 +150,27 @@ namespace FaceBookClient.Controllers
             var resultForView = resultPost.OrderBy(x => x.DateOnPost).ToList();
 
             return Json(resultForView, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetAllNoSeenMessage()
+        {
+            var userLogged = this._userService.GetUserByUserName(User.Identity.Name);
+
+            var result = infoNoSeenMessage.GetDataForMessage(userLogged.Id);
+
+            var resultMessage = new List<HomeNoSeenMessageModel>();
+
+            foreach (var message in result)
+            {
+                resultMessage.Add(new HomeNoSeenMessageModel
+                {
+                    FormUser = message.FormUser,
+                    Message = message.Message
+                });
+            }
+
+            return Json(resultMessage, JsonRequestBehavior.AllowGet);
         }
     }
 }

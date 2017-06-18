@@ -9,11 +9,11 @@ using System.Web;
 
 namespace FaceBookClient.Models
 {
-    public class AskFriendInfo
+    public class AskFriendInfo : IAskFriendInfo
     {
         public string Name { get; set; }
 
-        public IEnumerable<AskFriendInfo> GetData(string UserIdOfLoggedUser)
+        public IEnumerable<IAskFriendInfo> GetDataForAskFriend(string UserIdOfLoggedUser)
         {
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FaceBookSystem"].ConnectionString))
@@ -29,7 +29,7 @@ namespace FaceBookClient.Models
                     command.Notification = null;
 
                     SqlDependency dependency = new SqlDependency(command);
-                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChangeAskFriend);
 
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
@@ -44,7 +44,7 @@ namespace FaceBookClient.Models
             }
         }
 
-        private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        private void dependency_OnChangeAskFriend(object sender, SqlNotificationEventArgs e)
         {
             AskFriendHub.Show();
         }

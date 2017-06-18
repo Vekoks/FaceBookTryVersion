@@ -14,6 +14,7 @@ namespace FaceBookClient.App_Start
     using FaceBook.Data.Repository;
     using FaceBook.Services;
     using FaceBook.Services.Contracts;
+    using Models;
 
     public static class NinjectWebCommon 
     {
@@ -70,6 +71,10 @@ namespace FaceBookClient.App_Start
 
             kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<IUserDetailService>().To<UserDetailService>();
+            kernel.Bind<IAllPostInf>().To<AllPostInf>();
+            kernel.Bind<IAskFriendInfo>().To<AskFriendInfo>();
+            kernel.Bind<IUsersInfo>().To<UsersInfo>();
+            kernel.Bind<INoSeenMessage>().To<NoSeenMessage>();
         }        
     }
 }

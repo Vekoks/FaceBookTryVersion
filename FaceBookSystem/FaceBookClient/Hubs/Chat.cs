@@ -16,19 +16,18 @@ namespace FaceBookClient.Hubs
 
         public void SendMessage(string username, string message)
         {
-            var userReceiverMessage= db.Users.Where(x => x.UserName == username).FirstOrDefault();
+            var userReceiverMessage = db.Users.Where(x => x.UserName == username).FirstOrDefault();
 
-            if (!userReceiverMessage.IsOnline)
+            //no see message
+            var userSendMessage = db.Users.Where(x => x.UserName == Context.User.Identity.Name).FirstOrDefault();
+            userReceiverMessage.Message.Add(new FaceBook.Model.Message
             {
-                var userSendMessage = db.Users.Where(x => x.UserName == Context.User.Identity.Name).FirstOrDefault();
-                userReceiverMessage.Message.Add(new FaceBook.Model.Message
-                {
-                    UserName = userSendMessage.UserName,
-                    Letter = message,
-                });
+                UserName = userSendMessage.UserName,
+                Letter = message,
+            });
 
-                db.SaveChanges();
-            }
+            db.SaveChanges();
+
 
             var msg = string.Format("{0}: {1}", Context.User.Identity.Name, message);
             //Clients.All.addMessage(msg);

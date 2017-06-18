@@ -205,6 +205,7 @@
     </Compile>
     <Compile Include="Hubs\AskFriendHub.cs" />
     <Compile Include="Hubs\Chat.cs" />
+    <Compile Include="Hubs\NoSeenMessageHub.cs" />
     <Compile Include="Hubs\PostHub.cs" />
     <Compile Include="Hubs\UserHub.cs" />
     <Compile Include="Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs" />
@@ -216,12 +217,18 @@
     <Compile Include="Models\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="Models\AccountViewModels\VerifyCodeViewModel.cs" />
+    <Compile Include="Models\HomeViewModels\HomeNoSeenMessageModel.cs" />
     <Compile Include="Models\HomeViewModels\HomePostModel.cs" />
     <Compile Include="Models\ModelsForLiveInfo\AllPostInf.cs" />
     <Compile Include="Models\ModelsForLiveInfo\AskFriendInfo.cs" />
     <Compile Include="Models\DetailsViewModels\FriendDetailViewModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeIndexViewModel.cs" />
     <Compile Include="Models\DetailsViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\Contracts\IAllPostInf.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\Contracts\IAskFriendInfo.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\Contracts\INoSeenMessage.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\Contracts\IUsersInfo.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\NoSeenMessage.cs" />
     <Compile Include="Models\ModelsForLiveInfo\UsersInfo.cs" />
     <Compile Include="Models\ManageViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="Models\ManageViewModels\ChangePasswordViewModel.cs" />
@@ -242,6 +249,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\ScriptAllPostInfo.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

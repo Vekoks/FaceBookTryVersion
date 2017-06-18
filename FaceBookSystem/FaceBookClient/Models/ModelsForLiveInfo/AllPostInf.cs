@@ -10,7 +10,7 @@ using System.Web;
 
 namespace FaceBookClient.Models
 {
-    public class AllPostInf
+    public class AllPostInf : IAllPostInf
     {
         public string Discription { get; set; }
 
@@ -18,7 +18,7 @@ namespace FaceBookClient.Models
 
         public string UserId { get; set; }
 
-        public IEnumerable<AllPostInf> GetDataAllPost()
+        public IEnumerable<IAllPostInf> GetDataAllPost()
         {
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FaceBookSystem"].ConnectionString))
@@ -32,7 +32,7 @@ namespace FaceBookClient.Models
                     command.Notification = null;
 
                     SqlDependency dependency = new SqlDependency(command);
-                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChangePost);
 
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
@@ -49,7 +49,7 @@ namespace FaceBookClient.Models
             }
         }
         
-        private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        private void dependency_OnChangePost(object sender, SqlNotificationEventArgs e)
         {
             PostHub.Show();
         }

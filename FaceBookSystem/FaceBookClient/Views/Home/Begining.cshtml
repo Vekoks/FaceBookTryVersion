@@ -23,7 +23,7 @@
 
     </div>
 
-    <h3>Messages: </h3>
+    @*<h3>Messages: </h3>
     @{
         foreach (var message in Model.Messages)
         {
@@ -32,56 +32,58 @@
                 <p> @message.Letter</p>
             </div>
         }
-    }
+    }*@
 
+    <div id="NoSeenMessage"></div>
 
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
     <script src="~/Scripts/ScriptForAskFriend.js"></script>
+    <script src="~/Scripts/ScriptAllPostInfo.js"></script>
 
     <script>
 
-    $(function () {
+        $(function () {
 
-        // Proxy created on the fly
-        var job = $.connection.postHub;
+            // Proxy created on the fly
+            var job = $.connection.noSeenMessageHub;
 
-        // Declare a function on the job hub so the server can invoke it
-        job.client.displayAllPost = function () {
-            getDataForAllPost();
-        };
+            // Declare a function on the job hub so the server can invoke it
+            job.client.displayAllNoSeenMessage = function () {
+                getDataForAllNoSeenMessage();
+            };
 
-        // Start the connection
-        $.connection.hub.start();
-        getDataForAllPost();
-    });
-
-
-    function getDataForAllPost() {
-        var $tbl = $('#PostList');
-
-        $.ajax({
-            url: 'GetAllPostFromUsers',
-            type: 'GET',
-            datatype: 'json',
-            success: function (data) {
-                if (data.length > 0) {
-                    $tbl.empty();
-                    var rows = [];
-                    rows.push(' <p>Post</p>');
-                    for (var i = 0; i < data.length; i++) {
-                        rows.push(' <div>');
-                        rows.push('  <a id="UserName" href="/DetaialUser/Details/' + data[i].UserName + '">' + data[i].UserName + '</a>');
-                        rows.push('  <p>Before: ' + data[i].DateOnPost + ' min</p>');
-                        rows.push('  <p>Post: ' + data[i].DiscriptionPost + '</p>');
-                        rows.push(' </div>');
-                    }
-
-                    $tbl.append(rows.join(''));
-                }
-            }
+            // Start the connection
+            $.connection.hub.start();
+            getDataForAllNoSeenMessage();
         });
-    }
+
+
+        function getDataForAllNoSeenMessage() {
+            var $tbl = $('#NoSeenMessage');
+
+            $.ajax({
+                url: 'GetAllNoSeenMessage',
+                type: 'GET',
+                datatype: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        $tbl.empty();
+                        var rows = [];
+                        rows.push(' <h3>Messages: </h3>');
+
+                        for (var i = 0; i < data.length; i++) {
+                            rows.push(' <div>');
+                            rows.push('  <p>' + data[i].FormUser + ': ' + data[i].Message + '</p>');
+                            rows.push(' </div>');
+                        }
+
+                        $tbl.append(rows.join(''));
+                    }
+                }
+            });
+        }
     </script>
+    
 </body>
 </html>
