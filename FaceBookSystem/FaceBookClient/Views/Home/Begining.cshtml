@@ -72,7 +72,8 @@
                     for (var i = 0; i < data.length; i++) {
                         rows.push(' <div>');
                         rows.push('  <a id="UserName" href="/DetaialUser/Details/' + data[i].UserName + '">' + data[i].UserName + '</a>');
-                        rows.push('  <p>Post:' + data[i].DiscriptionPost + '</p>');
+                        rows.push('  <p>Before: ' + data[i].DateOnPost + ' min</p>');
+                        rows.push('  <p>Post: ' + data[i].DiscriptionPost + '</p>');
                         rows.push(' </div>');
                     }
 

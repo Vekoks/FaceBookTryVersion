@@ -56,7 +56,7 @@ namespace FaceBookClient.Controllers
                     Adress = details.Adress,
                     Age = details.Age,
                     Friends = userLogged.Friend,
-                    Post = userLogged.Post
+                    Post = userLogged.Post.OrderByDescending(x=>x.DateOnPost)
                 };
 
                 return View(model);

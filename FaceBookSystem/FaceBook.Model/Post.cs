@@ -12,6 +12,8 @@ namespace FaceBook.Model
 
         public string Disctription { get; set; }
 
+        public DateTime DateOnPost { get; set; }
+
         public string UserId { get; set; }
 
         public virtual User User { get; set; }

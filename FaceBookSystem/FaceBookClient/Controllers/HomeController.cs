@@ -137,11 +137,14 @@ namespace FaceBookClient.Controllers
                 resultPost.Add(new HomePostModel
                 {
                     UserName = _userService.GetUserById(post.UserId).UserName,
-                    DiscriptionPost = post.Discription
-                });
+                    DiscriptionPost = post.Discription,
+                    DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes
+            });
             }
 
-            return Json(resultPost, JsonRequestBehavior.AllowGet);
+            var resultForView = resultPost.OrderBy(x => x.DateOnPost).ToList();
+
+            return Json(resultForView, JsonRequestBehavior.AllowGet);
         }
     }
 }

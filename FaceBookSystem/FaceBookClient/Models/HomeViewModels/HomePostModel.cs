@@ -10,5 +10,7 @@ namespace FaceBookClient.Models
         public string UserName { get; set; }
 
         public string DiscriptionPost { get; set; }
+
+        public int DateOnPost { get; set; }
     }
 }

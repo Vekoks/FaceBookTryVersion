@@ -14,6 +14,8 @@ namespace FaceBookClient.Models
     {
         public string Discription { get; set; }
 
+        public DateTime DatePost { get; set; }
+
         public string UserId { get; set; }
 
         public IEnumerable<AllPostInf> GetDataAllPost()
@@ -22,7 +24,7 @@ namespace FaceBookClient.Models
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FaceBookSystem"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT [Disctription],[UserId]
+                using (SqlCommand command = new SqlCommand(@"SELECT [Disctription],[DateOnPost],[UserId]
                FROM [dbo].[Posts]", connection))
                 {
                     // Make sure the command object does not already have
@@ -40,12 +42,13 @@ namespace FaceBookClient.Models
                             .Select(x => new AllPostInf()
                             {
                                 Discription = x.GetString(0),
-                                UserId = x.GetString(1)
+                                DatePost = x.GetDateTime(1),
+                                UserId = x.GetString(2),
                             }).ToList();
                 }
             }
         }
-
+        
         private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
         {
             PostHub.Show();

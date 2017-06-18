@@ -98,7 +98,8 @@ namespace FaceBook.Services
 
             user.Post.Add(new Post
             {
-                Disctription = discriptinPost
+                Disctription = discriptinPost,
+                DateOnPost = DateTime.Now
             });
 
             _userRepo.SaveChanges();
