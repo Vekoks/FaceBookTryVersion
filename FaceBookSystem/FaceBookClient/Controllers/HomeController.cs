@@ -170,5 +170,25 @@ namespace FaceBookClient.Controllers
 
             return Json(resultMessage, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetAllNotificationForNoSeenMessage()
+        {
+            var userLogged = this._userService.GetUserByUserName(User.Identity.Name);
+
+            var result = infoNoSeenMessage.GetDataForMessage(userLogged.Id);
+
+            var resultMessage = new List<string>();
+
+            foreach (var message in result)
+            {
+                if (!resultMessage.Contains<string>(message.FormUser))
+                {
+                    resultMessage.Add(message.FormUser);
+                }
+            }
+
+            return Json(resultMessage, JsonRequestBehavior.AllowGet);
+        }
     }
 }
