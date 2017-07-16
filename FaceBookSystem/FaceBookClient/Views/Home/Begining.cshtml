@@ -24,15 +24,15 @@
     </div>
 
     @*<h3>Messages: </h3>
-    @{
-        foreach (var message in Model.Messages)
-        {
-            <div>
-                <p style="float:left">@message.UserName:</p>
-                <p> @message.Letter</p>
-            </div>
-        }
-    }*@
+        @{
+            foreach (var message in Model.Messages)
+            {
+                <div>
+                    <p style="float:left">@message.UserName:</p>
+                    <p> @message.Letter</p>
+                </div>
+            }
+        }*@
 
     <div id="NoSeenMessage"></div>
 
@@ -84,6 +84,6 @@
             });
         }
     </script>
-    
+
 </body>
 </html>
