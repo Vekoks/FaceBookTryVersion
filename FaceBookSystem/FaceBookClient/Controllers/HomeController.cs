@@ -1,13 +1,11 @@
-﻿using FaceBook.Data;
-using FaceBook.Model;
+﻿using FaceBook.Model;
 using FaceBook.Services.Contracts;
-using FaceBookClient.Hubs;
 using FaceBookClient.Models;
+using FaceBookClient.Models.HomeViewModels;
+using FaceBookClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FaceBookClient.Controllers
@@ -17,10 +15,10 @@ namespace FaceBookClient.Controllers
         private readonly IUserService _userService;
         private readonly IUsersInfo infoAllUser;
         private readonly IAskFriendInfo infoForAskFriend;
-        private readonly IAllPostInf infoForAllPost;
+        private readonly IAllPostInfo infoForAllPost;
         private readonly INoSeenMessage infoNoSeenMessage;
 
-        public HomeController(IUserService userService, IUsersInfo infoUser, IAskFriendInfo infoFriend, IAllPostInf infoPost, INoSeenMessage infoNoSeenMessage)
+        public HomeController(IUserService userService, IUsersInfo infoUser, IAskFriendInfo infoFriend, IAllPostInfo infoPost, INoSeenMessage infoNoSeenMessage)
         {
             this._userService = userService;
             this.infoAllUser = infoUser;

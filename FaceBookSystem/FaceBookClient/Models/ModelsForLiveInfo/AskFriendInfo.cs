@@ -1,4 +1,5 @@
 ﻿using FaceBookClient.Hubs;
+using FaceBookClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

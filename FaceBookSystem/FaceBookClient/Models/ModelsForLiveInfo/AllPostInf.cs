@@ -1,5 +1,5 @@
-﻿using FaceBook.Model;
-using FaceBookClient.Hubs;
+﻿using FaceBookClient.Hubs;
+using FaceBookClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,7 +10,7 @@ using System.Web;
 
 namespace FaceBookClient.Models
 {
-    public class AllPostInf : IAllPostInf
+    public class AllPostInf : IAllPostInfo
     {
         public string Discription { get; set; }
 
@@ -18,7 +18,7 @@ namespace FaceBookClient.Models
 
         public string UserId { get; set; }
 
-        public IEnumerable<IAllPostInf> GetDataAllPost()
+        public IEnumerable<IAllPostInfo> GetDataAllPost()
         {
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FaceBookSystem"].ConnectionString))

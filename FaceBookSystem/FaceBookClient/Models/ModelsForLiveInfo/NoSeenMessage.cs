@@ -1,5 +1,4 @@
 ﻿using FaceBookClient.Hubs;
-using FaceBookClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,47 +7,49 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace FaceBookClient.Models
+namespace FaceBookClient.Models.ModelsForLiveInfo
 {
-    public class UsersInfo : IUsersInfo
+    public class NoSeenMessage : INoSeenMessage
     {
-        public string Name { get; set; }
+        public string FormUser { get; set; }
 
-        public bool IsOnline { get; set; }
+        public string Message { get; set; }
 
-        public IEnumerable<IUsersInfo> GetData()
+        public IEnumerable<INoSeenMessage> GetDataForMessage(string UserIdOfLoggedUser)
         {
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FaceBookSystem"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT [UserName],[IsOnline]
-               FROM [dbo].[AspNetUsers]", connection))
+                using (SqlCommand command = new SqlCommand(@"SELECT [UserName], [Letter]
+                FROM [dbo].[Messages] WHERE UserId = @ID;", connection))
                 {
+                    command.Parameters.Add("@ID", SqlDbType.NVarChar);
+                    command.Parameters["@ID"].Value = UserIdOfLoggedUser;
                     // Make sure the command object does not already have
                     // a notification object associated with it.
                     command.Notification = null;
 
                     SqlDependency dependency = new SqlDependency(command);
-                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChangeUser);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChangeNoSeenMessage);
 
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
 
                     using (var reader = command.ExecuteReader())
                         return reader.Cast<IDataRecord>()
-                            .Select(x => new UsersInfo()
+                            .Select(x => new NoSeenMessage()
                             {
-                                Name = x.GetString(0),
-                                IsOnline = x.GetBoolean(1)
+                                FormUser = x.GetString(0),
+                                Message = x.GetString(1)
                             }).ToList();
                 }
             }
         }
 
-        private void dependency_OnChangeUser(object sender, SqlNotificationEventArgs e)
+        private void dependency_OnChangeNoSeenMessage(object sender, SqlNotificationEventArgs e)
         {
-            UserHub.Show();
+            NoSeenMessageHub.Show();
         }
     }
 }
