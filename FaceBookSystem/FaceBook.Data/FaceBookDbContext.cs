@@ -22,7 +22,7 @@ namespace FaceBook.Data
 
         public IDbSet<InvitationForFriend> InvitationsForFriend { get; set; }
 
-        public IDbSet<Message> Messages { get; set; }
+        public IDbSet<MissMessage> Messages { get; set; }
 
         public IDbSet<Notification> Notifications { get; set; }
 

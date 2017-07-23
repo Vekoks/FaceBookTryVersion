@@ -12,6 +12,6 @@ namespace FaceBookClient.Models
 
         public int CountAskForFriend { get; set; }
 
-        public List<Message> Messages { get; set; }
+        public List<MissMessage> Messages { get; set; }
     }
 }

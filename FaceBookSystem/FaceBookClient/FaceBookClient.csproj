@@ -272,6 +272,7 @@
     <Content Include="Scripts\ScriptAllPostInfo.js" />
     <Content Include="Scripts\ScriptForAskFriend.js" />
     <Content Include="Scripts\ScriptForChat.js" />
+    <Content Include="Scripts\ScriptForNoSeeMessage.js" />
     <Content Include="Scripts\ScriptForUserInfo.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />

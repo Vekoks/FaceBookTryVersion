@@ -9,6 +9,12 @@
 </head>
 <body>
 
+    <div id="NoSeenMessage">
+        <div id="CountMissMessage" style="float:left"></div>
+        <input type="button" id="NotificationMessageMiss" class="btn-primary" value="Message" />
+        <div id="AllMessageFromUsers" class="hidden"></div>
+    </div>
+
     <div id="PostList"></div>
 
     <div id="AskFriendList"></div>
@@ -23,8 +29,6 @@
 
     </div>
 
-
-
     @*<h3>Messages: </h3>
         @{
             foreach (var message in Model.Messages)
@@ -36,34 +40,15 @@
             }
         }*@
 
-    <div id="NoSeenMessage">
-        <div id="CountMissMessage" style="float:left"></div>
-        <input type="button" id="NotificationMessageMiss" class="btn-primary" value="Message" />
-        <div id="AllMessageFromUsers" class="hidden"></div>
-    </div>
+   
 
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
     <script src="~/Scripts/ScriptForAskFriend.js"></script>
     <script src="~/Scripts/ScriptAllPostInfo.js"></script>
+    <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>
 
     <script>
-
-        $('#NotificationMessageMiss').click(function () {
-            var $allUser = $('#AllMessageFromUsers');
-            var $countMessage = $('#CountMissMessage');
-
-            $countMessage.empty();
-
-            if ($allUser.hasClass("hidden")) {
-                $allUser.removeClass("hidden");
-            }
-            else {
-                $allUser.addClass("hidden");
-            }
-
-        });
-
 
         //$(function () {
 
@@ -107,53 +92,7 @@
         //}
 
 
-        $(function () {
-
-            // Proxy created on the fly
-            var job = $.connection.noSeenMessageHub;
-
-            // Declare a function on the job hub so the server can invoke it
-            job.client.displayAllNoSeenMessage = function () {
-                getDataForAllNoSeenMessage();
-            };
-
-            // Start the connection
-            $.connection.hub.start();
-            getDataForAllNoSeenMessage();
-        });
-
-
-        function getDataForAllNoSeenMessage() {
-            var $tbl = $('#CountMissMessage');
-            var $allUser = $('#AllMessageFromUsers');
-
-            $.ajax({
-                url: 'GetAllNotificationForNoSeenMessage',
-                type: 'GET',
-                datatype: 'json',
-                success: function (data) {
-                    if (data.length > 0) {
-                        $tbl.empty();
-
-                        var rows = [];
-
-                        rows.push(' <p class="text-success">' + data.length + '</p>');
-                        $tbl.append(rows.join(''));
-                        rows = [];
-
-                        for (var i = 0; i < data.length; i++) {
-                            rows.push(' <div class="alert alert-dismissible alert-info" style="width:25%; text-align:center">')
-                            rows.push(' <div> You have miss message from')
-                            rows.push('  <p class="text-danger">' + data[i] + '</p>');
-                            rows.push(' </div>')
-                            rows.push(' </div>')
-                        }
-
-                        $allUser.append(rows.join(''));
-                    }
-                }
-            });
-        }
+       
 
     </script>
 

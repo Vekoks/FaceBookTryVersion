@@ -16,7 +16,9 @@ namespace FaceBook.Model
 
         private ICollection<Post> post;
 
-        private ICollection<Message> messages;
+        private ICollection<MissMessage> messages;
+
+        private ICollection<StoreMessage> storeMessage;
 
         private ICollection<User> friend;
 
@@ -26,7 +28,8 @@ namespace FaceBook.Model
         {
             this.notification = new List<Notification>();
             this.post = new List<Post>();
-            this.messages = new List<Message>();
+            this.messages = new List<MissMessage>();
+            this.storeMessage = new List<StoreMessage>();
             this.friend = new List<User>();
             this.askForFriend = new LinkedList<InvitationForFriend>();
         }
@@ -51,10 +54,16 @@ namespace FaceBook.Model
             set { post = value; }
         }
         
-        public virtual ICollection<Message> Message
+        public virtual ICollection<MissMessage> MissMessage
         {
             get { return messages; }
             set { messages = value; }
+        }
+
+        public virtual ICollection<StoreMessage> StoreMessage
+        {
+            get { return storeMessage; }
+            set { storeMessage = value; }
         }
 
         public virtual ICollection<User> Friend

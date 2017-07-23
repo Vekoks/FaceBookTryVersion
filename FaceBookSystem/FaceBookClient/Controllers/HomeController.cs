@@ -47,7 +47,7 @@ namespace FaceBookClient.Controllers
                 var notUserModel = new HomeIndexViewModel()
                 {
                     AllAskForFriend = new List<InvitationForFriend>(),
-                    Messages = new List<Message>(),
+                    Messages = new List<MissMessage>(),
                     CountAskForFriend = 0
                 };
 
@@ -55,7 +55,7 @@ namespace FaceBookClient.Controllers
             }
 
             var allAskForFriend = userLogged.InvitationForFriend.ToList();
-            var message = userLogged.Message.ToList();
+            var message = userLogged.MissMessage.ToList();
 
             var model = new HomeIndexViewModel()
             {
@@ -189,6 +189,17 @@ namespace FaceBookClient.Controllers
             }
 
             return Json(resultMessage, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DeletellNotificationForNoSeenMessage(string UserName)
+        {
+
+            var userLogged = this._userService.GetUserByUserName(this.User.Identity.Name);
+
+            this._userService.DeletellNotificationForNoSeenMessageFromUser(UserName, userLogged);
+
+            return Json(new { status = "Success", message = "Success" });
+
         }
     }
 }

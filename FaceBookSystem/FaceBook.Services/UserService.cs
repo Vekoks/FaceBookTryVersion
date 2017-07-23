@@ -111,5 +111,19 @@ namespace FaceBook.Services
 
             return userFind;
         }
+
+        public string DeletellNotificationForNoSeenMessageFromUser(string Sender, User UserLogged)
+        {
+            var allNotification = UserLogged.MissMessage.Where(x => x.UserName == Sender).ToList();
+
+            foreach (var notification in allNotification)
+            {
+                UserLogged.MissMessage.Remove(notification);
+            }
+
+            _userRepo.SaveChanges();
+
+            return "secces";
+        }
     }
 }
