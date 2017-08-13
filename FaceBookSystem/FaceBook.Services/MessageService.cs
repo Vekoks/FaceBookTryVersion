@@ -74,12 +74,12 @@ namespace FaceBook.Services
 
         public List<StoreMessage> GetConversation(User userLogged, string UserConversation)
         {
-            var list = _storeRepo.All().Where(x => x.Conversation == userLogged.UserName + "And" + UserConversation).ToList();
-            var list1 = _storeRepo.All().Where(x => x.Conversation == UserConversation + "And" + userLogged.UserName).ToList();
+            var ConversationOne = _storeRepo.All().Where(x => x.Conversation == userLogged.UserName + "And" + UserConversation).ToList();
+            var ConversationTwo = _storeRepo.All().Where(x => x.Conversation == UserConversation + "And" + userLogged.UserName).ToList();
 
-            var combined = list.Concat(list1).OrderBy(x=>x.Conversation).ToList();
+            var combinedConversation = ConversationOne.Concat(ConversationTwo).OrderBy(x => x.Date).ToList();
 
-            return combined;
+            return combinedConversation;
         }
     }
 }

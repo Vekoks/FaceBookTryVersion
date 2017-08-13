@@ -30,8 +30,8 @@ function getDataForAskFriend() {
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <div>');
                     rows.push('  <p>' + data[i].Name + '</p>');
-                    rows.push('  <a href="ConferFriend/' + data[i].Name + '/accept" class = "btn btn-info" >Accept invitation</a>');
-                    rows.push('  <a href="ConferFriend/' + data[i].Name + '/delete" class = "btn btn-info" >Detele invitation</a>');
+                    rows.push('  <button id="AcceptFriend" class = "btn btn-info" >Accept invitation</button>');
+                    rows.push('  <button id="DeteleFriend" class = "btn btn-info" >Detele invitation</button>');
 
                     rows.push(' </div>');
                 }
@@ -39,5 +39,40 @@ function getDataForAskFriend() {
                 $tbl.append(rows.join(''));
             }
         }
+    });
+
+
+    $("#AcceptFriend").on("click", "#specifik", function (e) {
+
+        $.ajax({
+            url: "/Home/ConferFriend",
+            type: "POST",
+            data: JSON.stringify({ UserName: userName.toString(), confer: "accept" }),
+            dataType: "json",
+            traditional: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.status == "Success") {
+
+                }
+            }
+        });
+    });
+
+    $("#DeteleFriend").on("click", "#specifik", function (e) {
+
+        $.ajax({
+            url: "/Home/ConferFriend",
+            type: "POST",
+            data: JSON.stringify({ UserName: userName.toString(), confer: "delete" }),
+            dataType: "json",
+            traditional: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.status == "Success") {
+
+                }
+            }
+        });
     });
 }
