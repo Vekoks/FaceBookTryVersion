@@ -16,40 +16,6 @@ namespace FaceBookClient.Hubs
 
         public void SendMessage(string username, string message)
         {
-            //var userReceiverMessage = db.Users.Where(x => x.UserName == username).FirstOrDefault();
-
-            //var userLogged = db.Users.Where(x => x.UserName == Context.User.Identity.Name).FirstOrDefault();
-
-            //if (!userReceiverMessage.IsOnline)
-            //{
-            //    //no see message
-            //    var userSendMessage = db.Users.Where(x => x.UserName == Context.User.Identity.Name).FirstOrDefault();
-            //    userReceiverMessage.MissMessage.Add(new FaceBook.Model.MissMessage
-            //    {
-            //        UserName = userSendMessage.UserName
-            //    });
-            //    //
-
-            //    userLogged.StoreMessage.Add(new FaceBook.Model.StoreMessage {
-            //        Receiver = username,
-            //        Letter = message,
-            //        Date = DateTime.Now
-            //    });
-
-
-            //    db.SaveChanges();
-            //}
-            //else
-            //{
-            //    userLogged.StoreMessage.Add(new FaceBook.Model.StoreMessage
-            //    {
-            //        Receiver = username,
-            //        Letter = message,
-            //        Date = DateTime.Now
-            //    });
-            //}
-
-
             var msg = string.Format("{0}: {1}", Context.User.Identity.Name, message);
             //Clients.All.addMessage(msg);
             //Clients.Group(Context.User.Identity.Name).addMessage(message);

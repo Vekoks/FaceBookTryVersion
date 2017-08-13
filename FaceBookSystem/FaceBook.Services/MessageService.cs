@@ -12,10 +12,12 @@ namespace FaceBook.Services
     public class MessageService : IMessageService
     {
         private readonly IRepository<User> _userRepo;
+        private readonly IRepository<StoreMessage> _storeRepo;
 
-        public MessageService(IRepository<User> userRepo)
+        public MessageService(IRepository<User> userRepo, IRepository<StoreMessage> storeRepo)
         {
             this._userRepo = userRepo;
+            this._storeRepo = storeRepo;
         }
 
         public void AddNewNoSeenMessage(User userLogged, string Message, User userReceiverMessage)
@@ -30,25 +32,30 @@ namespace FaceBook.Services
                 });
                 //
 
-                userLogged.StoreMessage.Add(new StoreMessage
+                _storeRepo.Add(new StoreMessage
                 {
-                    Receiver = userLogged.UserName,
+                    Sender = userLogged.UserName,
                     Letter = Message,
-                    Date = DateTime.Now
+                    Receiver = userReceiverMessage.UserName,
+                    Date = DateTime.Now,
+                    Conversation = userLogged.UserName + "And" + userReceiverMessage.UserName
                 });
+
 
             }
             else
             {
-                userLogged.StoreMessage.Add(new StoreMessage
+                _storeRepo.Add(new StoreMessage
                 {
-                    Receiver = userLogged.UserName,
+                    Sender = userLogged.UserName,
                     Letter = Message,
-                    Date = DateTime.Now
+                    Receiver = userReceiverMessage.UserName,
+                    Date = DateTime.Now,
+                    Conversation = userLogged.UserName + "And" + userReceiverMessage.UserName
                 });
             }
 
-            _userRepo.SaveChanges();
+            _storeRepo.SaveChanges();
         }
 
         public string DeletellNotificationForNoSeenMessageFromUser(string Sender, User UserLogged)
@@ -63,6 +70,16 @@ namespace FaceBook.Services
             _userRepo.SaveChanges();
 
             return "secces";
+        }
+
+        public List<StoreMessage> GetConversation(User userLogged, string UserConversation)
+        {
+            var list = _storeRepo.All().Where(x => x.Conversation == userLogged.UserName + "And" + UserConversation).ToList();
+            var list1 = _storeRepo.All().Where(x => x.Conversation == UserConversation + "And" + userLogged.UserName).ToList();
+
+            var combined = list.Concat(list1).OrderBy(x=>x.Conversation).ToList();
+
+            return combined;
         }
     }
 }

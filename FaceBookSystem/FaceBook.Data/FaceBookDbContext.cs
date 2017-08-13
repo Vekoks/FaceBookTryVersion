@@ -28,6 +28,9 @@ namespace FaceBook.Data
 
         public IDbSet<Post> Posts { get; set; }
 
+        public IDbSet<StoreMessage> StoreMessages { get; set; }
+
+
         public static FaceBookDbContext Create()
         {
             return new FaceBookDbContext();

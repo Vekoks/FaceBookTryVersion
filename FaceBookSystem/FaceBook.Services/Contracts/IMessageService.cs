@@ -12,5 +12,7 @@ namespace FaceBook.Services.Contracts
         string DeletellNotificationForNoSeenMessageFromUser(string Sender, User UserLogged);
 
         void AddNewNoSeenMessage(User userLogged, string Message, User userReceiverMessage);
+
+        List<StoreMessage> GetConversation(User userLogged, string UserConversation);
     }
 }

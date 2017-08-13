@@ -19,10 +19,10 @@ namespace FaceBookClient.Controllers
         private readonly IAllPostInfo infoForAllPost;
         private readonly INoSeenMessage infoNoSeenMessage;
 
-        public HomeController(IUserService userService, 
-                              IUsersInfo infoUser, 
-                              IAskFriendInfo infoFriend, 
-                              IAllPostInfo infoPost, 
+        public HomeController(IUserService userService,
+                              IUsersInfo infoUser,
+                              IAskFriendInfo infoFriend,
+                              IAllPostInfo infoPost,
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService)
         {
@@ -149,7 +149,7 @@ namespace FaceBookClient.Controllers
                     UserName = _userService.GetUserById(post.UserId).UserName,
                     DiscriptionPost = post.Discription,
                     DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes
-            });
+                });
             }
 
             var resultForView = resultPost.OrderBy(x => x.DateOnPost).ToList();
@@ -189,7 +189,8 @@ namespace FaceBookClient.Controllers
             return Json(resultMessage, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult DeletellNotificationForNoSeenMessage(string UserName)
+        [HttpPost]
+        public JsonResult DeletellNotificationForNoSeenMessage(string UserName)
         {
             var userLogged = this._userService.GetUserByUserName(this.User.Identity.Name);
 
@@ -197,6 +198,16 @@ namespace FaceBookClient.Controllers
 
             return Json(new { status = "Success", message = "Success" });
 
+        }
+
+        [HttpPost]
+        public JsonResult GetConversationWithUser(string UserName)
+        {
+            var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
+
+            var conversation = _messageService.GetConversation(userLogged, UserName);
+
+            return Json(conversation, JsonRequestBehavior.AllowGet);
         }
     }
 }
