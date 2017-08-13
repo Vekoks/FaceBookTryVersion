@@ -11,10 +11,12 @@ namespace FaceBookClient.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly IPostService _postService;
 
-        public PostController(IUserService userService)
+        public PostController(IUserService userService, IPostService postService)
         {
             this._userService = userService;
+            this._postService = postService;
         }
 
         // GET: Post
@@ -24,8 +26,10 @@ namespace FaceBookClient.Controllers
         }
 
         public ActionResult CreatePost(string discriptin)
-        {
-            _userService.AddPostToUser(this.User.Identity.Name, discriptin);
+        { 
+            var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
+
+            _postService.AddPostToUser(userLogged, discriptin);
 
             return RedirectToAction("Index", "DetaialUser");
         }

@@ -40,7 +40,6 @@ namespace FaceBook.Services
 
         }
 
-
         public void AddNewFriend(User logged, User userAskForFriend)
         {
             //add friend both users
@@ -92,19 +91,6 @@ namespace FaceBook.Services
             return allUser.Where(x => x.UserName == userName).FirstOrDefault();
         }
 
-        public void AddPostToUser(string UserName, string discriptinPost)
-        {
-            var user = this.GetAllUsers().Where(x => x.UserName == UserName).FirstOrDefault();
-
-            user.Post.Add(new Post
-            {
-                Disctription = discriptinPost,
-                DateOnPost = DateTime.Now
-            });
-
-            _userRepo.SaveChanges();
-        }
-
         public User GetUserById(string id)
         {
             var userFind = this.GetAllUsers().Where(x => x.Id == id).FirstOrDefault();
@@ -112,18 +98,5 @@ namespace FaceBook.Services
             return userFind;
         }
 
-        public string DeletellNotificationForNoSeenMessageFromUser(string Sender, User UserLogged)
-        {
-            var allNotification = UserLogged.MissMessage.Where(x => x.UserName == Sender).ToList();
-
-            foreach (var notification in allNotification)
-            {
-                UserLogged.MissMessage.Remove(notification);
-            }
-
-            _userRepo.SaveChanges();
-
-            return "secces";
-        }
     }
 }

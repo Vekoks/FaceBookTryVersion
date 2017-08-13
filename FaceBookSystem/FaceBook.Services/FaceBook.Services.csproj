@@ -40,8 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IMessageService.cs" />
+    <Compile Include="Contracts\IPostService.cs" />
     <Compile Include="Contracts\IUserDetailService.cs" />
     <Compile Include="Contracts\IUserService.cs" />
+    <Compile Include="MessageService.cs" />
+    <Compile Include="PostService.cs" />
     <Compile Include="UserDetailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserService.cs" />

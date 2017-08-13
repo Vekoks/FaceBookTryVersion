@@ -63,7 +63,7 @@ function getDataForAllNoSeenMessage() {
 
     $("#AllMessageFromUsers").on("click", "#ListWithMissMessage", function () {
         var userName = $(this).find("#Sender").text();
-
+        debugger;
         var $tbl = $("#Chat");
 
         var rows = [];
@@ -130,6 +130,7 @@ function getDataForAllNoSeenMessage() {
 
         });
 
+        //delete notification of no seen message
         $.ajax({
             url: "/Home/DeletellNotificationForNoSeenMessage",
             type: "POST",

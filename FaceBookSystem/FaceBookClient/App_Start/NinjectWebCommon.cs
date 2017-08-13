@@ -76,6 +76,8 @@ namespace FaceBookClient.App_Start
             kernel.Bind<IAskFriendInfo>().To<AskFriendInfo>();
             kernel.Bind<IUsersInfo>().To<UsersInfo>();
             kernel.Bind<INoSeenMessage>().To<NoSeenMessage>();
+            kernel.Bind<IMessageService>().To<MessageService>();
+            kernel.Bind<IPostService>().To<PostService>();
         }        
     }
 }

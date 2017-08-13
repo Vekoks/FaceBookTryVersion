@@ -25,8 +25,5 @@ namespace FaceBook.Services.Contracts
 
         void ChangeOnline(User loggedUser);
 
-        void AddPostToUser(string UserName, string discriptinPost);
-
-        string DeletellNotificationForNoSeenMessageFromUser(string Sender, User UserLogged);
     }
 }

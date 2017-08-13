@@ -13,14 +13,21 @@ namespace FaceBookClient.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IMessageService _messageService;
         private readonly IUsersInfo infoAllUser;
         private readonly IAskFriendInfo infoForAskFriend;
         private readonly IAllPostInfo infoForAllPost;
         private readonly INoSeenMessage infoNoSeenMessage;
 
-        public HomeController(IUserService userService, IUsersInfo infoUser, IAskFriendInfo infoFriend, IAllPostInfo infoPost, INoSeenMessage infoNoSeenMessage)
+        public HomeController(IUserService userService, 
+                              IUsersInfo infoUser, 
+                              IAskFriendInfo infoFriend, 
+                              IAllPostInfo infoPost, 
+                              INoSeenMessage infoNoSeenMessage,
+                              IMessageService messageService)
         {
             this._userService = userService;
+            this._messageService = messageService;
             this.infoAllUser = infoUser;
             this.infoForAskFriend = infoFriend;
             this.infoForAllPost = infoPost;
@@ -150,25 +157,16 @@ namespace FaceBookClient.Controllers
             return Json(resultForView, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult GetAllNoSeenMessage()
+        [HttpPost]
+        public JsonResult AddNewNoSeenMessage(string UserName, string Message)
         {
             var userLogged = this._userService.GetUserByUserName(User.Identity.Name);
 
-            var result = infoNoSeenMessage.GetDataForMessage(userLogged.Id);
+            var userReceiverMessage = this._userService.GetUserByUserName(UserName);
 
-            var resultMessage = new List<HomeNoSeenMessageModel>();
+            _messageService.AddNewNoSeenMessage(userLogged, Message, userReceiverMessage);
 
-            foreach (var message in result)
-            {
-                resultMessage.Add(new HomeNoSeenMessageModel
-                {
-                    FormUser = message.FormUser,
-                    Message = message.Message
-                });
-            }
-
-            return Json(resultMessage, JsonRequestBehavior.AllowGet);
+            return Json(new { status = "Success", message = "Success" });
         }
 
         [HttpGet]
@@ -193,10 +191,9 @@ namespace FaceBookClient.Controllers
 
         public ActionResult DeletellNotificationForNoSeenMessage(string UserName)
         {
-
             var userLogged = this._userService.GetUserByUserName(this.User.Identity.Name);
 
-            this._userService.DeletellNotificationForNoSeenMessageFromUser(UserName, userLogged);
+            this._messageService.DeletellNotificationForNoSeenMessageFromUser(UserName, userLogged);
 
             return Json(new { status = "Success", message = "Success" });
 
