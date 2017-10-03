@@ -17,12 +17,14 @@ namespace FaceBookClient.Controllers
         private readonly IUsersInfo infoAllUser;
         private readonly IAskFriendInfo infoForAskFriend;
         private readonly IAllPostInfo infoForAllPost;
+        private readonly ILikeOnPost infoForLIkes;
         private readonly INoSeenMessage infoNoSeenMessage;
 
         public HomeController(IUserService userService,
                               IUsersInfo infoUser,
                               IAskFriendInfo infoFriend,
                               IAllPostInfo infoPost,
+                              ILikeOnPost infoLIkes,
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService)
         {
@@ -31,6 +33,7 @@ namespace FaceBookClient.Controllers
             this.infoAllUser = infoUser;
             this.infoForAskFriend = infoFriend;
             this.infoForAllPost = infoPost;
+            this.infoForLIkes = infoLIkes;
             this.infoNoSeenMessage = infoNoSeenMessage;
         }
 
@@ -156,6 +159,14 @@ namespace FaceBookClient.Controllers
             var resultForView = resultPost.OrderBy(x => x.DateOnPost).ToList();
 
             return Json(resultForView, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetLikes()
+        {
+            var result = infoForLIkes.GetDataLikes().Count();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

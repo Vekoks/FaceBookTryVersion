@@ -209,6 +209,7 @@
     </Compile>
     <Compile Include="Hubs\AskFriendHub.cs" />
     <Compile Include="Hubs\Chat.cs" />
+    <Compile Include="Hubs\LikeHub.cs" />
     <Compile Include="Hubs\NoSeenMessageHub.cs" />
     <Compile Include="Hubs\PostHub.cs" />
     <Compile Include="Hubs\UserHub.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Models\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="Models\AccountViewModels\VerifyCodeViewModel.cs" />
+    <Compile Include="Models\HomeViewModels\HomeLikeModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeNoSeenMessageModel.cs" />
     <Compile Include="Models\HomeViewModels\HomePostModel.cs" />
     <Compile Include="Models\ModelsForLiveInfo\AllPostInf.cs" />
@@ -230,8 +232,10 @@
     <Compile Include="Models\DetailsViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Models\ModelsForLiveInfo\Contracts\IAllPostInfo.cs" />
     <Compile Include="Models\ModelsForLiveInfo\Contracts\IAskFriendInfo.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\Contracts\ILikeOnPost.cs" />
     <Compile Include="Models\ModelsForLiveInfo\Contracts\INoSeenMessage.cs" />
     <Compile Include="Models\ModelsForLiveInfo\Contracts\IUsersInfo.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\LikeOnPost.cs" />
     <Compile Include="Models\ModelsForLiveInfo\NoSeenMessage.cs" />
     <Compile Include="Models\ModelsForLiveInfo\UsersInfo.cs" />
     <Compile Include="Models\ManageViewModels\AddPhoneNumberViewModel.cs" />
@@ -272,6 +276,7 @@
     <Content Include="Scripts\ScriptAllPostInfo.js" />
     <Content Include="Scripts\ScriptForAskFriend.js" />
     <Content Include="Scripts\ScriptForChat.js" />
+    <Content Include="Scripts\ScriptForLikes.js" />
     <Content Include="Scripts\ScriptForNoSeeMessage.js" />
     <Content Include="Scripts\ScriptForUserInfo.js" />
     <Content Include="Scripts\_references.js" />
