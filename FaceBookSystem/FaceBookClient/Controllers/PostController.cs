@@ -46,7 +46,7 @@ namespace FaceBookClient.Controllers
 
             _postService.AddCommentToPost(PostId, userLogged, CommentOfDescription);
 
-            return RedirectToAction("Index", "DetaialUser");
+            return Json(new { status = "Success", message = "Success" });
         }
     }
 }
