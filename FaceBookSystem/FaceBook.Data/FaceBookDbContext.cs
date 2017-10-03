@@ -28,6 +28,8 @@ namespace FaceBook.Data
 
         public IDbSet<Post> Posts { get; set; }
 
+        public IDbSet<CommendsOnPost> Comments { get; set; }
+
         public IDbSet<StoreMessage> StoreMessages { get; set; }
 
 

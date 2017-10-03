@@ -7,6 +7,8 @@ namespace FaceBookClient.Models
 {
     public class HomePostModel
     {
+        public int PostId { get; set; }
+
         public string UserName { get; set; }
 
         public string DiscriptionPost { get; set; }

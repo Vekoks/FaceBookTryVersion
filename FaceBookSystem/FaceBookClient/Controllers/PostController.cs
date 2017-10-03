@@ -33,5 +33,20 @@ namespace FaceBookClient.Controllers
 
             return RedirectToAction("Index", "DetaialUser");
         }
+
+        public ActionResult CreateComment(string model)
+        {
+            var name = this.User.Identity.Name;
+            var userLogged = _userService.GetUserByUserName(name);
+
+            var arrString = model.Split(' ');
+
+            var PostId = int.Parse(arrString[0]);
+            var CommentOfDescription = arrString[1];
+
+            _postService.AddCommentToPost(PostId, userLogged, CommentOfDescription);
+
+            return RedirectToAction("Index", "DetaialUser");
+        }
     }
 }

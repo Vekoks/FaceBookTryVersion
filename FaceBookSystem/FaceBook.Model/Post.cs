@@ -8,6 +8,15 @@ namespace FaceBook.Model
 {
     public class Post
     {
+        private ICollection<CommendsOnPost> comments;
+        private ICollection<LikesOnPost> likes;
+
+        public Post ()
+        {
+            this.comments = new List<CommendsOnPost>();
+            this.likes = new List<LikesOnPost>();
+        }
+
         public int Id { get; set; }
 
         public string Disctription { get; set; }
@@ -17,6 +26,18 @@ namespace FaceBook.Model
         public string UserId { get; set; }
 
         public virtual User User { get; set; }
+
+        public virtual ICollection<CommendsOnPost> Comments
+        {
+            get { return comments; }
+            set { comments = value; }
+        }
+
+        public virtual ICollection<LikesOnPost> Likes
+        {
+            get { return likes; }
+            set { likes = value; }
+        }
 
     }
 }

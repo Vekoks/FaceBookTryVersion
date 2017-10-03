@@ -8,6 +8,8 @@ namespace FaceBookClient.Models.ModelsForLiveInfo
 {
     public interface IAllPostInfo
     {
+        int PostId { get; set; }
+
         string Discription { get; set; }
 
         DateTime DatePost { get; set; }

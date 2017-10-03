@@ -146,6 +146,7 @@ namespace FaceBookClient.Controllers
             {
                 resultPost.Add(new HomePostModel
                 {
+                    PostId = post.PostId,
                     UserName = _userService.GetUserById(post.UserId).UserName,
                     DiscriptionPost = post.Discription,
                     DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes

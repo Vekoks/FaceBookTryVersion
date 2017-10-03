@@ -12,6 +12,8 @@ namespace FaceBookClient.Models
 {
     public class AllPostInf : IAllPostInfo
     {
+        public int PostId { get; set; }
+
         public string Discription { get; set; }
 
         public DateTime DatePost { get; set; }
@@ -24,7 +26,7 @@ namespace FaceBookClient.Models
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FaceBookSystem"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT [Disctription],[DateOnPost],[UserId]
+                using (SqlCommand command = new SqlCommand(@"SELECT [Id],[Disctription],[DateOnPost],[UserId]
                FROM [dbo].[Posts]", connection))
                 {
                     // Make sure the command object does not already have
@@ -41,9 +43,10 @@ namespace FaceBookClient.Models
                         return reader.Cast<IDataRecord>()
                             .Select(x => new AllPostInf()
                             {
-                                Discription = x.GetString(0),
-                                DatePost = x.GetDateTime(1),
-                                UserId = x.GetString(2),
+                                PostId = x.GetInt32(0),
+                                Discription = x.GetString(1),
+                                DatePost = x.GetDateTime(2),
+                                UserId = x.GetString(3),
                             }).ToList();
                 }
             }

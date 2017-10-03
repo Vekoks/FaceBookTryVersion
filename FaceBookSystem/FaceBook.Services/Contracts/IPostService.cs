@@ -9,6 +9,8 @@ namespace FaceBook.Services.Contracts
 {
     public interface IPostService
     {
-        void AddPostToUser(User UserName, string discriptinPost);
+        void AddPostToUser(User User, string discriptinPost);
+
+        void AddCommentToPost(int PostId, User User, string discriptinComment);
     }
 }

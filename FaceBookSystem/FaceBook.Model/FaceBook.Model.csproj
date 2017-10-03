@@ -57,7 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommendsOnPost.cs" />
     <Compile Include="InvitationForFriend.cs" />
+    <Compile Include="LikesOnPost.cs" />
     <Compile Include="MissMessage.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Post.cs" />
