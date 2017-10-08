@@ -1,0 +1,263 @@
+﻿@model MeetLifeClient.Models.HomeIndexViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Begining</title>
+</head>
+<body>
+
+    <div id="NoSeenMessage">
+        <div id="CountMissMessage" style="float:left"></div>
+        <input type="button" id="NotificationMessageMiss" class="btn-primary" value="Message" />
+        <div id="AllMessageFromUsers" class="hidden"></div>
+    </div>
+
+    <div id="PostList"></div>
+
+    <div id="AskFriendList"></div>
+
+
+    <div class="row">
+        <div id="Chat"></div>
+        <div style="float: right; right: 5%">
+            <h2>Users:</h2>
+            <ul id="UsersList" class="list-group" style="border: 2px solid; float:right"></ul>
+        </div>
+
+    </div>
+
+    @*<h3>Messages: </h3>
+        @{
+            foreach (var message in Model.Messages)
+            {
+                <div>
+                    <p style="float:left">@message.UserName:</p>
+                    <p> @message.Letter</p>
+                </div>
+            }
+        }*@
+
+    <div id="LikeList"></div>
+
+    <script src="~/Scripts/ScriptForChat.js"></script>
+    <script src="~/Scripts/ScriptForUserInfo.js"></script>
+    <script src="~/Scripts/ScriptForAskFriend.js"></script>
+    @*<script src="~/Scripts/ScriptAllPostInfo.js"></script>*@
+    <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>
+
+
+    <script>
+        
+        $(function () {
+            var job = $.connection.commentsPostHub;
+
+            // Declare a function on the job hub so the server can invoke it
+            job.client.displayCommentsOnThePost = function () {
+                GetCommentsOnThePost();
+            };
+
+            // Start the connection
+            $.connection.hub.start();
+            GetCommentsOnThePost();
+        });
+
+        function GetCommentsOnThePost() {
+            var idOnPost = "2";
+            
+            //var json = JSON.stringify(descriptionOnPost).toString()
+
+            var $tbl = $('#CommentPostWithId' + idOnPost);
+
+            $.ajax({
+                url: "/Post/GetCommentsOnThePost",
+                type: "POST",
+                data: JSON.stringify({ model: idOnPost }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $tbl.empty();
+                    var rows = [];
+                    for (var i = 0; i < data.length; i++) {
+                        rows.push('  <p>' + data[i].Username + ':' + data[i].Description + ' min</p>');
+                    }
+                    $tbl.append(rows.join(''));
+                },
+                error: function (data) {
+                    alert("An error has occured!!!");
+                }
+            });
+        }
+
+
+
+
+        function CreateCommentOnThePost() {
+            var idOnPost = $('#PostId').text();
+            
+            var descriptionOnPost = $('#CommentDisctriptionId').val();
+
+            //var json = JSON.stringify(descriptionOnPost).toString()
+
+            var subResult = idOnPost + " " + descriptionOnPost;
+
+            var $tbl = $('#CommentPostWithId' + idOnPost);
+            
+            $.ajax({
+                url: "/Post/CreateComment",
+                type: "POST",
+                data: JSON.stringify({ model: subResult }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $tbl.empty();
+                    var rows = [];
+                    for (var i = 0; i < data.length; i++) {
+                        rows.push('  <p>' + data[i].Username + ':' + data[i].Description + ' min</p>');
+                    }
+                    $tbl.append(rows.join(''));
+                },
+                error: function (data) {
+                    alert("An error has occured!!!");
+                }
+            });
+        }
+
+
+        $(function () {
+            var job = $.connection.postHub;
+
+            // Declare a function on the job hub so the server can invoke it
+            job.client.displayAllPost = function () {
+                getDataForAllPost();
+            };
+
+            // Start the connection
+            $.connection.hub.start();
+            getDataForAllPost();
+        });
+
+        function getDataForAllPost() {
+            var $tbl = $('#PostList');
+            $.ajax({
+                url: 'GetAllPostFromUsers',
+                type: 'GET',
+                datatype: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        $tbl.empty();
+                        var rows = [];
+                        rows.push(' <p>Post</p>');
+                        for (var i = 0; i < data.length; i++) {
+                            rows.push(' <div>');
+                            rows.push('  <p id="PostId" class="hidden">' + data[i].PostId + '</p>');
+                            rows.push('  <a 4id="UserName" href="/DetaialUser/Details/' + data[i].UserName + '">' + data[i].UserName + '</a>');
+                            rows.push('  <p>Time:' + data[i].DateOnPost + ' min</p>');
+                            rows.push('  <p>Post:' + data[i].DiscriptionPost + '</p>');
+                            rows.push('  <div><input id="CommentDisctriptionId" type="text" name="discriptin" /></div>');
+                            rows.push('  <button id="ComId" onclick="CreateCommentOnThePost()">Save comment</button>');
+                            rows.push(' <div id="CommentPostWithId' + data[i].PostId + '">');
+
+                            for (var j = 0; j < data[i].Comments.length; j++) {
+                                rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + ' min</p>');
+                            }
+
+                            rows.push(' </div>');
+                            rows.push(' </div>');
+                        }
+                        $tbl.append(rows.join(''));
+                    }
+                }
+            })
+        }
+    </script>
+
+
+    <script>
+        $(function () {
+            var job = $.connection.likeHub;
+
+            // Declare a function on the job hub so the server can invoke it
+            job.client.displayLikes = function () {
+                getDataForLikes();
+            };
+
+            // Start the connection
+            $.connection.hub.start();
+            getDataForLikes();
+        });
+
+        function getDataForLikes() {
+            var $tbl = $('#LikeList');
+            $.ajax({
+                url: 'GetLikes',
+                type: 'GET',
+                datatype: 'json',
+                success: function (data) {
+                    if (data > 0) {
+                        $tbl.empty();
+                        var rows = [];
+                        rows.push(' <p>Like: ' + data + '</p>');
+
+                        $tbl.append(rows.join(''));
+                    }
+                }
+
+            })
+        }
+    </script>
+
+    <script>
+
+        //$(function () {
+
+        //    // Proxy created on the fly
+        //    var job = $.connection.noSeenMessageHub;
+
+        //    // Declare a function on the job hub so the server can invoke it
+        //    job.client.displayAllNoSeenMessage = function () {
+        //        getDataForAllNoSeenMessage();
+        //    };
+
+        //    // Start the connection
+        //    $.connection.hub.start();
+        //    getDataForAllNoSeenMessage();
+        //});
+
+
+        //function getDataForAllNoSeenMessage() {
+        //    var $tbl = $('#NoSeenMessage');
+
+        //    $.ajax({
+        //        url: 'GetAllNoSeenMessage',
+        //        type: 'GET',
+        //        datatype: 'json',
+        //        success: function (data) {
+        //            if (data.length > 0) {
+        //                $tbl.empty();
+        //                var rows = [];
+        //                rows.push(' <h3>Messages: </h3>');
+
+        //                for (var i = 0; i < data.length; i++) {
+        //                    rows.push(' <div>');
+        //                    rows.push('  <p>' + data[i].FormUser + ': ' + data[i].Message + '</p>');
+        //                    rows.push(' </div>');
+        //                }
+
+        //                $tbl.append(rows.join(''));
+        //            }
+        //        }
+        //    });
+        //}
+
+
+       
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{5CE7DB3D-2CDC-4B42-83B3-FB95709F1DC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{981490DA-40F6-4000-B69D-1F02289D367B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{ABB42CB9-0A0C-4B66-8767-9A53AC048361}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetLifeClient", "MeetLifeClient\MeetLifeClient.csproj", "{13295B36-BCC6-48CC-A485-665A3BC7243F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetLife.Data", "MeetLife.Data\MeetLife.Data.csproj", "{B510A28A-6FBD-4B37-9B5E-46BB6BE7947A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetLife.Model", "MeetLife.Model\MeetLife.Model.csproj", "{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetLife.Services", "MeetLife.Services\MeetLife.Services.csproj", "{9670B051-2162-45D0-A816-E96A0182E130}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13295B36-BCC6-48CC-A485-665A3BC7243F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13295B36-BCC6-48CC-A485-665A3BC7243F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13295B36-BCC6-48CC-A485-665A3BC7243F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13295B36-BCC6-48CC-A485-665A3BC7243F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B510A28A-6FBD-4B37-9B5E-46BB6BE7947A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B510A28A-6FBD-4B37-9B5E-46BB6BE7947A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B510A28A-6FBD-4B37-9B5E-46BB6BE7947A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B510A28A-6FBD-4B37-9B5E-46BB6BE7947A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9670B051-2162-45D0-A816-E96A0182E130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9670B051-2162-45D0-A816-E96A0182E130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9670B051-2162-45D0-A816-E96A0182E130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9670B051-2162-45D0-A816-E96A0182E130}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13295B36-BCC6-48CC-A485-665A3BC7243F} = {981490DA-40F6-4000-B69D-1F02289D367B}
+		{B510A28A-6FBD-4B37-9B5E-46BB6BE7947A} = {5CE7DB3D-2CDC-4B42-83B3-FB95709F1DC3}
+		{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB} = {5CE7DB3D-2CDC-4B42-83B3-FB95709F1DC3}
+		{9670B051-2162-45D0-A816-E96A0182E130} = {ABB42CB9-0A0C-4B66-8767-9A53AC048361}
+	EndGlobalSection
+EndGlobal
