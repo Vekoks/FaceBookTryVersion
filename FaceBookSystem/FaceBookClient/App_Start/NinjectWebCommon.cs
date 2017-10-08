@@ -79,6 +79,8 @@ namespace FaceBookClient.App_Start
             kernel.Bind<INoSeenMessage>().To<NoSeenMessage>();
             kernel.Bind<IMessageService>().To<MessageService>();
             kernel.Bind<IPostService>().To<PostService>();
+            kernel.Bind<ICommentOnThePost>().To<CommentOnThePost>();
+            
         }        
     }
 }

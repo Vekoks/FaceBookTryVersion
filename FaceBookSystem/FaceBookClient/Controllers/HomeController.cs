@@ -12,13 +12,15 @@ namespace FaceBookClient.Controllers
 {
     public class HomeController : Controller
     {
+        
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
-        private readonly IUsersInfo infoAllUser;
-        private readonly IAskFriendInfo infoForAskFriend;
-        private readonly IAllPostInfo infoForAllPost;
-        private readonly ILikeOnPost infoForLIkes;
-        private readonly INoSeenMessage infoNoSeenMessage;
+        private readonly IUsersInfo _infoAllUser;
+        private readonly IAskFriendInfo _infoForAskFriend;
+        private readonly IAllPostInfo _infoForAllPost;
+        private readonly ILikeOnPost _infoForLIkes;
+        private readonly INoSeenMessage _infoNoSeenMessage;
+        private readonly ICommentOnThePost _infoCommentsOnThePost;
 
         public HomeController(IUserService userService,
                               IUsersInfo infoUser,
@@ -26,15 +28,17 @@ namespace FaceBookClient.Controllers
                               IAllPostInfo infoPost,
                               ILikeOnPost infoLIkes,
                               INoSeenMessage infoNoSeenMessage,
-                              IMessageService messageService)
+                              IMessageService messageService,
+                              ICommentOnThePost infoCommentsOnThePost)
         {
             this._userService = userService;
             this._messageService = messageService;
-            this.infoAllUser = infoUser;
-            this.infoForAskFriend = infoFriend;
-            this.infoForAllPost = infoPost;
-            this.infoForLIkes = infoLIkes;
-            this.infoNoSeenMessage = infoNoSeenMessage;
+            this._infoAllUser = infoUser;
+            this._infoForAskFriend = infoFriend;
+            this._infoForAllPost = infoPost;
+            this._infoForLIkes = infoLIkes;
+            this._infoNoSeenMessage = infoNoSeenMessage;
+            this._infoCommentsOnThePost = infoCommentsOnThePost;
         }
 
         public ActionResult Index()
@@ -114,7 +118,7 @@ namespace FaceBookClient.Controllers
         [HttpGet]
         public JsonResult ResultInfoForUsers()
         {
-            var result = infoAllUser.GetData();
+            var result = _infoAllUser.GetData();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -127,7 +131,7 @@ namespace FaceBookClient.Controllers
             if (loggedUser != null)
             {
 
-                var result = infoForAskFriend.GetDataForAskFriend(loggedUser.Id);
+                var result = _infoForAskFriend.GetDataForAskFriend(loggedUser.Id);
 
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -141,7 +145,7 @@ namespace FaceBookClient.Controllers
         [HttpGet]
         public JsonResult GetAllPostFromUsers()
         {
-            var result = infoForAllPost.GetDataAllPost();
+            var result = _infoForAllPost.GetDataAllPost();
 
             var resultPost = new List<HomePostModel>();
 
@@ -152,7 +156,8 @@ namespace FaceBookClient.Controllers
                     PostId = post.PostId,
                     UserName = _userService.GetUserById(post.UserId).UserName,
                     DiscriptionPost = post.Discription,
-                    DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes
+                    DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes,
+                    Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId)
                 });
             }
 
@@ -164,7 +169,7 @@ namespace FaceBookClient.Controllers
         [HttpGet]
         public JsonResult GetLikes()
         {
-            var result = infoForLIkes.GetDataLikes().Count();
+            var result = _infoForLIkes.GetDataLikes().Count();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -186,7 +191,7 @@ namespace FaceBookClient.Controllers
         {
             var userLogged = this._userService.GetUserByUserName(User.Identity.Name);
 
-            var result = infoNoSeenMessage.GetDataForMessage(userLogged.Id);
+            var result = _infoNoSeenMessage.GetDataForMessage(userLogged.Id);
 
             var resultMessage = new List<string>();
 

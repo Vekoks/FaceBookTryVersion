@@ -54,7 +54,7 @@ function getDataForAllPost() {
                     rows.push('  <p>Post:' + data[i].DiscriptionPost + '</p>');
                     rows.push('  <div><input id="CommentDisctriptionId" type="text" name="discriptin" /></div>');
                     rows.push('  <button id="ComId" onclick="CreateComment()">Save comment</button>');
-
+                    rows.push(' <div id="CommentPostWithId'+ data[i].PostId +'"></div>');
                     rows.push(' </div>');
                 }
                 $tbl.append(rows.join(''));

@@ -1,4 +1,5 @@
 ﻿using FaceBook.Services.Contracts;
+using FaceBookClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,13 @@ namespace FaceBookClient.Controllers
 
         private readonly IUserService _userService;
         private readonly IPostService _postService;
+        private readonly ICommentOnThePost _infoCommentsOnThePost;
 
-        public PostController(IUserService userService, IPostService postService)
+        public PostController(IUserService userService, IPostService postService, ICommentOnThePost infoCommentsOnThePost)
         {
             this._userService = userService;
             this._postService = postService;
+            this._infoCommentsOnThePost = infoCommentsOnThePost;
         }
 
         // GET: Post
@@ -46,7 +49,18 @@ namespace FaceBookClient.Controllers
 
             _postService.AddCommentToPost(PostId, userLogged, CommentOfDescription);
 
-            return Json(new { status = "Success", message = "Success" });
+            var resoultNewComments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(PostId);
+
+            return Json(resoultNewComments, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCommentsOnThePost(string model)
+        {
+            var PostId = int.Parse(model);
+
+            var resoultNewComments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(PostId);
+
+            return Json(resoultNewComments, JsonRequestBehavior.AllowGet);
         }
     }
 }

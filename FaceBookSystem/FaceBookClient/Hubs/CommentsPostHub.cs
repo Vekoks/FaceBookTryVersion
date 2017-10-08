@@ -6,12 +6,12 @@ using System.Web;
 
 namespace FaceBookClient.Hubs
 {
-    public class AskFriendHub : Hub
+    public class CommentsPostHub : Hub
     {
         public static void Show()
         {
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<UserHub>();
-            context.Clients.All.displayAskFriend();
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<CommentsPostHub>();
+            context.Clients.All.displayCommentsOnThePost();
         }
     }
 }

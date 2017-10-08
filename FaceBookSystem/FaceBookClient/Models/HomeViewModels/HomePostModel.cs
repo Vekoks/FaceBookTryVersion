@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FaceBookClient.Models.ModelsForLiveInfo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,5 +15,8 @@ namespace FaceBookClient.Models
         public string DiscriptionPost { get; set; }
 
         public int DateOnPost { get; set; }
+
+        public IEnumerable<ICommentOnThePost> Comments { get; set; }
+
     }
 }
