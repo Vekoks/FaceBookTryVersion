@@ -12,5 +12,9 @@ namespace MeetLife.Services.Contracts
         void AddPostToUser(User User, string discriptinPost);
 
         void AddCommentToPost(int PostId, User User, string discriptinComment);
+
+        List<Post> GetAllPost();
+
+        Post GetPostWithNewComment();
     }
 }

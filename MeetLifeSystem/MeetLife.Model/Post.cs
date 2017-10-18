@@ -23,6 +23,8 @@ namespace MeetLife.Model
 
         public DateTime DateOnPost { get; set; }
 
+        public bool WorkOnComment { get; set; }
+
         public string UserId { get; set; }
 
         public virtual User User { get; set; }

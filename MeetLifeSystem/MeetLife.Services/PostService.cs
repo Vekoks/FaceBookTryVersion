@@ -41,7 +41,33 @@ namespace MeetLife.Services
                 Description = discriptinComment
             });
 
+            TargetPost.WorkOnComment = true;
+
             _postRepo.SaveChanges();
+        }
+
+        public List<Post> GetAllPost()
+        {
+            return _postRepo.All().ToList();
+        }
+
+        public Post GetPostWithNewComment()
+        {
+            var currentPost = GetAllPost().Where(x => x.WorkOnComment == true).FirstOrDefault();
+
+            if (currentPost == null)
+            {
+                return new Post()
+                {
+                    Id = 100
+                };
+            }
+
+            currentPost.WorkOnComment = false;
+
+            _postRepo.SaveChanges();
+
+            return currentPost;
         }
     }
 }

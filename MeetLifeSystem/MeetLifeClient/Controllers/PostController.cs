@@ -1,4 +1,5 @@
 ﻿using MeetLife.Services.Contracts;
+using MeetLifeClient.Models;
 using MeetLifeClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,9 @@ namespace MeetLifeClient.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult CreatePost(string discriptin)
-        { 
+        {
             var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
 
             _postService.AddPostToUser(userLogged, discriptin);
@@ -37,6 +39,7 @@ namespace MeetLifeClient.Controllers
             return RedirectToAction("Index", "DetaialUser");
         }
 
+        [HttpPost]
         public ActionResult CreateComment(string model)
         {
             var name = this.User.Identity.Name;
@@ -54,13 +57,25 @@ namespace MeetLifeClient.Controllers
             return Json(resoultNewComments, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetCommentsOnThePost(string model)
+        [HttpGet]
+        public ActionResult GetCommentsOnThePost()
         {
-            var PostId = int.Parse(model);
+            var curentPost = _postService.GetPostWithNewComment();
 
-            var resoultNewComments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(PostId);
+            if (curentPost == null)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
 
-            return Json(resoultNewComments, JsonRequestBehavior.AllowGet);
+            var resoult = new PostCommentViewModel
+            {
+                IdOnCurrentPost = curentPost.Id,
+                Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(curentPost.Id)
+            };
+
+            //var resoultNewComments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(curentPost.Id);
+
+            return Json(resoult, JsonRequestBehavior.AllowGet);
         }
     }
 }
