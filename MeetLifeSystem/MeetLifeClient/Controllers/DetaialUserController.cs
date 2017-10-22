@@ -40,8 +40,8 @@ namespace MeetLifeClient.Controllers
                     LastName = "undefined",
                     Adress = "undefined",
                     Age = 0,
-                    Friends = new List<User>(),
-                    Post = new List<Post>()
+                    Friends = userLogged.Friend,
+                    Post = userLogged.Post.OrderByDescending(x => x.DateOnPost)
                 };
 
                 return View(model);
@@ -56,7 +56,7 @@ namespace MeetLifeClient.Controllers
                     Adress = details.Adress,
                     Age = details.Age,
                     Friends = userLogged.Friend,
-                    Post = userLogged.Post.OrderByDescending(x=>x.DateOnPost)
+                    Post = userLogged.Post.OrderByDescending(x => x.DateOnPost)
                 };
 
                 return View(model);
@@ -79,15 +79,29 @@ namespace MeetLifeClient.Controllers
 
             var ckeckFriend = _userService.CkeckForFriend(userLogged, userFriend);
 
-            var model = new FriendDetailViewModel()
+            var model = new FriendDetailViewModel();
+
+
+            if (details == null)
             {
-                UserName = userFriend.UserName,
-                FirstName = details.FirstName,
-                LastName = details.LastName,
-                Adress = details.Adress,
-                Age = details.Age,
-                CheckForFriend = ckeckFriend
-            };
+                model.UserName = userFriend.UserName;
+                model.FirstName = "undefined";
+                model.LastName = "undefined";
+                model.Adress = "undefined";
+                model.Age = 0;
+                model.CheckForFriend = ckeckFriend;
+            }
+            else
+            {
+
+                model.UserName = userFriend.UserName;
+                model.FirstName = details.FirstName;
+                model.LastName = details.LastName;
+                model.Adress = details.Adress;
+                model.Age = details.Age;
+                model.CheckForFriend = ckeckFriend;
+            }
+
 
             return View("FriendDetailsView", model);
 

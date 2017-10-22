@@ -12,6 +12,6 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
 
         string UserName { get; set; }
 
-        IEnumerable<LikeOnPost> GetDataLikes();
+        IEnumerable<LikeOnPost> GetDataLikesOnThePost(int PostId);
     }
 }

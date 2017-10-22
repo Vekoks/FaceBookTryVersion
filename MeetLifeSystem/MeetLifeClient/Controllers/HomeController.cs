@@ -17,8 +17,6 @@ namespace MeetLifeClient.Controllers
         private readonly IMessageService _messageService;
         private readonly IUsersInfo _infoAllUser;
         private readonly IAskFriendInfo _infoForAskFriend;
-        private readonly IAllPostInfo _infoForAllPost;
-        private readonly ILikeOnPost _infoForLIkes;
         private readonly INoSeenMessage _infoNoSeenMessage;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
 
@@ -26,7 +24,6 @@ namespace MeetLifeClient.Controllers
                               IUsersInfo infoUser,
                               IAskFriendInfo infoFriend,
                               IAllPostInfo infoPost,
-                              ILikeOnPost infoLIkes,
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService,
                               ICommentOnThePost infoCommentsOnThePost)
@@ -35,8 +32,6 @@ namespace MeetLifeClient.Controllers
             this._messageService = messageService;
             this._infoAllUser = infoUser;
             this._infoForAskFriend = infoFriend;
-            this._infoForAllPost = infoPost;
-            this._infoForLIkes = infoLIkes;
             this._infoNoSeenMessage = infoNoSeenMessage;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
         }
@@ -96,18 +91,18 @@ namespace MeetLifeClient.Controllers
         }
 
 
-        public ActionResult ConferFriend(string UserName, string confer)
+        public ActionResult ConferFriend(string UserName, string confirm)
         {
             var loggedUser = _userService.GetUserByUserName(User.Identity.Name);
 
             var userAsk = _userService.GetUserByUserName(UserName);
 
-            if (confer.Contains("accept"))
+            if (confirm.Contains("Accept"))
             {
                 _userService.AddNewFriend(loggedUser, userAsk);
             }
 
-            else if (confer.Contains("delete"))
+            else if (confirm.Contains("Delete"))
             {
                 _userService.RemoveInvitationForFriend(loggedUser, userAsk);
             }
@@ -140,38 +135,6 @@ namespace MeetLifeClient.Controllers
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        [HttpGet]
-        public JsonResult GetAllPostFromUsers()
-        {
-            var result = _infoForAllPost.GetDataAllPost();
-
-            var resultPost = new List<HomePostModel>();
-
-            foreach (var post in result)
-            {
-                resultPost.Add(new HomePostModel
-                {
-                    PostId = post.PostId,
-                    UserName = _userService.GetUserById(post.UserId).UserName,
-                    DiscriptionPost = post.Discription,
-                    DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes,
-                    Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId)
-                });
-            }
-
-            var resultForView = resultPost.OrderBy(x => x.DateOnPost).ToList();
-
-            return Json(resultForView, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult GetLikes()
-        {
-            var result = _infoForLIkes.GetDataLikes().Count();
-
-            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

@@ -69,5 +69,38 @@ namespace MeetLife.Services
 
             return currentPost;
         }
+
+        public void PutLikeOnThePost(int PostId, User User)
+        {
+            var TargetPost = _postRepo.All().Where(x => x.Id == PostId).FirstOrDefault();
+
+            TargetPost.Likes.Add(new LikesOnPost()
+            {
+                Username = User.UserName
+            });
+
+            TargetPost.WorkOnLike = true;
+
+            _postRepo.SaveChanges();
+        }
+
+        public Post GetLikeOnThePost()
+        {
+            var currentPost = GetAllPost().Where(x => x.WorkOnLike == true).FirstOrDefault();
+
+            if (currentPost == null)
+            {
+                return new Post()
+                {
+                    Id = 100
+                };
+            }
+
+            currentPost.WorkOnLike = false;
+
+            _postRepo.SaveChanges();
+
+            return currentPost;
+        }
     }
 }

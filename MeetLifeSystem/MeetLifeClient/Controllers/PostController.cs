@@ -14,19 +14,53 @@ namespace MeetLifeClient.Controllers
 
         private readonly IUserService _userService;
         private readonly IPostService _postService;
+        private readonly IAllPostInfo _infoForAllPost;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
+        private readonly ILikeOnPost _infoForLIkes;
 
-        public PostController(IUserService userService, IPostService postService, ICommentOnThePost infoCommentsOnThePost)
+        public PostController(IUserService userService, 
+                              IPostService postService,
+                              IAllPostInfo infoPost,
+                              ICommentOnThePost infoCommentsOnThePost, 
+                              ILikeOnPost infoLIkes)
         {
             this._userService = userService;
             this._postService = postService;
+            this._infoForAllPost = infoPost;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
+            this._infoForLIkes = infoLIkes;
         }
 
         // GET: Post
         public ActionResult Index()
         {
             return View();
+        }
+
+
+        [HttpGet]
+        public JsonResult GetAllPostFromUsers()
+        {
+            var result = _infoForAllPost.GetDataAllPost();
+
+            var resultPost = new List<HomePostModel>();
+
+            foreach (var post in result)
+            {
+                resultPost.Add(new HomePostModel
+                {
+                    PostId = post.PostId,
+                    UserName = _userService.GetUserById(post.UserId).UserName,
+                    DiscriptionPost = post.Discription,
+                    DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes,
+                    Likes = _infoForLIkes.GetDataLikesOnThePost(post.PostId).Count(),
+                    Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId)
+                });
+            }
+
+            var resultForView = resultPost.OrderBy(x => x.DateOnPost).ToList();
+
+            return Json(resultForView, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -52,9 +86,7 @@ namespace MeetLifeClient.Controllers
 
             _postService.AddCommentToPost(PostId, userLogged, CommentOfDescription);
 
-            var resoultNewComments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(PostId);
-
-            return Json(resoultNewComments, JsonRequestBehavior.AllowGet);
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -62,20 +94,42 @@ namespace MeetLifeClient.Controllers
         {
             var curentPost = _postService.GetPostWithNewComment();
 
-            if (curentPost == null)
-            {
-                return Json(null, JsonRequestBehavior.AllowGet);
-            }
-
             var resoult = new PostCommentViewModel
             {
                 IdOnCurrentPost = curentPost.Id,
                 Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(curentPost.Id)
             };
 
-            //var resoultNewComments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(curentPost.Id);
-
             return Json(resoult, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult PutLikeOnThePOst(string model)
+        {
+            var name = this.User.Identity.Name;
+            var userLogged = _userService.GetUserByUserName(name);
+
+            var PostId = int.Parse(model);
+
+            _postService.PutLikeOnThePost(PostId, userLogged);
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetLikes()
+        {
+            var curentPost = _postService.GetLikeOnThePost();
+
+            var liksOnThePost = _infoForLIkes.GetDataLikesOnThePost(curentPost.Id).Count();
+
+            var result = new PostLikeViewModel
+            {
+                IdOnCurrentPost = curentPost.Id,
+                Likes = liksOnThePost
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

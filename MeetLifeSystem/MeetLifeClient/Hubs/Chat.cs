@@ -12,8 +12,6 @@ namespace MeetLifeClient.Hubs
 {
     public class Chat : Hub
     {
-        private MeetLifeDbContext db = new MeetLifeDbContext();
-
         public void SendMessage(string username, string message)
         {
             var msg = string.Format("{0}: {1}", Context.User.Identity.Name, message);

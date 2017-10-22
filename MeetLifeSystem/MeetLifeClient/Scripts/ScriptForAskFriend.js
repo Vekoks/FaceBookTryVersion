@@ -1,5 +1,4 @@
-﻿
-$(function () {
+﻿$(function () {
 
     // Proxy created on the fly
     var job = $.connection.userHub;
@@ -30,8 +29,8 @@ function getDataForAskFriend() {
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <div>');
                     rows.push('  <p>' + data[i].Name + '</p>');
-                    rows.push('  <button id="AcceptFriend" class = "btn btn-info" >Accept invitation</button>');
-                    rows.push('  <button id="DeteleFriend" class = "btn btn-info" >Detele invitation</button>');
+                    rows.push('  <input id="Confirm" type="button" class = "btn btn-info" name="Accept ' + data[i].Name + '" value="Accept invitation" />');
+                    rows.push('  <input id="Confirm" type="button" class = "btn btn-info" name="Delete ' + data[i].Name + '" value="Delete invitation" />');
 
                     rows.push(' </div>');
                 }
@@ -41,30 +40,16 @@ function getDataForAskFriend() {
         }
     });
 
+    $("#AskFriendList").on("click", "#Confirm", function (e) {
+        var nameOnButtonArr = $(this).attr('name').split(" ");
 
-    $("#AcceptFriend").on("click", "#specifik", function (e) {
-
-        $.ajax({
-            url: "/Home/ConferFriend",
-            type: "POST",
-            data: JSON.stringify({ UserName: userName.toString(), confer: "accept" }),
-            dataType: "json",
-            traditional: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                if (data.status == "Success") {
-
-                }
-            }
-        });
-    });
-
-    $("#DeteleFriend").on("click", "#specifik", function (e) {
+        var confirmNameButton = nameOnButtonArr[0];
+        var userName = nameOnButtonArr[1];
 
         $.ajax({
             url: "/Home/ConferFriend",
             type: "POST",
-            data: JSON.stringify({ UserName: userName.toString(), confer: "delete" }),
+            data: JSON.stringify({ UserName: userName.toString(), confirm: confirmNameButton }),
             dataType: "json",
             traditional: true,
             contentType: "application/json; charset=utf-8",

@@ -40,8 +40,6 @@ namespace MeetLife.Services
                     Date = DateTime.Now,
                     Conversation = userLogged.UserName + "And" + userReceiverMessage.UserName
                 });
-
-
             }
             else
             {

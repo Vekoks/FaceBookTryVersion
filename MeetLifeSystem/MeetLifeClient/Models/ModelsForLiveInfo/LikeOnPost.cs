@@ -15,15 +15,17 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
 
         public string UserName { get; set; }
 
-        public IEnumerable<LikeOnPost> GetDataLikes()
+        public IEnumerable<LikeOnPost> GetDataLikesOnThePost(int PostId)
         {
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MeetLifeSystem"].ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(@"SELECT [Username],[PostId]
-                FROM [dbo].[LikesOnPosts]", connection))
+                FROM [dbo].[LikesOnPosts] WHERE PostId = @ID;", connection))
                 {
+                    command.Parameters.Add("@ID", SqlDbType.Int);
+                    command.Parameters["@ID"].Value = PostId;
                     // Make sure the command object does not already have
                     // a notification object associated with it.
                     command.Notification = null;

@@ -40,49 +40,12 @@
             }
         }*@
 
-    <div id="LikeList"></div>
-
+    <script src="~/Scripts/ScriptForAskFriend.js"></script>
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
-    <script src="~/Scripts/ScriptForAskFriend.js"></script>
     <script src="~/Scripts/ScriptAllPostInfo.js"></script>
     <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>
 
-
-
-    <script>
-        $(function () {
-            var job = $.connection.likeHub;
-
-            // Declare a function on the job hub so the server can invoke it
-            job.client.displayLikes = function () {
-                getDataForLikes();
-            };
-
-            // Start the connection
-            $.connection.hub.start();
-            getDataForLikes();
-        });
-
-        function getDataForLikes() {
-            var $tbl = $('#LikeList');
-            $.ajax({
-                url: 'GetLikes',
-                type: 'GET',
-                datatype: 'json',
-                success: function (data) {
-                    if (data > 0) {
-                        $tbl.empty();
-                        var rows = [];
-                        rows.push(' <p>Like: ' + data + '</p>');
-
-                        $tbl.append(rows.join(''));
-                    }
-                }
-
-            })
-        }
-    </script>
 
     <script>
 
