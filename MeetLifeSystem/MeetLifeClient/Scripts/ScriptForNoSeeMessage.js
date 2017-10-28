@@ -1,4 +1,78 @@
-﻿$('#NotificationMessageMiss').click(function () {
+﻿function chatCreate(userName) {
+    var $tbl = $("#Chat");
+    $tbl.empty();
+
+    var rows = [];
+    rows.push(' <table id="ChatWith' + userName + '" style="float: left; border:2px solid red">');
+    rows.push(' <tr>');
+    rows.push(' <td>');
+    rows.push(' <div><a id="UserName" href="/DetaialUser/Details/' + userName + '">' + userName + '</a></div>');
+    rows.push(' <button id="Exit" class="btn btn-danger" name="ExitChatWith ' + userName + '">X</button>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    rows.push(' <tr>');
+    rows.push(' <td>');
+    rows.push(' <div><input type="text" id="MessageFor' + userName + '" class="modal-body" value="message " /></div>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    rows.push(' <tr>');
+    rows.push(' <td style="padding-left: 50px">');
+    rows.push(' <button id="send-message" class="btn btn-info" name="ButtonFor ' + userName + '">Send</button>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    rows.push(' <tr>');
+    rows.push(' <td>');
+    rows.push(' <div id="ConversationWith' + userName + '"></div>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+    rows.push(' </table>');
+
+    $tbl.append(rows.join(''));
+
+    //load conversation
+    $.ajax({
+        url: "/Home/GetConversationWithUser",
+        type: "POST",
+        data: JSON.stringify({ UserName: userName.toString() }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+            var meesagesList = "#ConversationWith" + userName;
+
+            var $con = $(meesagesList)
+            $con.empty();
+            var rowsCon = [];
+
+            for (var i = 0; i < data.length; i++) {
+                rowsCon.push(' <div>' + data[i].Sender + ':' + data[i].Letter + '</div>');
+            }
+
+            $con.append(rowsCon.join(''));
+        }
+    });
+
+    //delete notification of no seen message
+    $.ajax({
+        url: "/Home/DeletellNotificationForNoSeenMessage",
+        type: "POST",
+        data: JSON.stringify({ UserName: userName.toString() }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data.status == "Success") {
+
+            }
+        }
+    });
+}
+
+$('#NotificationMessageMiss').click(function () {
     var $allUser = $('#AllMessageFromUsers');
     var $countMessage = $('#CountMissMessage');
 
@@ -31,7 +105,8 @@ $(function () {
 
 
 function getDataForAllNoSeenMessage() {
-    var $tbl = $('#CountMissMessage');
+var $tbl = $("#NoSeenMessage").find('#CountMissMessage');
+
     var $allUser = $('#AllMessageFromUsers');
 
     $.ajax({
@@ -49,11 +124,25 @@ function getDataForAllNoSeenMessage() {
                 rows = [];
 
                 for (var i = 0; i < data.length; i++) {
-                    rows.push(' <div class="alert alert-dismissible alert-info" style="width:25%; text-align:center">')
-                    rows.push(' <div id="ListWithMissMessage"> You have miss message from')
-                    rows.push(' <p id="Sender" class="text-danger">' + data[i] + '</p>');
-                    rows.push(' </div>')
-                    rows.push(' </div>')
+                    debugger;
+                    if (data[i].IsOnline) {
+
+                        var chatTableId = "#ChatWith" + data[i].FormUser;
+
+                        var $tblChat = $("#Chat").find(chatTableId);
+
+                        if ($tblChat.length == 0) {
+                            chatCreate(data[i].FormUser);
+                        }
+                    }
+
+                    else {
+                        rows.push(' <div class="alert alert-dismissible alert-info" style="width:25%; text-align:center">')
+                        rows.push(' <div id="ListWithMissMessage"> You have miss message from')
+                        rows.push(' <p id="Sender" class="text-danger">' + data[i].FormUser + '</p>');
+                        rows.push(' </div>')
+                        rows.push(' </div>')
+                    }
                 }
 
                 $allUser.append(rows.join(''));
@@ -61,141 +150,10 @@ function getDataForAllNoSeenMessage() {
         }
     });
 
+
     $("#AllMessageFromUsers").on("click", "#ListWithMissMessage", function () {
         var userName = $(this).find("#Sender").text();
-
-        var $tbl = $("#Chat");
-
-        var rows = [];
-        rows.push(' <table style="float: left; border:2px solid red">');
-        rows.push(' <tr>');
-        rows.push(' <td>');
-        rows.push(' <div><a id="UserName" href="/DetaialUser/Details/' + userName + '">' + userName + '</a></div>');
-        rows.push(' <button id="Exit" class="btn btn-danger">X</button>');
-        rows.push(' </td>');
-        rows.push(' </tr>');
-
-        rows.push(' <tr>');
-        rows.push(' <td>');
-        rows.push(' <div><input type="text" id="message" class="modal-body" value="message " /></div>');
-        rows.push(' </td>');
-        rows.push(' </tr>');
-
-        rows.push(' <tr>');
-        rows.push(' <td style="padding-left: 50px">');
-        rows.push(' <button id="send-message" class="btn btn-info">Send</button>');
-        rows.push(' </td>');
-        rows.push(' </tr>');
-
-        rows.push(' <tr>');
-        rows.push(' <td>');
-        rows.push(' <div id="messages"></div>');
-        rows.push(' </td>');
-        rows.push(' </tr>');
-        rows.push(' </table>');
-
-        $tbl.append(rows.join(''));
-
-        //load conversation
-        $.ajax({
-            url: "/Home/GetConversationWithUser",
-            type: "POST",
-            data: JSON.stringify({ UserName: userName.toString() }),
-            dataType: "json",
-            traditional: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-
-                var $con = $('#messages')
-                $con.empty();
-                var rowsCon = [];
-
-                for (var i = 0; i < data.length; i++) {
-                    rowsCon.push(' <div>' + data[i].Sender + ':' + data[i].Letter + '</div>');
-                }
-
-                $con.append(rowsCon.join(''));
-            }
-        });
-
-        //Send message whit enter
-        $('#message').keyup(function (e) {
-            if (e.keyCode == 13) {
-                var chat = $.connection.chat;
-
-                var userName = $("#Chat").find("#UserName").text();
-
-                var msg = $('#message').val();
-
-                //add no seen message
-                $.ajax({
-                    url: "/Home/AddNewNoSeenMessage",
-                    type: "POST",
-                    data: JSON.stringify({ UserName: userName.toString(), Message: msg.toString() }),
-                    dataType: "json",
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (data.status == "Success") {
-
-                        }
-                    }
-                });
-
-                chat.server.sendMessage(userName, msg);
-
-                $('#message').val("");
-            }
-        });
-
-        //Send message
-        $('#send-message').click(function () {
-
-            var chat = $.connection.chat;
-
-            var userName = $("#Chat").find("#UserName").text();
-
-            var msg = $('#message').val();
-
-            //add no seen message
-            $.ajax({
-                url: "/Home/AddNewNoSeenMessage",
-                type: "POST",
-                data: JSON.stringify({ UserName: userName.toString(), Message: msg.toString() }),
-                dataType: "json",
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    if (data.status == "Success") {
-
-                    }
-                }
-            });
-
-            chat.server.sendMessage(userName, msg);
-
-        });
-
-        $('#Exit').click(function () {
-
-            var $tbl = $("#Chat");
-            $tbl.empty();
-
-        });
-
-        //delete notification of no seen message
-        $.ajax({
-            url: "/Home/DeletellNotificationForNoSeenMessage",
-            type: "POST",
-            data: JSON.stringify({ UserName: userName.toString() }),
-            dataType: "json",
-            traditional: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                if (data.status == "Success") {
-
-                }
-            }
-        });
+        debugger;
+        chatCreate(userName);
     });
 }

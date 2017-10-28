@@ -22,36 +22,21 @@ namespace MeetLife.Services
 
         public void AddNewNoSeenMessage(User userLogged, string Message, User userReceiverMessage)
         {
-
-            if (!userReceiverMessage.IsOnline)
+            //no see message
+            userReceiverMessage.MissMessage.Add(new MissMessage
             {
-                //no see message
-                userReceiverMessage.MissMessage.Add(new MissMessage
-                {
-                    UserName = userLogged.UserName
-                });
-                //
+                UserName = userLogged.UserName
+            });
+            //
 
-                _storeRepo.Add(new StoreMessage
-                {
-                    Sender = userLogged.UserName,
-                    Letter = Message,
-                    Receiver = userReceiverMessage.UserName,
-                    Date = DateTime.Now,
-                    Conversation = userLogged.UserName + "And" + userReceiverMessage.UserName
-                });
-            }
-            else
+            _storeRepo.Add(new StoreMessage
             {
-                _storeRepo.Add(new StoreMessage
-                {
-                    Sender = userLogged.UserName,
-                    Letter = Message,
-                    Receiver = userReceiverMessage.UserName,
-                    Date = DateTime.Now,
-                    Conversation = userLogged.UserName + "And" + userReceiverMessage.UserName
-                });
-            }
+                Sender = userLogged.UserName,
+                Letter = Message,
+                Receiver = userReceiverMessage.UserName,
+                Date = DateTime.Now,
+                Conversation = userLogged.UserName + "And" + userReceiverMessage.UserName
+            });
 
             _storeRepo.SaveChanges();
         }

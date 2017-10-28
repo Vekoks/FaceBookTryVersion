@@ -18,8 +18,8 @@ namespace MeetLifeClient.Hubs
             //Clients.All.addMessage(msg);
             //Clients.Group(Context.User.Identity.Name).addMessage(message);
 
-            Clients.User(Context.User.Identity.Name).addMessage(msg);
-            Clients.User(username).addMessage(msg);
+            Clients.User(Context.User.Identity.Name).addMessage(msg, username);
+            Clients.User(username).addMessage(msg, username);
 
         }
 

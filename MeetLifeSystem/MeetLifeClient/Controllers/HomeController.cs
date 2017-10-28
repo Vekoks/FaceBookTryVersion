@@ -156,14 +156,22 @@ namespace MeetLifeClient.Controllers
 
             var result = _infoNoSeenMessage.GetDataForMessage(userLogged.Id);
 
-            var resultMessage = new List<string>();
+            var resultMessage = new List<HomeNoSeenMessageModel>();
 
             foreach (var message in result)
             {
-                if (!resultMessage.Contains<string>(message.FormUser))
+                var isOnlineUser = this._userService.GetUserByUserName(message.FormUser).IsOnline;
+
+                if (isOnlineUser)
                 {
-                    resultMessage.Add(message.FormUser);
+                    _messageService.DeletellNotificationForNoSeenMessageFromUser(message.FormUser, userLogged);
                 }
+
+                resultMessage.Add(new HomeNoSeenMessageModel
+                {
+                    FormUser = message.FormUser,
+                    IsOnline = isOnlineUser
+                });
             }
 
             return Json(resultMessage, JsonRequestBehavior.AllowGet);
