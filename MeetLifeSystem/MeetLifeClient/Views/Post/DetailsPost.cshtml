@@ -1,0 +1,36 @@
+﻿@model MeetLifeClient.Models.HomePostModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DetailsPost</title>
+</head>
+<body>
+    <div>
+        <a id="UserName" href="/DetaialUser/Details/@Model.UserName"> @Model.UserName</a>
+        <p>Time: @Model.DateOnPost min</p>
+        <p>Post: @Model.DiscriptionPost</p>
+        <p id="CountLikeId@Model.PostId">Like: @Model.Likes </p>
+        <input id="PutLikeButtonId" type="button" name="ButtonLike @Model.PostId" value="Like" />
+        <div><input id="CommentDisctriptionId@Model.PostId" type="text" name="discriptin" /></div>
+        <input id="CommentCreateButtonId" type="button" name="ButtonComment @Model.PostId" value="Save comment" />
+        <div id="CommentPostWithId' + @Model.PostId + '">
+
+
+            @foreach (var comment in @Model.Comments)
+            {
+                <p>@comment.Username: @comment.Description</p>
+
+            }
+        </div>
+    </div>
+
+    <a href="/Home/Index">Home</a>
+</body>
+</html>

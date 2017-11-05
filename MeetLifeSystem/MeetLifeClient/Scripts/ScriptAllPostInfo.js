@@ -45,55 +45,6 @@ function getDataForAllPost() {
             }
         }
     })
-
-    //create commnet on target post event
-    $('#PostList').on('click', '#CommentCreateButtonId', function () {
-
-        var nameOnButtonArr = $(this).attr('name').split(" ");
-        var idOnPost = nameOnButtonArr[1];
-
-        var descriptionOnPost = $('#CommentDisctriptionId' + idOnPost).val();
-
-        var subResult = idOnPost + " " + descriptionOnPost;
-
-        $.ajax({
-            url: "/Post/CreateComment",
-            type: "POST",
-            data: JSON.stringify({ model: subResult }),
-            dataType: "json",
-            traditional: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                
-            },
-            error: function (data) {
-                alert("An error has occured!!!");
-            }
-        });
-    })
-
-    //put likes on posts
-    $('#PostList').on('click', '#PutLikeButtonId', function () {
-
-        var nameOnButtonArr = $(this).attr('name').split(" ");
-        var idOnPost = nameOnButtonArr[1];
-
-        $.ajax({
-            url: "/Post/PutLikeOnThePOst",
-            type: "POST",
-            data: JSON.stringify({ model: idOnPost }),
-            dataType: "json",
-            traditional: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                
-            },
-            error: function (data) {
-                alert("An error has occured!!!");
-            }
-        });
-    })
-
 }
 
 //refresh like
@@ -116,10 +67,11 @@ function getDataForLikes() {
         type: 'GET',
         datatype: 'json',
         success: function (data) {
-            var $tbl = $('#CountLikeId' + data.IdOnCurrentPost);
-            $tbl.empty();
-            $tbl.text("Like: " + data.Likes);
-
+            for (var i = 0; i < data.length; i++) {
+                var $tbl = $('#CountLikeId' + data[i].IdOnCurrentPost);
+                $tbl.empty();
+                $tbl.text("Like: " + data[i].Likes);
+            }
         }
     })
 }
@@ -143,18 +95,63 @@ function GetCommentsOnThePost() {
         url: "/Post/GetCommentsOnThePost",
         type: "GET",
         success: function (data) {
+            for (var i = 0; i < data.length; i++) {
 
-            var $tbl = $('#CommentPostWithId' + data.IdOnCurrentPost);
-            $tbl.empty();
+                var $tbl = $('#CommentPostWithId' + data[i].IdOnCurrentPost);
+                $tbl.empty();
 
-            var rows = [];
-            for (var j = 0; j < data.Comments.length; j++) {
-                rows.push('  <p>' + data.Comments[j].Username + ':' + data.Comments[j].Description + ' min</p>');
+                var rows = [];
+                for (var j = 0; j < data[i].Comments.length; j++) {
+                    rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + '</p>');
+                }
+                $tbl.append(rows.join(''));
             }
-            $tbl.append(rows.join(''));
+        }
+    });
+}
+
+//create commnet on target post event
+$('#PostList').on('click', '#CommentCreateButtonId', function () {
+
+    var nameOnButtonArr = $(this).attr('name').split(" ");
+    var idOnPost = nameOnButtonArr[1];
+
+    var descriptionOnPost = $('#CommentDisctriptionId' + idOnPost).val();
+
+    $.ajax({
+        url: "/Post/CreateComment",
+        type: "POST",
+        data: JSON.stringify({ model: descriptionOnPost, postId: idOnPost }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
         },
         error: function (data) {
             alert("An error has occured!!!");
         }
     });
-}
+})
+
+//put likes on posts
+$('#PostList').on('click', '#PutLikeButtonId', function () {
+
+    var nameOnButtonArr = $(this).attr('name').split(" ");
+    var idOnPost = nameOnButtonArr[1];
+
+    $.ajax({
+        url: "/Post/PutLikeOnThePOst",
+        type: "POST",
+        data: JSON.stringify({ model: idOnPost }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+        },
+        error: function (data) {
+            alert("An error has occured!!!");
+        }
+    });
+})

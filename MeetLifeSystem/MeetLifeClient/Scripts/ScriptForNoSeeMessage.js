@@ -105,7 +105,7 @@ $(function () {
 
 
 function getDataForAllNoSeenMessage() {
-var $tbl = $("#NoSeenMessage").find('#CountMissMessage');
+    var $tbl = $("#NoSeenMessage").find('#CountMissMessage');
 
     var $allUser = $('#AllMessageFromUsers');
 
@@ -124,7 +124,7 @@ var $tbl = $("#NoSeenMessage").find('#CountMissMessage');
                 rows = [];
 
                 for (var i = 0; i < data.length; i++) {
-                    debugger;
+                    
                     if (data[i].IsOnline) {
 
                         var chatTableId = "#ChatWith" + data[i].FormUser;
@@ -153,7 +153,7 @@ var $tbl = $("#NoSeenMessage").find('#CountMissMessage');
 
     $("#AllMessageFromUsers").on("click", "#ListWithMissMessage", function () {
         var userName = $(this).find("#Sender").text();
-        debugger;
+        
         chatCreate(userName);
     });
 }

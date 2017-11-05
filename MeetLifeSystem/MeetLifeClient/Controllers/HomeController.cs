@@ -19,6 +19,7 @@ namespace MeetLifeClient.Controllers
         private readonly IAskFriendInfo _infoForAskFriend;
         private readonly INoSeenMessage _infoNoSeenMessage;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
+        private readonly INotificationOnUser _infoNotificationOnUser;
 
         public HomeController(IUserService userService,
                               IUsersInfo infoUser,
@@ -26,7 +27,8 @@ namespace MeetLifeClient.Controllers
                               IAllPostInfo infoPost,
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService,
-                              ICommentOnThePost infoCommentsOnThePost)
+                              ICommentOnThePost infoCommentsOnThePost,
+                              INotificationOnUser infoNotificationOnUser)
         {
             this._userService = userService;
             this._messageService = messageService;
@@ -34,6 +36,7 @@ namespace MeetLifeClient.Controllers
             this._infoForAskFriend = infoFriend;
             this._infoNoSeenMessage = infoNoSeenMessage;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
+            this._infoNotificationOnUser = infoNotificationOnUser;
         }
 
         public ActionResult Index()
@@ -196,6 +199,16 @@ namespace MeetLifeClient.Controllers
             var conversation = _messageService.GetConversation(userLogged, UserName);
 
             return Json(conversation, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetNotificationsOnUser()
+        {
+            var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
+
+            var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id);
+
+            return Json(resoultNotifications, JsonRequestBehavior.AllowGet);
         }
     }
 }

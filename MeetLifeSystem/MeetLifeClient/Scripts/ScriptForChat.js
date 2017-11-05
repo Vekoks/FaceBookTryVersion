@@ -5,8 +5,8 @@
 
     var chatTableId = "#ChatWith" + userName;
 
-    var $tbl = $("#Chat").find(chatTableId);
-    $tbl.empty();
+    var $tbl = $("#Chat").find(chatTableId).remove();
+    //$tbl.empty();
 
 });
 
@@ -69,10 +69,12 @@ $(document).ready(function () {
     chat.client.joinRoom = joinRoom;
 });
 
-function addMessage(message, username) {
-    var meesagesList = "#ConversationWith" + username;
-
-    $(meesagesList).append('<div>' + message + '</div>');
+function addMessage(message, username, userNameLogged) {
+    var meesagesListOnSender = "#ConversationWith" + username;
+    var meesagesListOnReceiver = "#ConversationWith" + userNameLogged;
+    
+    $(meesagesListOnSender).append('<div>' + message + '</div>');
+    $(meesagesListOnReceiver).append('<div>' + message + '</div>');
 }
 
 function joinRoom(room) {

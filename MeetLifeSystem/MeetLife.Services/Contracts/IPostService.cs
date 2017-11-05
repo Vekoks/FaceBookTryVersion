@@ -15,10 +15,12 @@ namespace MeetLife.Services.Contracts
 
         List<Post> GetAllPost();
 
-        Post GetPostWithNewComment();
+        Post GetPostWithId(int PostId);
+
+        List<Post> GetPostWithNewComment();
 
         void PutLikeOnThePost(int PostId, User User);
 
-        Post GetLikeOnThePost();
+        List<Post> GetLikeOnThePost();
     }
 }

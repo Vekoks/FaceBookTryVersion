@@ -80,7 +80,7 @@ namespace MeetLifeClient.App_Start
             kernel.Bind<IMessageService>().To<MessageService>();
             kernel.Bind<IPostService>().To<PostService>();
             kernel.Bind<ICommentOnThePost>().To<CommentOnThePost>();
-            
+            kernel.Bind<INotificationOnUser>().To<NotificationOnUser>();
         }        
     }
 }

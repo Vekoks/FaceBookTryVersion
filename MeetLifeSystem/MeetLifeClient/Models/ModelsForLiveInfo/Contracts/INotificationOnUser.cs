@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace MeetLifeClient.Models.ModelsForLiveInfo
 {
-    public interface ICommentOnThePost
+    public interface INotificationOnUser
     {
         string Username { get; set; }
 
         string Description { get; set; }
 
-        IEnumerable<ICommentOnThePost> GetDataForCommentsOnThePost(int PostId);
+        int PostId { get; set; }
+
+        IEnumerable<INotificationOnUser> GetDataForNotofiactionsOnUser(string IdOfLoggedUser);
     }
 }

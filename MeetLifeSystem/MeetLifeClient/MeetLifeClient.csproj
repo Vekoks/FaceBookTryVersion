@@ -212,6 +212,7 @@
     <Compile Include="Hubs\CommentsPostHub.cs" />
     <Compile Include="Hubs\LikeHub.cs" />
     <Compile Include="Hubs\NoSeenMessageHub.cs" />
+    <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\PostHub.cs" />
     <Compile Include="Hubs\UserHub.cs" />
     <Compile Include="Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs" />
@@ -237,9 +238,11 @@
     <Compile Include="Models\ModelsForLiveInfo\Contracts\ICommentOnThePost.cs" />
     <Compile Include="Models\ModelsForLiveInfo\Contracts\ILikeOnPost.cs" />
     <Compile Include="Models\ModelsForLiveInfo\Contracts\INoSeenMessage.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\Contracts\INotificationOnUser.cs" />
     <Compile Include="Models\ModelsForLiveInfo\Contracts\IUsersInfo.cs" />
     <Compile Include="Models\ModelsForLiveInfo\LikeOnPost.cs" />
     <Compile Include="Models\ModelsForLiveInfo\NoSeenMessage.cs" />
+    <Compile Include="Models\ModelsForLiveInfo\NotificationOnUser.cs" />
     <Compile Include="Models\ModelsForLiveInfo\UsersInfo.cs" />
     <Compile Include="Models\ManageViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="Models\ManageViewModels\ChangePasswordViewModel.cs" />
@@ -322,10 +325,10 @@
     <Content Include="Views\DetaialUser\Index.cshtml" />
     <Content Include="Views\DetaialUser\FriendDetailsView.cshtml" />
     <Content Include="Views\Home\Begining.cshtml" />
+    <Content Include="Views\Post\DetailsPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

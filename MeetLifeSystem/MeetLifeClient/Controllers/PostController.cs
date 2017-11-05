@@ -18,10 +18,10 @@ namespace MeetLifeClient.Controllers
         private readonly ICommentOnThePost _infoCommentsOnThePost;
         private readonly ILikeOnPost _infoForLIkes;
 
-        public PostController(IUserService userService, 
+        public PostController(IUserService userService,
                               IPostService postService,
                               IAllPostInfo infoPost,
-                              ICommentOnThePost infoCommentsOnThePost, 
+                              ICommentOnThePost infoCommentsOnThePost,
                               ILikeOnPost infoLIkes)
         {
             this._userService = userService;
@@ -74,15 +74,13 @@ namespace MeetLifeClient.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateComment(string model)
+        public ActionResult CreateComment(string model, string postId)
         {
             var name = this.User.Identity.Name;
             var userLogged = _userService.GetUserByUserName(name);
 
-            var arrString = model.Split(' ');
-
-            var PostId = int.Parse(arrString[0]);
-            var CommentOfDescription = arrString[1];
+            var PostId = int.Parse(postId);
+            var CommentOfDescription = model;
 
             _postService.AddCommentToPost(PostId, userLogged, CommentOfDescription);
 
@@ -92,13 +90,18 @@ namespace MeetLifeClient.Controllers
         [HttpGet]
         public ActionResult GetCommentsOnThePost()
         {
-            var curentPost = _postService.GetPostWithNewComment();
+            var curentPosts = _postService.GetPostWithNewComment();
 
-            var resoult = new PostCommentViewModel
+            var resoult = new List<PostCommentViewModel>();
+
+            foreach (var post in curentPosts)
             {
-                IdOnCurrentPost = curentPost.Id,
-                Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(curentPost.Id)
-            };
+                resoult.Add(new PostCommentViewModel
+                {
+                    IdOnCurrentPost = post.Id,
+                    Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.Id)
+                });
+            }
 
             return Json(resoult, JsonRequestBehavior.AllowGet);
         }
@@ -119,17 +122,41 @@ namespace MeetLifeClient.Controllers
         [HttpGet]
         public JsonResult GetLikes()
         {
-            var curentPost = _postService.GetLikeOnThePost();
+            var curentPosts = _postService.GetLikeOnThePost();
 
-            var liksOnThePost = _infoForLIkes.GetDataLikesOnThePost(curentPost.Id).Count();
+            var result = new List<PostLikeViewModel>();
 
-            var result = new PostLikeViewModel
+            foreach (var post in curentPosts)
             {
-                IdOnCurrentPost = curentPost.Id,
-                Likes = liksOnThePost
-            };
+                var liksOnThePost = _infoForLIkes.GetDataLikesOnThePost(post.Id).Count();
+
+                result.Add(new PostLikeViewModel
+                {
+                    IdOnCurrentPost = post.Id,
+                    Likes = liksOnThePost
+                });
+            }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DetailsPost(string id)
+        {
+            var targetPost = _postService.GetPostWithId(int.Parse(id));
+
+            var model = new HomePostModel
+            {
+                PostId = targetPost.Id,
+                UserName = _userService.GetUserById(targetPost.UserId).UserName,
+                DiscriptionPost = targetPost.Disctription,
+                DateOnPost = (int)DateTime.Now.Subtract(targetPost.DateOnPost).TotalMinutes,
+                Likes = _infoForLIkes.GetDataLikesOnThePost(targetPost.Id).Count(),
+                Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(targetPost.Id)
+            };
+
+
+            return View(model);
+
         }
     }
 }

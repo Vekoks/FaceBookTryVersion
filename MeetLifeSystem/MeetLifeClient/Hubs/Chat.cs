@@ -14,12 +14,14 @@ namespace MeetLifeClient.Hubs
     {
         public void SendMessage(string username, string message)
         {
-            var msg = string.Format("{0}: {1}", Context.User.Identity.Name, message);
+            var userNameLogged = Context.User.Identity.Name;
+
+            var msg = string.Format("{0}: {1}", userNameLogged, message);
             //Clients.All.addMessage(msg);
             //Clients.Group(Context.User.Identity.Name).addMessage(message);
 
-            Clients.User(Context.User.Identity.Name).addMessage(msg, username);
-            Clients.User(username).addMessage(msg, username);
+            Clients.User(Context.User.Identity.Name).addMessage(msg, username, userNameLogged);
+            Clients.User(username).addMessage(msg, username, userNameLogged);
 
         }
 

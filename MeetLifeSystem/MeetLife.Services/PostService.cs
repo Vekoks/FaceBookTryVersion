@@ -31,17 +31,27 @@ namespace MeetLife.Services
             _userRepo.SaveChanges();
         }
 
-        public void AddCommentToPost(int PostId, User User, string discriptinComment)
+        public void AddCommentToPost(int PostId, User UserWriteComment, string discriptinComment)
         {
-            var TargetPost = _postRepo.All().Where(x => x.Id == PostId).FirstOrDefault();
+            var targetPost = _postRepo.All().Where(x => x.Id == PostId).FirstOrDefault();
 
-            TargetPost.Comments.Add(new CommendsOnPost()
+            targetPost.Comments.Add(new CommendsOnPost()
             {
-                Username = User.UserName,
+                Username = UserWriteComment.UserName,
                 Description = discriptinComment
             });
 
-            TargetPost.WorkOnComment = true;
+            targetPost.WorkOnComment = true;
+
+            //create notification
+            var userWhoWritePost = targetPost.User;
+
+            userWhoWritePost.Notification.Add(new Notification
+            {
+                UserName = UserWriteComment.UserName,
+                Disctription = UserWriteComment.UserName + " write comment",
+                Post = targetPost
+            });
 
             _postRepo.SaveChanges();
         }
@@ -51,56 +61,61 @@ namespace MeetLife.Services
             return _postRepo.All().ToList();
         }
 
-        public Post GetPostWithNewComment()
+        public Post GetPostWithId(int PostId)
         {
-            var currentPost = GetAllPost().Where(x => x.WorkOnComment == true).FirstOrDefault();
+            return this.GetAllPost().Where(x => x.Id == PostId).FirstOrDefault();
+        }
 
-            if (currentPost == null)
+        public List<Post> GetPostWithNewComment()
+        {
+            var currentPosts = GetAllPost().Where(x => x.WorkOnComment == true).ToList();
+
+            foreach (var post in currentPosts)
             {
-                return new Post()
-                {
-                    Id = 100
-                };
+                post.WorkOnComment = false;
             }
-
-            currentPost.WorkOnComment = false;
 
             _postRepo.SaveChanges();
 
-            return currentPost;
+            return currentPosts;
         }
 
-        public void PutLikeOnThePost(int PostId, User User)
+        public void PutLikeOnThePost(int PostId, User UserPutLike)
         {
-            var TargetPost = _postRepo.All().Where(x => x.Id == PostId).FirstOrDefault();
+            var targetPost = _postRepo.All().Where(x => x.Id == PostId).FirstOrDefault();
 
-            TargetPost.Likes.Add(new LikesOnPost()
+            targetPost.Likes.Add(new LikesOnPost()
             {
-                Username = User.UserName
+                Username = UserPutLike.UserName
             });
 
-            TargetPost.WorkOnLike = true;
+            targetPost.WorkOnLike = true;
+
+            //create notification
+            var userWhoWritePost = targetPost.User;
+
+            userWhoWritePost.Notification.Add(new Notification
+            {
+                UserName = UserPutLike.UserName,
+                Disctription = UserPutLike.UserName + " like post " + targetPost.Disctription,
+                Post = targetPost
+            });
 
             _postRepo.SaveChanges();
         }
 
-        public Post GetLikeOnThePost()
+        public List<Post> GetLikeOnThePost()
         {
-            var currentPost = GetAllPost().Where(x => x.WorkOnLike == true).FirstOrDefault();
+            var currentPosts = GetAllPost().Where(x => x.WorkOnLike == true).ToList();
 
-            if (currentPost == null)
+            foreach (var post in currentPosts)
             {
-                return new Post()
-                {
-                    Id = 100
-                };
+                post.WorkOnLike = false;
             }
-
-            currentPost.WorkOnLike = false;
 
             _postRepo.SaveChanges();
 
-            return currentPost;
+            return currentPosts;
         }
     }
 }
