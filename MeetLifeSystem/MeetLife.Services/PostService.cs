@@ -22,7 +22,7 @@ namespace MeetLife.Services
 
         public void AddPostToUser(User User, string discriptinPost)
         {
-            User.Post.Add(new Post
+            User.Posts.Add(new Post
             {
                 Disctription = discriptinPost,
                 DateOnPost = DateTime.Now
@@ -46,10 +46,10 @@ namespace MeetLife.Services
             //create notification
             var userWhoWritePost = targetPost.User;
 
-            userWhoWritePost.Notification.Add(new Notification
+            userWhoWritePost.Notifications.Add(new Notification
             {
                 UserName = UserWriteComment.UserName,
-                Disctription = UserWriteComment.UserName + " write comment",
+                Disctription = UserWriteComment.UserName + " write comment on your post",
                 Post = targetPost
             });
 
@@ -94,10 +94,10 @@ namespace MeetLife.Services
             //create notification
             var userWhoWritePost = targetPost.User;
 
-            userWhoWritePost.Notification.Add(new Notification
+            userWhoWritePost.Notifications.Add(new Notification
             {
                 UserName = UserPutLike.UserName,
-                Disctription = UserPutLike.UserName + " like post " + targetPost.Disctription,
+                Disctription = UserPutLike.UserName + " like your post",
                 Post = targetPost
             });
 

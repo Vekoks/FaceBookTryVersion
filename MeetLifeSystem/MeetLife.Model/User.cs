@@ -12,23 +12,23 @@ namespace MeetLife.Model
 {
     public class User : IdentityUser
     {
-        private ICollection<Notification> notification;
+        private ICollection<Notification> notifications;
 
-        private ICollection<Post> post;
+        private ICollection<Post> posts;
 
-        private ICollection<MissMessage> messages;
+        private ICollection<MissMessage> messagess;
 
-        private ICollection<User> friend;
+        private ICollection<User> friends;
 
-        private ICollection<InvitationForFriend> askForFriend;
+        private ICollection<InvitationForFriend> askForFriends;
 
         public User()
         {
-            this.notification = new List<Notification>();
-            this.post = new List<Post>();
-            this.messages = new List<MissMessage>();
-            this.friend = new List<User>();
-            this.askForFriend = new LinkedList<InvitationForFriend>();
+            this.notifications = new List<Notification>();
+            this.posts = new List<Post>();
+            this.messagess = new List<MissMessage>();
+            this.friends = new List<User>();
+            this.askForFriends = new LinkedList<InvitationForFriend>();
         }
 
         public override string Id { get; set; }
@@ -39,34 +39,34 @@ namespace MeetLife.Model
 
         public bool IsOnline { get; set; }
 
-        public virtual ICollection<Notification> Notification
+        public virtual ICollection<Notification> Notifications
         {
-            get { return notification; }
-            set { notification = value; }
+            get { return notifications; }
+            set { notifications = value; }
         }
 
-        public virtual ICollection<Post> Post
+        public virtual ICollection<Post> Posts
         {
-            get { return post; }
-            set { post = value; }
+            get { return posts; }
+            set { posts = value; }
         }
         
-        public virtual ICollection<MissMessage> MissMessage
+        public virtual ICollection<MissMessage> MissMessages
         {
-            get { return messages; }
-            set { messages = value; }
+            get { return messagess; }
+            set { messagess = value; }
         }
 
-        public virtual ICollection<User> Friend
+        public virtual ICollection<User> Friends
         {
-            get { return friend; }
-            set { friend = value; }
+            get { return friends; }
+            set { friends = value; }
         }
 
-        public virtual ICollection<InvitationForFriend> InvitationForFriend
+        public virtual ICollection<InvitationForFriend> InvitationForFriends
         {
-            get { return askForFriend; }
-            set { askForFriend = value; }
+            get { return askForFriends; }
+            set { askForFriends = value; }
         }
 
 

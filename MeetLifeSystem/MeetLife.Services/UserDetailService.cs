@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MeetLife.Services
 {
@@ -41,6 +42,5 @@ namespace MeetLife.Services
             this._userDetailRepo.Update(userDetails);
             this._userDetailRepo.SaveChanges();
         }
-
     }
 }

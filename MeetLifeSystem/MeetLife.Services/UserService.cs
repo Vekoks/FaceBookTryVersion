@@ -21,7 +21,7 @@ namespace MeetLife.Services
 
         public void AddInvitationForFriend(User logged, InvitationForFriend friend)
         {
-            logged.InvitationForFriend.Add(friend);
+            logged.InvitationForFriends.Add(friend);
             _userRepo.SaveChanges();
         }
 
@@ -43,12 +43,12 @@ namespace MeetLife.Services
         public void AddNewFriend(User logged, User userAskForFriend)
         {
             //add friend both users
-            logged.Friend.Add(userAskForFriend);
-            userAskForFriend.Friend.Add(logged);
+            logged.Friends.Add(userAskForFriend);
+            userAskForFriend.Friends.Add(logged);
 
             //delete ask
-            var askForFriend = logged.InvitationForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
-            logged.InvitationForFriend.Remove(askForFriend);
+            var askForFriend = logged.InvitationForFriends.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
+            logged.InvitationForFriends.Remove(askForFriend);
 
             _userRepo.SaveChanges();
         }
@@ -56,8 +56,8 @@ namespace MeetLife.Services
 
         public void RemoveInvitationForFriend(User logged, User userAskForFriend)
         {
-            var askForFriend = logged.InvitationForFriend.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
-            logged.InvitationForFriend.Remove(askForFriend);
+            var askForFriend = logged.InvitationForFriends.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
+            logged.InvitationForFriends.Remove(askForFriend);
 
             _userRepo.SaveChanges();
         }
@@ -65,7 +65,7 @@ namespace MeetLife.Services
         //check friend for show button for add
         public bool CkeckForFriend(User logged, User friend)
         {
-            User ckeckFriend = logged.Friend.Where(x => x.Id == friend.Id).FirstOrDefault();
+            User ckeckFriend = logged.Friends.Where(x => x.Id == friend.Id).FirstOrDefault();
 
             try
             {

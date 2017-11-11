@@ -40,8 +40,9 @@ namespace MeetLifeClient.Controllers
                     LastName = "undefined",
                     Adress = "undefined",
                     Age = 0,
-                    Friends = userLogged.Friend,
-                    Post = userLogged.Post.OrderByDescending(x => x.DateOnPost)
+                    ImageBrand = new byte[0],
+                    Friends = userLogged.Friends,
+                    Post = userLogged.Posts.OrderByDescending(x => x.DateOnPost)
                 };
 
                 return View(model);
@@ -55,15 +56,13 @@ namespace MeetLifeClient.Controllers
                     LastName = details.LastName,
                     Adress = details.Adress,
                     Age = details.Age,
-                    Friends = userLogged.Friend,
-                    Post = userLogged.Post.OrderByDescending(x => x.DateOnPost)
+                    ImageBrand = details.ImageProfil,
+                    Friends = userLogged.Friends,
+                    Post = userLogged.Posts.OrderByDescending(x => x.DateOnPost)
                 };
 
                 return View(model);
             }
-
-
-
         }
 
         // GET: DetaialUser/Details/UserName
@@ -89,6 +88,7 @@ namespace MeetLifeClient.Controllers
                 model.LastName = "undefined";
                 model.Adress = "undefined";
                 model.Age = 0;
+                model.ImageUser = new byte[0];
                 model.CheckForFriend = ckeckFriend;
             }
             else
@@ -99,17 +99,17 @@ namespace MeetLifeClient.Controllers
                 model.LastName = details.LastName;
                 model.Adress = details.Adress;
                 model.Age = details.Age;
+                model.ImageUser = details.ImageProfil;
                 model.CheckForFriend = ckeckFriend;
             }
 
 
             return View("FriendDetailsView", model);
-
         }
 
         // POST: DetaialUser/Create
         [HttpPost]
-        public ActionResult Create(UserDetailsViewModel model)
+        public ActionResult Create(UserDetailsViewModel model, HttpPostedFileBase image)
         {
             var name = User.Identity.Name;
 
@@ -123,6 +123,8 @@ namespace MeetLifeClient.Controllers
                 userDetail.LastName = model.LastName;
                 userDetail.Adress = model.Adress;
                 userDetail.Age = model.Age;
+                userDetail.ImageProfil = new byte[image.ContentLength];
+                image.InputStream.Read(userDetail.ImageProfil, 0, image.ContentLength);
 
                 _detailService.UpdataDetail(userDetail);
             }
@@ -136,8 +138,11 @@ namespace MeetLifeClient.Controllers
                     LastName = model.LastName,
                     Adress = model.Adress,
                     Age = model.Age,
-                    UserId = user.Id
+                    UserId = user.Id,
+                    ImageProfil = new byte[image.ContentLength]
                 };
+
+                image.InputStream.Read(newDetails.ImageProfil, 0, image.ContentLength);
 
                 _detailService.AddDetails(newDetails);
 
@@ -146,7 +151,7 @@ namespace MeetLifeClient.Controllers
             return RedirectToAction("Index", "DetaialUser");
         }
 
-        //ddd invitation for friend
+        //add invitation for friend
         public ActionResult AddInvitationFriend(string UserName)
         {
             var name = User.Identity.Name;

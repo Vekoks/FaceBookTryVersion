@@ -66,8 +66,8 @@ namespace MeetLifeClient.Controllers
                 return View(notUserModel);
             }
 
-            var allAskForFriend = userLogged.InvitationForFriend.ToList();
-            var message = userLogged.MissMessage.ToList();
+            var allAskForFriend = userLogged.InvitationForFriends.ToList();
+            var message = userLogged.MissMessages.ToList();
 
             var model = new HomeIndexViewModel()
             {

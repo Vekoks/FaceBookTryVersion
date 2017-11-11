@@ -11,6 +11,12 @@
     <div> 
         <h1>@Model.UserName</h1>
 
+        @{
+            var base64 = Convert.ToBase64String(Model.ImageUser);
+            var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+        }
+        <img src="@imgsrc" alt="No profil picture" style="max-height:200px;max-width:200px" />
+
         <div class="form-group">
             @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">

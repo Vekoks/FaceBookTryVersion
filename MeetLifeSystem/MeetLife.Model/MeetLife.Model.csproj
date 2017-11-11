@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Picture.cs" />
     <Compile Include="CommendsOnPost.cs" />
     <Compile Include="InvitationForFriend.cs" />
     <Compile Include="LikesOnPost.cs" />

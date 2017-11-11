@@ -23,7 +23,7 @@ namespace MeetLife.Services
         public void AddNewNoSeenMessage(User userLogged, string Message, User userReceiverMessage)
         {
             //no see message
-            userReceiverMessage.MissMessage.Add(new MissMessage
+            userReceiverMessage.MissMessages.Add(new MissMessage
             {
                 UserName = userLogged.UserName
             });
@@ -43,11 +43,11 @@ namespace MeetLife.Services
 
         public string DeletellNotificationForNoSeenMessageFromUser(string Sender, User UserLogged)
         {
-            var allNotification = UserLogged.MissMessage.Where(x => x.UserName == Sender).ToList();
+            var allNotification = UserLogged.MissMessages.Where(x => x.UserName == Sender).ToList();
 
             foreach (var notification in allNotification)
             {
-                UserLogged.MissMessage.Remove(notification);
+                UserLogged.MissMessages.Remove(notification);
             }
 
             _userRepo.SaveChanges();
