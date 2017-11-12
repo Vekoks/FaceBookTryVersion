@@ -16,7 +16,7 @@ namespace MeetLifeClient.Models
 
         public string Adress { get; set; }
 
-        public byte[] ImageBrand { get; set; }
+        public string ImageBrand { get; set; }
 
         public IEnumerable<User> Friends { get; set; }
 

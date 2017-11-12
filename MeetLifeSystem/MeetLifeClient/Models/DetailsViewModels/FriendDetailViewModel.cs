@@ -17,7 +17,7 @@ namespace MeetLifeClient.Models
 
         public string Adress { get; set; }
 
-        public byte[] ImageUser { get; set; }
+        public string ImageUser { get; set; }
 
         public bool CheckForFriend { get; set; }
     }

@@ -40,7 +40,7 @@ namespace MeetLifeClient.Controllers
                     LastName = "undefined",
                     Adress = "undefined",
                     Age = 0,
-                    ImageBrand = new byte[0],
+                    ImageBrand = "",
                     Friends = userLogged.Friends,
                     Post = userLogged.Posts.OrderByDescending(x => x.DateOnPost)
                 };
@@ -56,7 +56,7 @@ namespace MeetLifeClient.Controllers
                     LastName = details.LastName,
                     Adress = details.Adress,
                     Age = details.Age,
-                    ImageBrand = details.ImageProfil,
+                    ImageBrand = this.ConvertByteArrToStringForImg(details.ImageProfil),
                     Friends = userLogged.Friends,
                     Post = userLogged.Posts.OrderByDescending(x => x.DateOnPost)
                 };
@@ -88,18 +88,17 @@ namespace MeetLifeClient.Controllers
                 model.LastName = "undefined";
                 model.Adress = "undefined";
                 model.Age = 0;
-                model.ImageUser = new byte[0];
+                model.ImageUser = "";
                 model.CheckForFriend = ckeckFriend;
             }
             else
             {
-
                 model.UserName = userFriend.UserName;
                 model.FirstName = details.FirstName;
                 model.LastName = details.LastName;
                 model.Adress = details.Adress;
                 model.Age = details.Age;
-                model.ImageUser = details.ImageProfil;
+                model.ImageUser = this.ConvertByteArrToStringForImg(details.ImageProfil);
                 model.CheckForFriend = ckeckFriend;
             }
 
@@ -212,6 +211,15 @@ namespace MeetLifeClient.Controllers
             {
                 return View();
             }
+        }
+
+
+        public string ConvertByteArrToStringForImg(byte[] arr)
+        {
+            var base64 = Convert.ToBase64String(arr);
+            var srcImg = string.Format("data:image/gif;base64,{0}", base64);
+
+            return srcImg;
         }
     }
 }
