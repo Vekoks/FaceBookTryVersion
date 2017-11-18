@@ -22,9 +22,6 @@ namespace MeetLife.Model
 
         public string LastName { get; set; }
 
-        [Column(TypeName = "image")]
-        public byte[] ImageProfil { get; set; }
-
         public int Age { get; set; }
 
         public string Adress { get; set; }

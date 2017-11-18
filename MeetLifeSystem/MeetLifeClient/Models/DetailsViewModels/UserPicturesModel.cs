@@ -14,10 +14,14 @@ namespace MeetLifeClient.Models
 
     public class InfoPuctires
     {
+        public int PictureId { get; set; }
+
         public string Destriction { get; set; }
 
         public string SrcPistures { get; set; }
 
         public int Date { get; set; }
+
+        public bool IsProfilePicture { get; set; }
     }
 }

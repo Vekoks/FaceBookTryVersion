@@ -32,6 +32,8 @@ namespace MeetLifeClient.Controllers
 
             var details = _detailService.GetDetailByUserId(userLogged.Id);
 
+            var profilPicture = _detailService.GetProfilePicture(details);
+
             if (details == null)
             {
                 var model = new UserDetailsViewModel()
@@ -56,7 +58,7 @@ namespace MeetLifeClient.Controllers
                     LastName = details.LastName,
                     Adress = details.Adress,
                     Age = details.Age,
-                    ImageBrand = this.ConvertByteArrToStringForImg(details.ImageProfil),
+                    ImageBrand = this.ConvertByteArrToStringForImg(profilPicture.Image),
                     Friends = userLogged.Friends,
                     Post = userLogged.Posts.OrderByDescending(x => x.DateOnPost)
                 };
@@ -75,6 +77,7 @@ namespace MeetLifeClient.Controllers
             var userFriend = _userService.GetUserByUserName(UserName);
 
             var details = _detailService.GetDetailByUserId(userFriend.Id);
+            var profilPicture = _detailService.GetProfilePicture(details);
 
             var ckeckFriend = _userService.CkeckForFriend(userLogged, userFriend);
 
@@ -98,7 +101,7 @@ namespace MeetLifeClient.Controllers
                 model.LastName = details.LastName;
                 model.Adress = details.Adress;
                 model.Age = details.Age;
-                model.ImageUser = this.ConvertByteArrToStringForImg(details.ImageProfil);
+                model.ImageUser = this.ConvertByteArrToStringForImg(profilPicture.Image);
                 model.CheckForFriend = ckeckFriend;
             }
 
@@ -120,9 +123,11 @@ namespace MeetLifeClient.Controllers
             {
                 listeInfoPuctires.Add(new InfoPuctires
                 {
+                    PictureId = picture.Id,
                     Destriction = picture.Description,
                     Date = (int)DateTime.Now.Subtract(picture.DateUploading).TotalMinutes,
-                    SrcPistures = this.ConvertByteArrToStringForImg(picture.Image)
+                    SrcPistures = this.ConvertByteArrToStringForImg(picture.Image),
+                    IsProfilePicture = picture.IsProfilPicture
                 });
             }
 
@@ -143,7 +148,7 @@ namespace MeetLifeClient.Controllers
 
             var userDetail = _detailService.GetDetailByUserId(user.Id);
 
-            var picutre = userDetail.ImageProfil = new byte[image.ContentLength];
+            var picutre = new byte[image.ContentLength];
             image.InputStream.Read(picutre, 0, image.ContentLength);
 
             _detailService.AddNewPictureOnUser(userDetail, discriptin, picutre);
@@ -161,18 +166,19 @@ namespace MeetLifeClient.Controllers
 
             var userDetail = _detailService.GetDetailByUserId(user.Id);
 
+            var pitureBytes = new byte[image.ContentLength];
+            image.InputStream.Read(pitureBytes, 0, image.ContentLength);
+
             if (userDetail != null)
             {
                 userDetail.FirstName = model.FirstName;
                 userDetail.LastName = model.LastName;
                 userDetail.Adress = model.Adress;
                 userDetail.Age = model.Age;
-                userDetail.ImageProfil = new byte[image.ContentLength];
-                image.InputStream.Read(userDetail.ImageProfil, 0, image.ContentLength);
 
                 _detailService.UpdataDetail(userDetail);
+                _detailService.AddNewProfilePicture(userDetail, pitureBytes);
             }
-
             else
             {
 
@@ -183,13 +189,10 @@ namespace MeetLifeClient.Controllers
                     Adress = model.Adress,
                     Age = model.Age,
                     UserId = user.Id,
-                    ImageProfil = new byte[image.ContentLength]
                 };
 
-                image.InputStream.Read(newDetails.ImageProfil, 0, image.ContentLength);
-
                 _detailService.AddDetails(newDetails);
-
+                _detailService.AddNewProfilePicture(newDetails, pitureBytes);
             }
 
             return RedirectToAction("Index", "DetaialUser");
@@ -214,50 +217,18 @@ namespace MeetLifeClient.Controllers
             return RedirectToAction("Begining", "Home");
         }
 
-        // GET: DetaialUser/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult ChangeProfilePicture(string PictureId)
         {
-            return View();
+            var name = User.Identity.Name;
+
+            var user = _userService.GetUserByUserName(name);
+
+            var userDetail = _detailService.GetDetailByUserId(user.Id);
+
+            _detailService.ChangeProfilePicture(userDetail, int.Parse(PictureId));
+
+            return Json(new { status = "Success", message = name });
         }
-
-        // POST: DetaialUser/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: DetaialUser/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: DetaialUser/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
 
         public string ConvertByteArrToStringForImg(byte[] arr)
         {

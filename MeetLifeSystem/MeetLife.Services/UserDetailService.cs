@@ -49,7 +49,28 @@ namespace MeetLife.Services
             {
                 Description = Description,
                 DateUploading = DateTime.Now,
-                Image = Picture
+                Image = Picture,
+                IsProfilPicture = false
+            });
+
+            _userDetailRepo.SaveChanges();
+        }
+
+        public void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture)
+        {
+            var oldProfilPicture = UserDetails.Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
+
+            if (oldProfilPicture != null)
+            {
+                oldProfilPicture.IsProfilPicture = false;
+            }
+
+            UserDetails.Pitures.Add(new Picture
+            {
+                Description = "",
+                DateUploading = DateTime.Now,
+                Image = Picture,
+                IsProfilPicture = true
             });
 
             _userDetailRepo.SaveChanges();
@@ -69,6 +90,33 @@ namespace MeetLife.Services
             }
 
             return resoult;
+        }
+
+        public Picture GetProfilePicture(UserDetails UserDetails)
+        {
+            var resoult = new Picture();
+
+            try
+            {
+                resoult = UserDetails.Pitures.Where(x=>x.IsProfilPicture == true).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return resoult;
+        }
+
+        public void ChangeProfilePicture(UserDetails UserDetails, int NewPictureId)
+        {
+            var oldProfilePicture = UserDetails.Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
+            oldProfilePicture.IsProfilPicture = false;
+
+            var newProfilePicture = UserDetails.Pitures.Where(x => x.Id == NewPictureId).FirstOrDefault();
+            newProfilePicture.IsProfilPicture = true;
+
+            _userDetailRepo.SaveChanges();
         }
     }
 }

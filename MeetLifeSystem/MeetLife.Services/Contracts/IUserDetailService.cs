@@ -20,6 +20,12 @@ namespace MeetLife.Services.Contracts
 
         void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture);
 
+        void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture);
+
         IEnumerable<Picture> GetAllPisturesOnUser(UserDetails UserDetails);
+
+        Picture GetProfilePicture(UserDetails UserDetails);
+
+        void ChangeProfilePicture(UserDetails UserDetails, int NewPictureId);
     }
 }
