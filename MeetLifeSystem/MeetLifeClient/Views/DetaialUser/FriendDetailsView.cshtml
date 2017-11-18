@@ -29,7 +29,6 @@
             </div>
         </div>
 
-
         <div class="form-group">
             @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -44,9 +43,11 @@
             </div>
         </div>
 
+        <a href="/DetaialUser/Pictures/@Model.UserName.ToString()" class = "btn btn-info">Pictures</a>
+
         @{ if (!Model.CheckForFriend)
             {
-                <p>@Html.ActionLink("Add Friend", "AddInvitationFriend/" + Model.UserName.ToString(), "DetaialUser")</p>
+                <p>@Html.ActionLink("Add Friend", "AddInvitationFriend/" + Model.UserName.ToString(), "DetaialUser", new { @class = "btn btn-info"})</p>
             }
            
         }

@@ -106,6 +106,51 @@ namespace MeetLifeClient.Controllers
             return View("FriendDetailsView", model);
         }
 
+        public ActionResult Pictures(string UserName)
+        {
+            var user = _userService.GetUserByUserName(UserName);
+
+            var userDetail = _detailService.GetDetailByUserId(user.Id);
+
+            var allPictures = _detailService.GetAllPisturesOnUser(userDetail);
+
+            var listeInfoPuctires = new List<InfoPuctires>();
+
+            foreach (var picture in allPictures)
+            {
+                listeInfoPuctires.Add(new InfoPuctires
+                {
+                    Destriction = picture.Description,
+                    Date = (int)DateTime.Now.Subtract(picture.DateUploading).TotalMinutes,
+                    SrcPistures = this.ConvertByteArrToStringForImg(picture.Image)
+                });
+            }
+
+            var model = new UserPicturesModel
+            {
+                UserName = UserName,
+                SrcPistures = listeInfoPuctires
+            };
+
+            return View(model);
+        }
+
+        public ActionResult PicturesSave(string discriptin, HttpPostedFileBase image)
+        {
+            var name = User.Identity.Name;
+
+            var user = _userService.GetUserByUserName(name);
+
+            var userDetail = _detailService.GetDetailByUserId(user.Id);
+
+            var picutre = userDetail.ImageProfil = new byte[image.ContentLength];
+            image.InputStream.Read(picutre, 0, image.ContentLength);
+
+            _detailService.AddNewPictureOnUser(userDetail, discriptin, picutre);
+
+            return RedirectToAction("Pictures/" + User.Identity.Name, "DetaialUser");
+        }
+
         // POST: DetaialUser/Create
         [HttpPost]
         public ActionResult Create(UserDetailsViewModel model, HttpPostedFileBase image)

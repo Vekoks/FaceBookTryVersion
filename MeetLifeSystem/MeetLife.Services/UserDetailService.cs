@@ -19,9 +19,9 @@ namespace MeetLife.Services
             this._userDetailRepo = userDetailRepo;
         }
 
-        public void AddDetails(UserDetails userDetails)
+        public void AddDetails(UserDetails UserDetails)
         {
-            this._userDetailRepo.Add(userDetails);
+            this._userDetailRepo.Add(UserDetails);
             this._userDetailRepo.SaveChanges();
         }
 
@@ -37,10 +37,38 @@ namespace MeetLife.Services
             return _userDetailRepo.All();
         }
 
-        public void UpdataDetail(UserDetails userDetails)
+        public void UpdataDetail(UserDetails UserDetails)
         {
-            this._userDetailRepo.Update(userDetails);
+            this._userDetailRepo.Update(UserDetails);
             this._userDetailRepo.SaveChanges();
+        }
+
+        public void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture)
+        {
+            UserDetails.Pitures.Add(new Picture
+            {
+                Description = Description,
+                DateUploading = DateTime.Now,
+                Image = Picture
+            });
+
+            _userDetailRepo.SaveChanges();
+        }
+
+        public IEnumerable<Picture> GetAllPisturesOnUser(UserDetails UserDetails)
+        {
+            var resoult = new List<Picture>();
+
+            try
+            {
+                resoult = UserDetails.Pitures.OrderBy(x=>x.DateUploading).ToList();
+            }
+            catch (Exception)
+            {
+               
+            }
+
+            return resoult;
         }
     }
 }

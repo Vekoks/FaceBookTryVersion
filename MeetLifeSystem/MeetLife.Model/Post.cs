@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace MeetLife.Model
         public int Id { get; set; }
 
         public string Disctription { get; set; }
+
+        [Column(TypeName = "image")]
+        public byte[] ImagePost{ get; set; }
 
         public DateTime DateOnPost { get; set; }
 

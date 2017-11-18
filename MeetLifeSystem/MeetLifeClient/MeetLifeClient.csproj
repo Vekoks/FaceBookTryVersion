@@ -224,6 +224,7 @@
     <Compile Include="Models\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="Models\AccountViewModels\VerifyCodeViewModel.cs" />
+    <Compile Include="Models\DetailsViewModels\UserPicturesModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeLikeModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeNoSeenMessageModel.cs" />
     <Compile Include="Models\HomeViewModels\HomePostModel.cs" />
@@ -326,6 +327,7 @@
     <Content Include="Views\DetaialUser\FriendDetailsView.cshtml" />
     <Content Include="Views\Home\Begining.cshtml" />
     <Content Include="Views\Post\DetailsPost.cshtml" />
+    <Content Include="Views\DetaialUser\Pictures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

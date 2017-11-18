@@ -14,8 +14,12 @@ namespace MeetLife.Model
         [Column(TypeName = "image")]
         public byte[] Image { get; set; }
 
-        public string UserId { get; set; }
+        public string Description { get; set; }
 
-        public virtual User User { get; set; }
+        public DateTime DateUploading { get; set; }
+
+        public int UserDetailId { get; set; }
+
+        public virtual UserDetails UserDetail { get; set; }
     }
 }

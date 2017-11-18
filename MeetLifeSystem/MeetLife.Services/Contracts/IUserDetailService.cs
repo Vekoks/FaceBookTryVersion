@@ -10,12 +10,16 @@ namespace MeetLife.Services.Contracts
 {
     public interface IUserDetailService
     {
-        void AddDetails(UserDetails userDetails);
+        void AddDetails(UserDetails UserDetails);
 
         UserDetails GetDetailByUserId(string UserId);
 
         IEnumerable<UserDetails> GetAllDetails();
 
-        void UpdataDetail(UserDetails userDetails);
+        void UpdataDetail(UserDetails UserDetails);
+
+        void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture);
+
+        IEnumerable<Picture> GetAllPisturesOnUser(UserDetails UserDetails);
     }
 }
