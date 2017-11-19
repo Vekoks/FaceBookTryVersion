@@ -14,6 +14,17 @@
     }
 });
 
+$('#EditInfoUser').click(function () {
+    var $editInfo = $('#FormInfo');
+
+    if ($editInfo.hasClass("hidden")) {
+        $editInfo.removeClass("hidden");
+    }
+    else {
+        $editInfo.addClass("hidden");
+    }
+});
+
 $('#NotificationsOnUserButton').click(function () {
     var $allNotifications = $('#AllNotifications');
 
@@ -25,8 +36,11 @@ $('#NotificationsOnUserButton').click(function () {
     }
 });
 
-$('#EditInfoUser').click(function () {
-    var $editInfo = $('#FormInfo');
+$('#PostList').on('click', '#CountLike', function () {
+
+    var idOnPost = $(this).attr('name');
+
+    var $editInfo = $('#ListWithLikes' + idOnPost);
 
     if ($editInfo.hasClass("hidden")) {
         $editInfo.removeClass("hidden");
@@ -34,4 +48,4 @@ $('#EditInfoUser').click(function () {
     else {
         $editInfo.addClass("hidden");
     }
-});
+})

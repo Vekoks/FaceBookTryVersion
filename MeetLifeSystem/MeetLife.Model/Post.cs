@@ -25,6 +25,8 @@ namespace MeetLife.Model
         [Column(TypeName = "image")]
         public byte[] ImagePost{ get; set; }
 
+        public int PictureId { get; set; }
+
         public DateTime DateOnPost { get; set; }
 
         public bool WorkOnComment { get; set; }

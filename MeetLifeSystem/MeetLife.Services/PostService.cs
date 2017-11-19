@@ -20,13 +20,14 @@ namespace MeetLife.Services
             this._postRepo = postRepo;
         }
 
-        public void AddPostToUser(User User, string discriptinPost, byte[] Picture)
+        public void AddPostToUser(User User, string discriptinPost, byte[] Picture, int PictureId)
         {
             User.Posts.Add(new Post
             {
                 Disctription = discriptinPost,
                 DateOnPost = DateTime.Now,
-                ImagePost = Picture
+                ImagePost = Picture,
+                PictureId = PictureId
             });
 
             _userRepo.SaveChanges();
@@ -117,6 +118,11 @@ namespace MeetLife.Services
             _postRepo.SaveChanges();
 
             return currentPosts;
+        }
+
+        public Post GetPostWithPicturesWithPictureId(int PostId)
+        {
+            return GetAllPost().Where(x => x.PictureId == PostId).FirstOrDefault();
         }
     }
 }

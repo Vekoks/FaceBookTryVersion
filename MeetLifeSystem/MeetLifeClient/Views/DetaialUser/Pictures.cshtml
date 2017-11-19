@@ -49,9 +49,25 @@
                                     <p>@Model.SrcPistures[j].Destriction</p>
                                     <p>@Model.SrcPistures[j].Date</p>
                                     <img src="@Model.SrcPistures[j].SrcPistures" alt="Alternate Text" style="max-height:300px;max-width:300px" />
-                                    @if (!@Model.SrcPistures[j].IsProfilePicture)
+                                    <p>Like: @Model.SrcPistures[j].Likes</p>
+
+                                    <input id="@Model.SrcPistures[j].PictureId" type="text" name="description" />
+                                    <button id="CommentPictures" name="@Model.SrcPistures[j].PictureId">Create comment</button>
+
+                                    @if (Model.UserName != User.Identity.Name)
+                                    {
+                                        <button id="LikePictures" name="@Model.SrcPistures[j].PictureId">Like</button>
+                                    }
+
+                                    @if (!@Model.SrcPistures[j].IsProfilePicture && Model.UserName == User.Identity.Name)
                                     {
                                         <button id="MekaProfilePicture" name="@Model.SrcPistures[j].PictureId">Make profile picture</button>
+                                    }
+
+                                    <h4>Comments</h4>
+                                    @foreach (var comment in @Model.SrcPistures[j].Comments)
+                                    {
+                                        <p> @comment.Username: @comment.Description</p>
                                     }
                                 </td>
                             }
@@ -68,9 +84,26 @@
                             <p>@picture.Destriction</p>
                             <p>@picture.Date</p>
                             <img src="@picture.SrcPistures" alt="Alternate Text" style="max-height:300px;max-width:300px" />
-                            @if (!picture.IsProfilePicture)
+                            <p>Like: @picture.Likes</p>
+
+                            <input id="@picture.PictureId" type="text" name="description" />
+                            <button id="CommentPictures" name="@picture.PictureId">Create comment</button>
+
+                            @if (Model.UserName != User.Identity.Name)
+                            {
+                                <button id="LikePictures" name="@picture.PictureId">Like</button>
+                            }
+
+
+                            @if (!picture.IsProfilePicture && Model.UserName == User.Identity.Name)
                             {
                                 <button id="MekaProfilePicture" name="@picture.PictureId">Make profile picture</button>
+                            }
+
+                            <h4>Comments</h4>
+                            @foreach (var comment in picture.Comments)
+                            {
+                                <p> @comment.Username: @comment.Description</p>
                             }
                         </td>
                     }
@@ -78,8 +111,47 @@
             }
         </table>
     </div>
-   
+
     <script>
+
+        $("#TablePictures").on("click", "#CommentPictures", function (e) {
+
+            var pictureId = $(this).attr('name');
+
+            var description = $('#' + pictureId).val();
+
+            $.ajax({
+                url: "/Post/CreateCommentOnPostWithPicture",
+                type: "POST",
+                data: JSON.stringify({ Description: description, PictureId: pictureId }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    location.reload();
+                }
+            });
+
+        });
+
+        $("#TablePictures").on("click", "#LikePictures", function (e) {
+
+            var pictureId = $(this).attr('name');
+
+            $.ajax({
+                url: "/Post/PutLikeOnThePostWithPicture",
+                type: "POST",
+                data: JSON.stringify({ PictureId: pictureId }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    location.reload();
+                }
+            });
+
+        });
+
         $("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
 
             var pictureId = $(this).attr('name');
@@ -93,12 +165,14 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     if (data.status == "Success") {
-                        window.location.href = '@Url.Action("Pictures/" + User.Identity.Name, "DetaialUser")';
+                        location.reload();
                     }
                 }
             });
 
         });
+
+
     </script>
 
 </body>

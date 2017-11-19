@@ -18,7 +18,7 @@ namespace MeetLife.Services.Contracts
 
         void UpdataDetail(UserDetails UserDetails);
 
-        void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture);
+        Picture AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture);
 
         void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture);
 

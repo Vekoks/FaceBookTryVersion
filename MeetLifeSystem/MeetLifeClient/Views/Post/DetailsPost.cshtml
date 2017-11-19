@@ -13,12 +13,20 @@
         <img src="@Model.PicturePost" style="max-height:200px;max-width:200px" />
         <p>Time: @Model.DateOnPost min</p>
         <p>Post: @Model.DiscriptionPost</p>
-        <p id="CountLikeId@Model.PostId">Like: @Model.Likes </p>
-        <input id="PutLikeButtonId" type="button" name="ButtonLike @Model.PostId" value="Like" />
-        <div><input id="CommentDisctriptionId@Model.PostId" type="text" name="discriptin" /></div>
-        <input id="CommentCreateButtonId" type="button" name="ButtonComment @Model.PostId" value="Save comment" />
-        <div id="CommentPostWithId' + @Model.PostId + '">
 
+        <button id="CountLike" name="@Model.PostId">Like: @Model.Likes.Count</button>
+        <div id="ListWithLikes" class="hidden">
+
+
+            @foreach (var like in Model.Likes)
+            {
+                <p>@like.UserName</p>
+            }
+        </div>
+
+        <div><input id="@Model.PostId" type="text" name="discriptin" /></div>
+        <input id="CommentCreateButton" type="button" name="ButtonComment @Model.PostId" value="Save comment" />
+        <div id="CommentPostWithId">
 
             @foreach (var comment in @Model.Comments)
             {
@@ -29,5 +37,38 @@
     </div>
 
     <a href="/Home/Index">Home</a>
+
+    <script>
+        $('#CountLike').click(function () {
+            var $editInfo = $('#ListWithLikes');
+
+            if ($editInfo.hasClass("hidden")) {
+                $editInfo.removeClass("hidden");
+            }
+            else {
+                $editInfo.addClass("hidden");
+            }
+        });
+
+        $('#CommentCreateButton').click(function () {
+
+            var nameOnButtonArr = $(this).attr('name').split(" ");
+            var idOnPost = nameOnButtonArr[1];
+
+            var descriptionOnPost = $('#'+idOnPost).val();
+
+            $.ajax({
+                url: "/Post/CreateComment",
+                type: "POST",
+                data: JSON.stringify({ model: descriptionOnPost, postId: idOnPost }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        })
+    </script>
 </body>
 </html>

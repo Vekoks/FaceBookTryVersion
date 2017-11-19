@@ -9,13 +9,15 @@ namespace MeetLife.Services.Contracts
 {
     public interface IPostService
     {
-        void AddPostToUser(User User, string discriptinPost, byte[] Picture);
+        void AddPostToUser(User User, string discriptinPost, byte[] Picture, int PictureId);
 
         void AddCommentToPost(int PostId, User User, string discriptinComment);
 
         List<Post> GetAllPost();
 
         Post GetPostWithId(int PostId);
+
+        Post GetPostWithPicturesWithPictureId(int PostId);
 
         List<Post> GetPostWithNewComment();
 

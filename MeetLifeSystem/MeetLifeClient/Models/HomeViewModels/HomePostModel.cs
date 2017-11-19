@@ -18,7 +18,7 @@ namespace MeetLifeClient.Models
 
         public string  PicturePost { get; set; }
 
-        public int Likes { get; set; }
+        public List<LikeOnPost> Likes { get; set; }
 
         public IEnumerable<ICommentOnThePost> Comments { get; set; }
 

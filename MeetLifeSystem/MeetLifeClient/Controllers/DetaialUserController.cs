@@ -123,13 +123,26 @@ namespace MeetLifeClient.Controllers
 
             foreach (var picture in allPictures)
             {
+                var postWithTargetPictures = _postService.GetPostWithPicturesWithPictureId(picture.Id);
+
+                if (postWithTargetPictures == null)
+                {
+                    postWithTargetPictures = new Post
+                    {
+                        Likes = new List<LikesOnPost>(),
+                        Comments = new List<CommendsOnPost>()
+                    };
+                }
+
                 listeInfoPuctires.Add(new InfoPuctires
                 {
                     PictureId = picture.Id,
                     Destriction = picture.Description,
                     Date = (int)DateTime.Now.Subtract(picture.DateUploading).TotalMinutes,
                     SrcPistures = Converters.ConvertByteArrToStringForImg(picture.Image),
-                    IsProfilePicture = picture.IsProfilPicture
+                    IsProfilePicture = picture.IsProfilPicture,
+                    Likes = postWithTargetPictures.Likes.Count(),
+                    Comments = postWithTargetPictures.Comments.ToList()
                 });
             }
 
@@ -153,9 +166,9 @@ namespace MeetLifeClient.Controllers
             var picutre = new byte[image.ContentLength];
             image.InputStream.Read(picutre, 0, image.ContentLength);
 
-            _detailService.AddNewPictureOnUser(userDetail, discriptin, picutre);
+            var newPictures = _detailService.AddNewPictureOnUser(userDetail, discriptin, picutre);
 
-            _postService.AddPostToUser(user, discriptin, picutre);
+            _postService.AddPostToUser(user, discriptin, picutre, newPictures.Id);
 
             return RedirectToAction("Pictures/" + User.Identity.Name, "DetaialUser");
         }

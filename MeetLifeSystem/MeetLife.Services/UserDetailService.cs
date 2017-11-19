@@ -43,9 +43,9 @@ namespace MeetLife.Services
             this._userDetailRepo.SaveChanges();
         }
 
-        public void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture)
+        public Picture AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture)
         {
-            UserDetails.Pitures.Add(new Picture
+            var newPictures =(new Picture
             {
                 Description = Description,
                 DateUploading = DateTime.Now,
@@ -53,7 +53,11 @@ namespace MeetLife.Services
                 IsProfilPicture = false
             });
 
+            UserDetails.Pitures.Add(newPictures);
+
             _userDetailRepo.SaveChanges();
+
+            return newPictures;
         }
 
         public void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture)

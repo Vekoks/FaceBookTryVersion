@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MeetLife.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,5 +24,9 @@ namespace MeetLifeClient.Models
         public int Date { get; set; }
 
         public bool IsProfilePicture { get; set; }
+
+        public int Likes { get; set; }
+
+        public List<CommendsOnPost> Comments { get; set; }
     }
 }

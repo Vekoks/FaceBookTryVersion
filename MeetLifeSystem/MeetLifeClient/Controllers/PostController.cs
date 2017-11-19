@@ -1,4 +1,5 @@
-﻿using MeetLife.Services.Contracts;
+﻿using MeetLife.Model;
+using MeetLife.Services.Contracts;
 using MeetLifeClient.Models;
 using MeetLifeClient.Models.ModelsForLiveInfo;
 using System;
@@ -14,6 +15,7 @@ namespace MeetLifeClient.Controllers
 
         private readonly IUserService _userService;
         private readonly IPostService _postService;
+        private readonly IUserDetailService _detailService;
         private readonly IAllPostInfo _infoForAllPost;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
         private readonly ILikeOnPost _infoForLIkes;
@@ -22,13 +24,15 @@ namespace MeetLifeClient.Controllers
                               IPostService postService,
                               IAllPostInfo infoPost,
                               ICommentOnThePost infoCommentsOnThePost,
-                              ILikeOnPost infoLIkes)
+                              ILikeOnPost infoLIkes,
+                              IUserDetailService detailService)
         {
             this._userService = userService;
             this._postService = postService;
             this._infoForAllPost = infoPost;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
             this._infoForLIkes = infoLIkes;
+            this._detailService = detailService;
         }
 
         // GET: Post
@@ -54,7 +58,7 @@ namespace MeetLifeClient.Controllers
                     DiscriptionPost = post.Discription,
                     PicturePost = Converters.ConvertByteArrToStringForImg(post.Picture),
                     DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes,
-                    Likes = _infoForLIkes.GetDataLikesOnThePost(post.PostId).Count(),
+                    Likes = _infoForLIkes.GetDataLikesOnThePost(post.PostId).ToList(),
                     Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId)
                 });
             }
@@ -69,15 +73,19 @@ namespace MeetLifeClient.Controllers
         {
             var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
 
-            var picutre = new byte[0];
+            var userDetail = _detailService.GetDetailByUserId(userLogged.Id);
+
+            var picture = new Picture();
+            picture.Image = new byte[0];
 
             if (image != null)
             {
-                picutre = new byte[image.ContentLength];
-                image.InputStream.Read(picutre, 0, image.ContentLength);
+                picture.Image = new byte[image.ContentLength];
+                image.InputStream.Read(picture.Image, 0, image.ContentLength);
+                picture = _detailService.AddNewPictureOnUser(userDetail, discriptin, picture.Image);
             }
 
-            _postService.AddPostToUser(userLogged, discriptin, picutre);
+            _postService.AddPostToUser(userLogged, discriptin, picture.Image, picture.Id);
 
             return RedirectToAction("Index", "DetaialUser");
         }
@@ -92,6 +100,20 @@ namespace MeetLifeClient.Controllers
             var CommentOfDescription = model;
 
             _postService.AddCommentToPost(PostId, userLogged, CommentOfDescription);
+
+            var comments = _postService.GetPostWithId(PostId).Comments.ToList();
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CreateCommentOnPostWithPicture(string Description, string PictureId)
+        {
+            var name = this.User.Identity.Name;
+            var userLogged = _userService.GetUserByUserName(name);
+
+            var targetPost = _postService.GetPostWithPicturesWithPictureId(int.Parse(PictureId));
+
+            _postService.AddCommentToPost(targetPost.Id, userLogged, Description);
 
             return Json("success", JsonRequestBehavior.AllowGet);
         }
@@ -128,6 +150,19 @@ namespace MeetLifeClient.Controllers
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult PutLikeOnThePostWithPicture(string PictureId)
+        {
+            var name = this.User.Identity.Name;
+            var userLogged = _userService.GetUserByUserName(name);
+
+            var targetPost = _postService.GetPostWithPicturesWithPictureId(int.Parse(PictureId));
+
+            _postService.PutLikeOnThePost(targetPost.Id, userLogged);
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public JsonResult GetLikes()
         {
@@ -137,13 +172,11 @@ namespace MeetLifeClient.Controllers
 
             foreach (var post in curentPosts)
             {
-                var liksOnThePost = _infoForLIkes.GetDataLikesOnThePost(post.Id).Count();
-
                 result.Add(new PostLikeViewModel
                 {
                     IdOnCurrentPost = post.Id,
-                    Likes = liksOnThePost
-                });
+                    Likes = _infoForLIkes.GetDataLikesOnThePost(post.Id).ToList()
+            });
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -160,7 +193,7 @@ namespace MeetLifeClient.Controllers
                 DiscriptionPost = targetPost.Disctription,
                 PicturePost = Converters.ConvertByteArrToStringForImg(targetPost.ImagePost),
                 DateOnPost = (int)DateTime.Now.Subtract(targetPost.DateOnPost).TotalMinutes,
-                Likes = _infoForLIkes.GetDataLikesOnThePost(targetPost.Id).Count(),
+                Likes = _infoForLIkes.GetDataLikesOnThePost(targetPost.Id).ToList(),
                 Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(targetPost.Id)
             };
 

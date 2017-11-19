@@ -206,7 +206,7 @@ namespace MeetLifeClient.Controllers
         {
             var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
 
-            var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id);
+            var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id).Reverse();
 
             return Json(resoultNotifications, JsonRequestBehavior.AllowGet);
         }

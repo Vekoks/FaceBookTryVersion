@@ -29,14 +29,19 @@ function getDataForAllPost() {
                     rows.push('  <img src="' + data[i].PicturePost + '" style="max-height:200px;max-width:200px" />');
                     rows.push('  <p>Time:' + data[i].DateOnPost + ' min</p>');
                     rows.push('  <p>Post:' + data[i].DiscriptionPost + '</p>');
-                    rows.push('  <p id="CountLikeId' + data[i].PostId + '">Like:' + data[i].Likes + '</p>');
+                    rows.push('  <button id="CountLike" name="' + data[i].PostId + '">Like: ' + data[i].Likes.length + '</button>');
+                    rows.push('  <div id="ListWithLikes'+ data[i].PostId +'" class="hidden">');
+                    for (var j = 0; j < data[i].Likes.length; j++) {
+                        rows.push('  <p>' + data[i].Likes[j].UserName + '</p>');
+                    }
+                    rows.push('  </div>');
                     rows.push('  <input id="PutLikeButtonId" type="button" name="ButtonLike ' + data[i].PostId + '" value="Like" />');
                     rows.push('  <div><input id="CommentDisctriptionId' + data[i].PostId + '" type="text" name="discriptin" /></div>');
                     rows.push('  <input id="CommentCreateButtonId" type="button" name="ButtonComment ' + data[i].PostId + '" value="Save comment" />');
                     rows.push(' <div id="CommentPostWithId' + data[i].PostId + '">');
 
                     for (var j = 0; j < data[i].Comments.length; j++) {
-                        rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + ' min</p>');
+                        rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + '</p>');
                     }
 
                     rows.push(' </div>');
@@ -69,9 +74,19 @@ function getDataForLikes() {
         datatype: 'json',
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
-                var $tbl = $('#CountLikeId' + data[i].IdOnCurrentPost);
-                $tbl.empty();
-                $tbl.text("Like: " + data[i].Likes);
+                var element = $('[name=' + data[i].IdOnCurrentPost + ']');
+                var value = "Like: " + data[i].Likes.length
+                element.text(value);
+
+                var $listLikes = $('#ListWithLikes' + data[i].IdOnCurrentPost);
+                $listLikes.empty();
+
+                var rows = [];
+                for (var j = 0; j < data[i].Likes.length; j++) {
+                    rows.push('  <p>' + data[i].Likes[j].UserName + '</p>');
+                }
+                $listLikes.append(rows.join(''));
+
             }
         }
     })
