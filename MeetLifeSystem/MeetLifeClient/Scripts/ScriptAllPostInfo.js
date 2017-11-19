@@ -26,6 +26,7 @@ function getDataForAllPost() {
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <div>');
                     rows.push('  <a id="UserName" href="/DetaialUser/Details/' + data[i].UserName + '">' + data[i].UserName + '</a>');
+                    rows.push('  <img src="' + data[i].PicturePost + '" style="max-height:200px;max-width:200px" />');
                     rows.push('  <p>Time:' + data[i].DateOnPost + ' min</p>');
                     rows.push('  <p>Post:' + data[i].DiscriptionPost + '</p>');
                     rows.push('  <p id="CountLikeId' + data[i].PostId + '">Like:' + data[i].Likes + '</p>');

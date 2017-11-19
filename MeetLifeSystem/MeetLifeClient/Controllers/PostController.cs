@@ -52,6 +52,7 @@ namespace MeetLifeClient.Controllers
                     PostId = post.PostId,
                     UserName = _userService.GetUserById(post.UserId).UserName,
                     DiscriptionPost = post.Discription,
+                    PicturePost = Converters.ConvertByteArrToStringForImg(post.Picture),
                     DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes,
                     Likes = _infoForLIkes.GetDataLikesOnThePost(post.PostId).Count(),
                     Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId)
@@ -64,11 +65,19 @@ namespace MeetLifeClient.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreatePost(string discriptin)
+        public ActionResult CreatePost(string discriptin, HttpPostedFileBase image)
         {
             var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
 
-            _postService.AddPostToUser(userLogged, discriptin);
+            var picutre = new byte[0];
+
+            if (image != null)
+            {
+                picutre = new byte[image.ContentLength];
+                image.InputStream.Read(picutre, 0, image.ContentLength);
+            }
+
+            _postService.AddPostToUser(userLogged, discriptin, picutre);
 
             return RedirectToAction("Index", "DetaialUser");
         }
@@ -149,6 +158,7 @@ namespace MeetLifeClient.Controllers
                 PostId = targetPost.Id,
                 UserName = _userService.GetUserById(targetPost.UserId).UserName,
                 DiscriptionPost = targetPost.Disctription,
+                PicturePost = Converters.ConvertByteArrToStringForImg(targetPost.ImagePost),
                 DateOnPost = (int)DateTime.Now.Subtract(targetPost.DateOnPost).TotalMinutes,
                 Likes = _infoForLIkes.GetDataLikesOnThePost(targetPost.Id).Count(),
                 Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(targetPost.Id)

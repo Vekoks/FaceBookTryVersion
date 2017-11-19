@@ -20,12 +20,13 @@ namespace MeetLife.Services
             this._postRepo = postRepo;
         }
 
-        public void AddPostToUser(User User, string discriptinPost)
+        public void AddPostToUser(User User, string discriptinPost, byte[] Picture)
         {
             User.Posts.Add(new Post
             {
                 Disctription = discriptinPost,
-                DateOnPost = DateTime.Now
+                DateOnPost = DateTime.Now,
+                ImagePost = Picture
             });
 
             _userRepo.SaveChanges();

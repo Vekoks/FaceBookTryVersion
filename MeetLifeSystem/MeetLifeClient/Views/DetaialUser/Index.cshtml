@@ -68,7 +68,7 @@
             <button id="EditInfoUser">Idet information</button>
 
             <div id="FormInfo" class="hidden">
-                @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @enctype="multipart/form-data"}))
+                @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
                     <h4>Edit information for user.</h4>
@@ -112,10 +112,10 @@
             </div>
         </div>
 
-        <a href="/DetaialUser/Pictures/@User.Identity.GetUserName()" class = "btn btn-info">Pictures</a>
+        <a href="/DetaialUser/Pictures/@User.Identity.GetUserName()" class="btn btn-info">Pictures</a>
 
         <div id="central">
-            @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -126,6 +126,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>Pictures </label>
+                    <div class="col-md-10">
+                        <input type="file" id="image" name="Image" value="Upload" />
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-md-offset-1 col-md-10">
                         <input type="submit" class="btn btn-default" value="Create Post" />
                     </div>
@@ -133,12 +139,19 @@
             }
 
             <div id="PostList">
-                @{ 
+                @{
                     foreach (var post in Model.Post)
                     {
                         <table style="border:2px solid red">
                             <tr>
-                                <td style="text-align:center; padding:10px">@post.Disctription</td>
+                                <td style="text-align:center; padding:10px">
+                                    <p>Post: @post.Disctription</p>
+                                    @{
+                                        var base64 = Convert.ToBase64String(post.ImagePost);
+                                        var srcImg = string.Format("data:image/gif;base64,{0}", base64);
+                                    }
+                                    <img src='@srcImg' style="max-height:200px;max-width:200px" />
+                                </td>
                             </tr>
                         </table>
                     }

@@ -14,6 +14,8 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
 
         DateTime DatePost { get; set; }
 
+        byte[] Picture { get; set; }
+
         string UserId { get; set; }
 
         IEnumerable<IAllPostInfo> GetDataAllPost();

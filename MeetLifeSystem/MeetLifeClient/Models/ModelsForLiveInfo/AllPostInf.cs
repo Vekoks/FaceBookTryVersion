@@ -20,13 +20,15 @@ namespace MeetLifeClient.Models
 
         public string UserId { get; set; }
 
+        public byte[] Picture { get; set; }
+
         public IEnumerable<IAllPostInfo> GetDataAllPost()
         {
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MeetLifeSystem"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT [Id],[Disctription],[DateOnPost],[UserId]
+                using (SqlCommand command = new SqlCommand(@"SELECT [Id],[Disctription],[DateOnPost],[UserId],[ImagePost]
                FROM [dbo].[Posts]", connection))
                 {
                     // Make sure the command object does not already have
@@ -47,6 +49,7 @@ namespace MeetLifeClient.Models
                                 Discription = x.GetString(1),
                                 DatePost = x.GetDateTime(2),
                                 UserId = x.GetString(3),
+                                Picture = (byte[])x.GetValue(4)
                             }).ToList();
                 }
             }

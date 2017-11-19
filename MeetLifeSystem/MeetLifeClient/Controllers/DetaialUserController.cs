@@ -15,12 +15,14 @@ namespace MeetLifeClient.Controllers
     public class DetaialUserController : Controller
     {
         private readonly IUserDetailService _detailService;
+        private readonly IPostService _postService;
         private readonly IUserService _userService;
 
-        public DetaialUserController(IUserService userService, IUserDetailService detailService)
+        public DetaialUserController(IUserService userService, IUserDetailService detailService, IPostService postService)
         {
             this._detailService = detailService;
             this._userService = userService;
+            this._postService = postService;
         }
 
         // GET: DetaialUser
@@ -58,7 +60,7 @@ namespace MeetLifeClient.Controllers
                     LastName = details.LastName,
                     Adress = details.Adress,
                     Age = details.Age,
-                    ImageBrand = this.ConvertByteArrToStringForImg(profilPicture.Image),
+                    ImageBrand = Converters.ConvertByteArrToStringForImg(profilPicture.Image),
                     Friends = userLogged.Friends,
                     Post = userLogged.Posts.OrderByDescending(x => x.DateOnPost)
                 };
@@ -101,7 +103,7 @@ namespace MeetLifeClient.Controllers
                 model.LastName = details.LastName;
                 model.Adress = details.Adress;
                 model.Age = details.Age;
-                model.ImageUser = this.ConvertByteArrToStringForImg(profilPicture.Image);
+                model.ImageUser = Converters.ConvertByteArrToStringForImg(profilPicture.Image);
                 model.CheckForFriend = ckeckFriend;
             }
 
@@ -126,7 +128,7 @@ namespace MeetLifeClient.Controllers
                     PictureId = picture.Id,
                     Destriction = picture.Description,
                     Date = (int)DateTime.Now.Subtract(picture.DateUploading).TotalMinutes,
-                    SrcPistures = this.ConvertByteArrToStringForImg(picture.Image),
+                    SrcPistures = Converters.ConvertByteArrToStringForImg(picture.Image),
                     IsProfilePicture = picture.IsProfilPicture
                 });
             }
@@ -152,6 +154,8 @@ namespace MeetLifeClient.Controllers
             image.InputStream.Read(picutre, 0, image.ContentLength);
 
             _detailService.AddNewPictureOnUser(userDetail, discriptin, picutre);
+
+            _postService.AddPostToUser(user, discriptin, picutre);
 
             return RedirectToAction("Pictures/" + User.Identity.Name, "DetaialUser");
         }
@@ -228,14 +232,6 @@ namespace MeetLifeClient.Controllers
             _detailService.ChangeProfilePicture(userDetail, int.Parse(PictureId));
 
             return Json(new { status = "Success", message = name });
-        }
-
-        public string ConvertByteArrToStringForImg(byte[] arr)
-        {
-            var base64 = Convert.ToBase64String(arr);
-            var srcImg = string.Format("data:image/gif;base64,{0}", base64);
-
-            return srcImg;
         }
     }
 }

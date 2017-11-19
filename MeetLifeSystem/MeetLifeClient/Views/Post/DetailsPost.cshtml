@@ -1,9 +1,5 @@
 ﻿@model MeetLifeClient.Models.HomePostModel
 
-@{
-    Layout = null;
-}
-
 <!DOCTYPE html>
 
 <html>
@@ -14,6 +10,7 @@
 <body>
     <div>
         <a id="UserName" href="/DetaialUser/Details/@Model.UserName"> @Model.UserName</a>
+        <img src="@Model.PicturePost" style="max-height:200px;max-width:200px" />
         <p>Time: @Model.DateOnPost min</p>
         <p>Post: @Model.DiscriptionPost</p>
         <p id="CountLikeId@Model.PostId">Like: @Model.Likes </p>
