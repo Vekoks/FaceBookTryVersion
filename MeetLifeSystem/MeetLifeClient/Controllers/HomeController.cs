@@ -15,14 +15,14 @@ namespace MeetLifeClient.Controllers
         
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
-        private readonly IUsersInfo _infoAllUser;
+        private readonly IFrieandsInfo _infoAllUser;
         private readonly IAskFriendInfo _infoForAskFriend;
         private readonly INoSeenMessage _infoNoSeenMessage;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
         private readonly INotificationOnUser _infoNotificationOnUser;
 
         public HomeController(IUserService userService,
-                              IUsersInfo infoUser,
+                              IFrieandsInfo infoUser,
                               IAskFriendInfo infoFriend,
                               IAllPostInfo infoPost,
                               INoSeenMessage infoNoSeenMessage,
@@ -93,7 +93,6 @@ namespace MeetLifeClient.Controllers
             return View();
         }
 
-
         public ActionResult ConferFriend(string UserName, string confirm)
         {
             var loggedUser = _userService.GetUserByUserName(User.Identity.Name);
@@ -116,7 +115,16 @@ namespace MeetLifeClient.Controllers
         [HttpGet]
         public JsonResult ResultInfoForUsers()
         {
-            var result = _infoAllUser.GetData();
+            var loggedUserName = this.User.Identity.Name;
+
+            if (loggedUserName == "")
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+
+            var loggedUser = _userService.GetUserByUserName(loggedUserName);
+
+            var result = _infoAllUser.GetFriends(loggedUser.Id);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

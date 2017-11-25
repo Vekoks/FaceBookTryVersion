@@ -15,7 +15,7 @@ $(function () {
 
 
 function getDataUserInfo() {
-    var $tbl = $('#UsersList');
+    var $tbl = $('#FriendList');
     $.ajax({
         url: 'ResultInfoForUsers',
         type: 'GET',

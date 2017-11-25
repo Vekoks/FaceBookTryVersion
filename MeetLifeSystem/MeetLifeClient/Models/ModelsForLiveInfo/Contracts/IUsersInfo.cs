@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MeetLifeClient.Models.ModelsForLiveInfo
 {
-    public interface IUsersInfo
+    public interface IFrieandsInfo
     {
         string Name { get; set; }
 
         bool IsOnline { get; set; }
 
-        IEnumerable<IUsersInfo> GetData();
+        IEnumerable<IFrieandsInfo> GetFriends(string LoggedUserId);
     }
 }

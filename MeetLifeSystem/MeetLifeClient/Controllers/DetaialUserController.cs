@@ -111,6 +111,28 @@ namespace MeetLifeClient.Controllers
             return View("FriendDetailsView", model);
         }
 
+
+        [HttpGet]
+        public JsonResult SearchUsers()
+        {
+            var searchUsers = _userService.GetAllUsers().ToList();
+
+            var resoult = new List<DeatailSearchUserModel>();
+
+            foreach (var user in searchUsers)
+            {
+                var profilePicture = _detailService.GetDetailByUserId(user.Id).Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
+
+                resoult.Add(new DeatailSearchUserModel()
+                {
+                    UserName = user.UserName,
+                    ProfilePicture = Converters.ConvertByteArrToStringForImg(profilePicture.Image)
+                });
+            }
+
+            return Json(resoult, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Pictures(string UserName)
         {
             var user = _userService.GetUserByUserName(UserName);

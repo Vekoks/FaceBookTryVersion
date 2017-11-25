@@ -9,6 +9,14 @@
 </head>
 <body>
 
+    @{
+        if (this.User.Identity.IsAuthenticated)
+        {
+            <input id="SearchUserId" type="text" name="search" value="Search user" style="position:relative;left:20%;bottom:20%" />
+            <div id="ListUsers"></div>
+        }
+    }
+
     <div id="NoSeenMessage">
         <div id="CountMissMessage" style="float:left"></div>
         <input type="button" id="NotificationMessageMiss" class="btn-primary" value="Message" />
@@ -23,17 +31,17 @@
     <div id="PostList"></div>
 
     <div id="AskFriendList"></div>
-    
+
 
     <div class="row">
         <div id="Chat"></div>
         <div style="float: right; right: 5%">
-            <h2>Users:</h2>
-            <ul id="UsersList" class="list-group" style="border: 2px solid; float:right"></ul>
+            <h2>Friends:</h2>
+            <ul id="FriendList" class="list-group" style="border: 2px solid; float:right"></ul>
         </div>
 
     </div>
-
+    
     @*<h3>Messages: </h3>
         @{
             foreach (var message in Model.Messages)
@@ -44,7 +52,7 @@
                 </div>
             }
         }*@
-    
+
     <script src="~/Scripts/ScriptForAskFriend.js"></script>
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
@@ -53,8 +61,6 @@
     <script src="~/Scripts/ScriptsForButtons.js"></script>
     <script src="~/Scripts/ScriptForNotificationsOnUser.js"></script>
 
-
-    
 
     <script>
 
