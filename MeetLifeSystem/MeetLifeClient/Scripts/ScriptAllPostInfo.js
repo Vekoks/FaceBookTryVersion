@@ -20,154 +20,36 @@ function getDataForAllPost() {
         datatype: 'json',
         success: function (data) {
             if (data.length > 0) {
-                $tbl.empty();
+                //$tbl.empty();
                 var rows = [];
-                rows.push(' <p>Post</p>');
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <div>');
                     rows.push('  <a id="UserName" href="/DetaialUser/Details/' + data[i].UserName + '">' + data[i].UserName + '</a>');
                     rows.push('  <img src="' + data[i].PicturePost + '" style="max-height:200px;max-width:200px" />');
-                    rows.push('  <p>Time:' + data[i].DateOnPost + ' min</p>');
+                    rows.push('  <p>' + data[i].DateOnPost + ' min</p>');
                     rows.push('  <p>Post:' + data[i].DiscriptionPost + '</p>');
                     rows.push('  <button id="CountLike" name="' + data[i].PostId + '">Like: ' + data[i].Likes.length + '</button>');
-                    rows.push('  <div id="ListWithLikes'+ data[i].PostId +'" class="hidden">');
+                    rows.push('  <div id="ListWithLikes' + data[i].PostId + '" class="hidden myBox">');
                     for (var j = 0; j < data[i].Likes.length; j++) {
-                        rows.push('  <p>' + data[i].Likes[j].UserName + '</p>');
+                        rows.push('  <img src="' + data[i].Likes[j].PictureProfile + '" style="max-height:30px;max-width:60px" />');
+                        rows.push('  <p>' + data[i].Likes[j].Username + '</p>');
                     }
                     rows.push('  </div>');
                     rows.push('  <input id="PutLikeButtonId" type="button" name="ButtonLike ' + data[i].PostId + '" value="Like" />');
                     rows.push('  <div><input id="CommentDisctriptionId' + data[i].PostId + '" type="text" name="discriptin" /></div>');
                     rows.push('  <input id="CommentCreateButtonId" type="button" name="ButtonComment ' + data[i].PostId + '" value="Save comment" />');
-                    rows.push(' <div id="CommentPostWithId' + data[i].PostId + '">');
+                    rows.push(' <div id="CommentPostWithId' + data[i].PostId + '" class="myBox">');
 
                     for (var j = 0; j < data[i].Comments.length; j++) {
+                        rows.push('  <img src="' + data[i].Comments[j].PictureProfile + '" style="max-height:30px;max-width:60px" />');
                         rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + '</p>');
                     }
 
                     rows.push(' </div>');
                     rows.push(' </div>');
                 }
-                $tbl.append(rows.join(''));
+                $tbl.prepend(rows.join(''));
             }
         }
     })
 }
-
-//refresh like
-$(function () {
-    var job = $.connection.likeHub;
-
-    // Declare a function on the job hub so the server can invoke it
-    job.client.displayLikes = function () {
-        getDataForLikes();
-    };
-
-    // Start the connection
-    $.connection.hub.start();
-    getDataForLikes();
-});
-
-function getDataForLikes() {
-    $.ajax({
-        url: '/Post/GetLikes',
-        type: 'GET',
-        datatype: 'json',
-        success: function (data) {
-            for (var i = 0; i < data.length; i++) {
-                var element = $('[name=' + data[i].IdOnCurrentPost + ']');
-                var value = "Like: " + data[i].Likes.length
-                element.text(value);
-
-                var $listLikes = $('#ListWithLikes' + data[i].IdOnCurrentPost);
-                $listLikes.empty();
-
-                var rows = [];
-                for (var j = 0; j < data[i].Likes.length; j++) {
-                    rows.push('  <p>' + data[i].Likes[j].UserName + '</p>');
-                }
-                $listLikes.append(rows.join(''));
-
-            }
-        }
-    })
-}
-
-//refresh comments
-$(function () {
-    var job = $.connection.commentsPostHub;
-
-    // Declare a function on the job hub so the server can invoke it
-    job.client.displayCommentsOnThePost = function () {
-        GetCommentsOnThePost();
-    };
-
-    // Start the connection
-    $.connection.hub.start();
-    GetCommentsOnThePost();
-});
-
-function GetCommentsOnThePost() {
-    $.ajax({
-        url: "/Post/GetCommentsOnThePost",
-        type: "GET",
-        success: function (data) {
-            for (var i = 0; i < data.length; i++) {
-
-                var $tbl = $('#CommentPostWithId' + data[i].IdOnCurrentPost);
-                $tbl.empty();
-
-                var rows = [];
-                for (var j = 0; j < data[i].Comments.length; j++) {
-                    rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + '</p>');
-                }
-                $tbl.append(rows.join(''));
-            }
-        }
-    });
-}
-
-//create commnet on target post event
-$('#PostList').on('click', '#CommentCreateButtonId', function () {
-
-    var nameOnButtonArr = $(this).attr('name').split(" ");
-    var idOnPost = nameOnButtonArr[1];
-
-    var descriptionOnPost = $('#CommentDisctriptionId' + idOnPost).val();
-
-    $.ajax({
-        url: "/Post/CreateComment",
-        type: "POST",
-        data: JSON.stringify({ model: descriptionOnPost, postId: idOnPost }),
-        dataType: "json",
-        traditional: true,
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-
-        },
-        error: function (data) {
-            alert("An error has occured!!!");
-        }
-    });
-})
-
-//put likes on posts
-$('#PostList').on('click', '#PutLikeButtonId', function () {
-
-    var nameOnButtonArr = $(this).attr('name').split(" ");
-    var idOnPost = nameOnButtonArr[1];
-
-    $.ajax({
-        url: "/Post/PutLikeOnThePOst",
-        type: "POST",
-        data: JSON.stringify({ model: idOnPost }),
-        dataType: "json",
-        traditional: true,
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-
-        },
-        error: function (data) {
-            alert("An error has occured!!!");
-        }
-    });
-})

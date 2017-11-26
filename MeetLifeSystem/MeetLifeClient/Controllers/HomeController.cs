@@ -20,6 +20,9 @@ namespace MeetLifeClient.Controllers
         private readonly INoSeenMessage _infoNoSeenMessage;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
         private readonly INotificationOnUser _infoNotificationOnUser;
+        private readonly IUserDetailService _detailService;
+        private readonly IAllPostInfo _infoForAllPost;
+        private readonly ILikeOnPost _infoForLIkes;
 
         public HomeController(IUserService userService,
                               IFrieandsInfo infoUser,
@@ -28,7 +31,9 @@ namespace MeetLifeClient.Controllers
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService,
                               ICommentOnThePost infoCommentsOnThePost,
-                              INotificationOnUser infoNotificationOnUser)
+                              INotificationOnUser infoNotificationOnUser,
+                              IUserDetailService detailService,
+                              ILikeOnPost infoLIkes)
         {
             this._userService = userService;
             this._messageService = messageService;
@@ -37,6 +42,9 @@ namespace MeetLifeClient.Controllers
             this._infoNoSeenMessage = infoNoSeenMessage;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
             this._infoNotificationOnUser = infoNotificationOnUser;
+            this._infoForAllPost = infoPost;
+            this._detailService = detailService;
+            this._infoForLIkes = infoLIkes;
         }
 
         public ActionResult Index()
@@ -66,6 +74,54 @@ namespace MeetLifeClient.Controllers
                 return View(notUserModel);
             }
 
+            //Posts
+            var result = _infoForAllPost.GetDataAllPost();
+
+            var resultPost = new List<HomePostModel>();
+
+            foreach (var post in result)
+            {
+                var commentsPost = new List<ViewModelComment>();
+                var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId).ToList();
+
+                foreach (var comment in commentList)
+                {
+                    var profilePicture = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(comment.Username).Id)).Image;
+
+                    commentsPost.Add(new ViewModelComment()
+                    {
+                        Username = comment.Username,
+                        Description = comment.Description,
+                        PictureProfile = Converters.ConvertByteArrToStringForImg(profilePicture)
+                    });
+                }
+
+                var likesPost = new List<ViewModelLike>();
+                var likeList = _infoForLIkes.GetDataLikesOnThePost(post.PostId).ToList();
+
+                foreach (var like in likeList)
+                {
+                    var pictureOfProfile = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(like.UserName).Id)).Image;
+
+                    likesPost.Add(new ViewModelLike()
+                    {
+                        Username = like.UserName,
+                        PictureProfile = Converters.ConvertByteArrToStringForImg(pictureOfProfile)
+                    });
+                }
+
+                resultPost.Add(new HomePostModel
+                {
+                    PostId = post.PostId,
+                    UserName = _userService.GetUserById(post.UserId).UserName,
+                    DiscriptionPost = post.Discription,
+                    PicturePost = Converters.ConvertByteArrToStringForImg(post.Picture),
+                    DateOnPost = Converters.CreateStringDate(post.DatePost),
+                    Likes = likesPost,
+                    Comments = commentsPost
+                });
+            }
+
             var allAskForFriend = userLogged.InvitationForFriends.ToList();
             var message = userLogged.MissMessages.ToList();
 
@@ -73,7 +129,8 @@ namespace MeetLifeClient.Controllers
             {
                 AllAskForFriend = allAskForFriend,
                 Messages = message,
-                CountAskForFriend = allAskForFriend.Count
+                CountAskForFriend = allAskForFriend.Count,
+                Posts = resultPost
             };
 
             return View(model);

@@ -14,13 +14,28 @@ namespace MeetLifeClient.Models
 
         public string DiscriptionPost { get; set; }
 
-        public int DateOnPost { get; set; }
+        public string DateOnPost { get; set; }
 
         public string  PicturePost { get; set; }
 
-        public List<LikeOnPost> Likes { get; set; }
+        public List<ViewModelLike> Likes { get; set; }
 
-        public IEnumerable<ICommentOnThePost> Comments { get; set; }
+        public IEnumerable<ViewModelComment> Comments { get; set; }
+    }
 
+    public class ViewModelComment
+    {
+        public string Username { get; set; }
+
+        public string Description { get; set; }
+
+        public string PictureProfile { get; set; }
+    }
+
+    public class ViewModelLike
+    {
+        public string Username { get; set; }
+
+        public string PictureProfile { get; set; }
     }
 }

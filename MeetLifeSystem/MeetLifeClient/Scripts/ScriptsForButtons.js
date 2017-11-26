@@ -79,10 +79,117 @@ $('#SearchUserId').keyup(function () {
 
                 for (var i = 0; i < usersFind.length; i++) {
                     rows.push(' <img src="' + usersFind[i].ProfilePicture + '" alt="Alternate Text" style="width:50px;height:50px"/>');
-                    rows.push(' <a href=href="/DetaialUser/Details/' + usersFind[i].UserName + '">' + usersFind[i].UserName + '</a>');
+                    rows.push(' <a href="/DetaialUser/Details/' + usersFind[i].UserName + '">' + usersFind[i].UserName + '</a>');
                 }
 
                 $UserList.append(rows.join(''));
+            }
+        }
+    });
+
+});
+
+//create commnet on target post event
+$('#PostList').on('click', '#CommentCreateButtonId', function () {
+
+    var nameOnButtonArr = $(this).attr('name').split(" ");
+    var idOnPost = nameOnButtonArr[1];
+
+    var descriptionOnPost = $('#CommentDisctriptionId' + idOnPost).val();
+
+    $('#CommentDisctriptionId' + idOnPost).val("");
+
+    $.ajax({
+        url: "/Post/CreateComment",
+        type: "POST",
+        data: JSON.stringify({ model: descriptionOnPost, postId: idOnPost }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+        },
+        error: function (data) {
+            alert("An error has occured!!!");
+        }
+    });
+})
+
+//put likes on posts
+$('#PostList').on('click', '#PutLikeButtonId', function () {
+
+    var nameOnButtonArr = $(this).attr('name').split(" ");
+    var idOnPost = nameOnButtonArr[1];
+
+    $.ajax({
+        url: "/Post/PutLikeOnThePOst",
+        type: "POST",
+        data: JSON.stringify({ model: idOnPost }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+        },
+        error: function (data) {
+            alert("An error has occured!!!");
+        }
+    });
+})
+
+
+$("#TablePictures").on("click", "#CommentPictures", function (e) {
+
+    var pictureId = $(this).attr('name');
+
+    var description = $('#' + pictureId).val();
+
+    $.ajax({
+        url: "/Post/CreateCommentOnPostWithPicture",
+        type: "POST",
+        data: JSON.stringify({ Description: description, PictureId: pictureId }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            location.reload();
+        }
+    });
+
+});
+
+$("#TablePictures").on("click", "#LikePictures", function (e) {
+
+    var pictureId = $(this).attr('name');
+
+    $.ajax({
+        url: "/Post/PutLikeOnThePostWithPicture",
+        type: "POST",
+        data: JSON.stringify({ PictureId: pictureId }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            location.reload();
+        }
+    });
+
+});
+
+$("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
+
+    var pictureId = $(this).attr('name');
+
+    $.ajax({
+        url: "/DetaialUser/ChangeProfilePicture",
+        type: "POST",
+        data: JSON.stringify({ PictureId: pictureId.toString() }),
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data.status == "Success") {
+                location.reload();
             }
         }
     });

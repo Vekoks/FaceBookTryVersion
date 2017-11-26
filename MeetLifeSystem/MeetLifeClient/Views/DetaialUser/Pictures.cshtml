@@ -112,68 +112,7 @@
         </table>
     </div>
 
-    <script>
-
-        $("#TablePictures").on("click", "#CommentPictures", function (e) {
-
-            var pictureId = $(this).attr('name');
-
-            var description = $('#' + pictureId).val();
-
-            $.ajax({
-                url: "/Post/CreateCommentOnPostWithPicture",
-                type: "POST",
-                data: JSON.stringify({ Description: description, PictureId: pictureId }),
-                dataType: "json",
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    location.reload();
-                }
-            });
-
-        });
-
-        $("#TablePictures").on("click", "#LikePictures", function (e) {
-
-            var pictureId = $(this).attr('name');
-
-            $.ajax({
-                url: "/Post/PutLikeOnThePostWithPicture",
-                type: "POST",
-                data: JSON.stringify({ PictureId: pictureId }),
-                dataType: "json",
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    location.reload();
-                }
-            });
-
-        });
-
-        $("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
-
-            var pictureId = $(this).attr('name');
-
-            $.ajax({
-                url: "/DetaialUser/ChangeProfilePicture",
-                type: "POST",
-                data: JSON.stringify({ PictureId: pictureId.toString() }),
-                dataType: "json",
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    if (data.status == "Success") {
-                        location.reload();
-                    }
-                }
-            });
-
-        });
-
-
-    </script>
+    <script src="~/Scripts/ScriptsForButtons.js"></script>
 
 </body>
 </html>

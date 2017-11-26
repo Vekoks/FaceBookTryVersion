@@ -6,42 +6,105 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Begining</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/commentsBoxForBegining.css">
+
+    <style>
+        #left {
+            width: 40%;
+            float: left;
+        }
+
+        #central {
+            width: 20%;
+            float: left;
+        }
+
+        #right {
+            width: 20%;
+            float: right;
+        }
+    </style>
 </head>
 <body>
 
-    @{
-        if (this.User.Identity.IsAuthenticated)
-        {
-            <input id="SearchUserId" type="text" name="search" value="Search user" style="position:relative;left:20%;bottom:20%" />
-            <div id="ListUsers"></div>
-        }
-    }
-
-    <div id="NoSeenMessage">
-        <div id="CountMissMessage" style="float:left"></div>
-        <input type="button" id="NotificationMessageMiss" class="btn-primary" value="Message" />
-        <div id="AllMessageFromUsers" class="hidden"></div>
-    </div>
-
-    <div id="NotificationsOnUser">
-        <input type="button" id="NotificationsOnUserButton" class="btn-primary" value="Notification" />
-        <div id="AllNotifications" class="hidden"></div>
-    </div>
-
-    <div id="PostList"></div>
-
-    <div id="AskFriendList"></div>
-
-
-    <div class="row">
-        <div id="Chat"></div>
-        <div style="float: right; right: 5%">
-            <h2>Friends:</h2>
-            <ul id="FriendList" class="list-group" style="border: 2px solid; float:right"></ul>
+    <div id="left">
+        <div id="NoSeenMessage">
+            <div id="CountMissMessage" style="float:left"></div>
+            <input type="button" id="NotificationMessageMiss" class="btn-primary" value="Message" />
+            <div id="AllMessageFromUsers" class="hidden myBox"></div>
         </div>
 
+        <div id="NotificationsOnUser">
+            <input type="button" id="NotificationsOnUserButton" class="btn-primary" value="Notification" />
+            <div id="AllNotifications" class="hidden myBox"></div>
+        </div>
     </div>
-    
+
+    <div id="central">
+        @{
+            if (this.User.Identity.IsAuthenticated)
+            {
+                <input id="SearchUserId" type="text" name="search" value="Search user" style="position:relative;left:20%;bottom:20%" />
+                <div id="ListUsers"></div>
+            }
+        }
+
+        <div id="PostList">
+            @foreach (var post in Model.Posts)
+            {
+                <div>
+                    @{
+                        var aHref = "/DetaialUser/Details/" + @post.UserName;
+                        var ListWithLikes = "ListWithLikes" + @post.PostId;
+                        var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
+                        var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                        var buttonNameLike = "ButtonLike " + @post.PostId;
+                        var buttonNameComment = "ButtonComment " + @post.PostId;
+                    }
+
+                    <a id="UserName" href="@aHref">@post.UserName</a>
+                    <img src="@post.PicturePost" style="max-height:200px;max-width:200px" />
+                    <p>@post.DateOnPost min</p>
+                    <p>Post: @post.DiscriptionPost</p>
+                    <button id="CountLike" name="@post.PostId">Like: @post.Likes.Count</button>
+                    <div id="@ListWithLikes" class="hidden myBox">
+
+                        @foreach (var like in post.Likes)
+                        {
+                            <img src="@like.PictureProfile" style="max-height:30px;max-width:60px" />
+                            <p>@like.Username</p>
+                        }
+
+                    </div>
+                    <input id="PutLikeButtonId" type="button" name="@buttonNameLike" value="Like" />
+                    <div><input id="@commendDestrictionId" type="text" name="discriptin" /></div>
+                    <input id="CommentCreateButtonId" type="button" name="@buttonNameComment" value="Save comment" />
+                    <div id="@CommentPostWithId" class="myBox">
+
+                        @foreach (var comment in post.Comments)
+                        {
+                            <img src="@comment.PictureProfile" style="max-height:30px;max-width:60px" />
+                            <p>@comment.Username : @comment.Description</p>
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <div id="right">
+        <div id="AskFriendList"></div>
+
+        <div class="row">
+            <div id="Chat"></div>
+            <div style="float: right; right: 5%">
+                <h4>Friends:</h4>
+                <ul id="FriendList" class="list-group" style="border: 2px solid; float:right"></ul>
+            </div>
+        </div>
+    </div>
+
     @*<h3>Messages: </h3>
         @{
             foreach (var message in Model.Messages)
@@ -57,6 +120,7 @@
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
     <script src="~/Scripts/ScriptAllPostInfo.js"></script>
+    <script src="~/Scripts/ScriptButtonsOnPosts.js"></script>
     <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>
     <script src="~/Scripts/ScriptsForButtons.js"></script>
     <script src="~/Scripts/ScriptForNotificationsOnUser.js"></script>

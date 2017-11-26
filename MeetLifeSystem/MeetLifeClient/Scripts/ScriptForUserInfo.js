@@ -40,7 +40,7 @@ function getDataUserInfo() {
 }
 
 //for chat
-$("#UsersList").on("click", "#specifik", function (e) {
+$("#FriendList").on("click", "#specifik", function (e) {
     var userName = $(this).find("#User").text();
 
     var $tbl = $("#Chat");

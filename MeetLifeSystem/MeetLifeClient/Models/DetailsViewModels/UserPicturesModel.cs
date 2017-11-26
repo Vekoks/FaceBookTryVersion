@@ -21,7 +21,7 @@ namespace MeetLifeClient.Models
 
         public string SrcPistures { get; set; }
 
-        public int Date { get; set; }
+        public string Date { get; set; }
 
         public bool IsProfilePicture { get; set; }
 
