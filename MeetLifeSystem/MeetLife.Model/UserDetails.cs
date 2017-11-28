@@ -9,13 +9,6 @@ namespace MeetLife.Model
 {
     public class UserDetails
     {
-        private ICollection<Picture> pitures;
-
-        public UserDetails()
-        {
-            this.pitures = new List<Picture>();
-        }
-
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -29,11 +22,5 @@ namespace MeetLife.Model
         public string UserId { get; set; }
 
         public virtual User User { get; set; }
-
-        public virtual ICollection<Picture> Pitures
-        {
-            get { return pitures; }
-            set { pitures = value; }
-        }
     }
 }

@@ -15,25 +15,20 @@ namespace MeetLifeClient.Controllers
         
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
-        private readonly IFrieandsInfo _infoAllUser;
+        private readonly IUsersInfo _infoAllUser;
         private readonly IAskFriendInfo _infoForAskFriend;
         private readonly INoSeenMessage _infoNoSeenMessage;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
         private readonly INotificationOnUser _infoNotificationOnUser;
-        private readonly IUserDetailService _detailService;
-        private readonly IAllPostInfo _infoForAllPost;
-        private readonly ILikeOnPost _infoForLIkes;
 
         public HomeController(IUserService userService,
-                              IFrieandsInfo infoUser,
+                              IUsersInfo infoUser,
                               IAskFriendInfo infoFriend,
                               IAllPostInfo infoPost,
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService,
                               ICommentOnThePost infoCommentsOnThePost,
-                              INotificationOnUser infoNotificationOnUser,
-                              IUserDetailService detailService,
-                              ILikeOnPost infoLIkes)
+                              INotificationOnUser infoNotificationOnUser)
         {
             this._userService = userService;
             this._messageService = messageService;
@@ -42,9 +37,6 @@ namespace MeetLifeClient.Controllers
             this._infoNoSeenMessage = infoNoSeenMessage;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
             this._infoNotificationOnUser = infoNotificationOnUser;
-            this._infoForAllPost = infoPost;
-            this._detailService = detailService;
-            this._infoForLIkes = infoLIkes;
         }
 
         public ActionResult Index()
@@ -74,54 +66,6 @@ namespace MeetLifeClient.Controllers
                 return View(notUserModel);
             }
 
-            //Posts
-            var result = _infoForAllPost.GetDataAllPost();
-
-            var resultPost = new List<HomePostModel>();
-
-            foreach (var post in result)
-            {
-                var commentsPost = new List<ViewModelComment>();
-                var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId).ToList();
-
-                foreach (var comment in commentList)
-                {
-                    var profilePicture = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(comment.Username).Id)).Image;
-
-                    commentsPost.Add(new ViewModelComment()
-                    {
-                        Username = comment.Username,
-                        Description = comment.Description,
-                        PictureProfile = Converters.ConvertByteArrToStringForImg(profilePicture)
-                    });
-                }
-
-                var likesPost = new List<ViewModelLike>();
-                var likeList = _infoForLIkes.GetDataLikesOnThePost(post.PostId).ToList();
-
-                foreach (var like in likeList)
-                {
-                    var pictureOfProfile = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(like.UserName).Id)).Image;
-
-                    likesPost.Add(new ViewModelLike()
-                    {
-                        Username = like.UserName,
-                        PictureProfile = Converters.ConvertByteArrToStringForImg(pictureOfProfile)
-                    });
-                }
-
-                resultPost.Add(new HomePostModel
-                {
-                    PostId = post.PostId,
-                    UserName = _userService.GetUserById(post.UserId).UserName,
-                    DiscriptionPost = post.Discription,
-                    PicturePost = Converters.ConvertByteArrToStringForImg(post.Picture),
-                    DateOnPost = Converters.CreateStringDate(post.DatePost),
-                    Likes = likesPost,
-                    Comments = commentsPost
-                });
-            }
-
             var allAskForFriend = userLogged.InvitationForFriends.ToList();
             var message = userLogged.MissMessages.ToList();
 
@@ -129,8 +73,7 @@ namespace MeetLifeClient.Controllers
             {
                 AllAskForFriend = allAskForFriend,
                 Messages = message,
-                CountAskForFriend = allAskForFriend.Count,
-                Posts = resultPost
+                CountAskForFriend = allAskForFriend.Count
             };
 
             return View(model);
@@ -149,6 +92,7 @@ namespace MeetLifeClient.Controllers
 
             return View();
         }
+
 
         public ActionResult ConferFriend(string UserName, string confirm)
         {
@@ -172,16 +116,7 @@ namespace MeetLifeClient.Controllers
         [HttpGet]
         public JsonResult ResultInfoForUsers()
         {
-            var loggedUserName = this.User.Identity.Name;
-
-            if (loggedUserName == "")
-            {
-                return Json(null, JsonRequestBehavior.AllowGet);
-            }
-
-            var loggedUser = _userService.GetUserByUserName(loggedUserName);
-
-            var result = _infoAllUser.GetFriends(loggedUser.Id);
+            var result = _infoAllUser.GetData();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -271,7 +206,7 @@ namespace MeetLifeClient.Controllers
         {
             var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
 
-            var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id).Reverse();
+            var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id);
 
             return Json(resoultNotifications, JsonRequestBehavior.AllowGet);
         }

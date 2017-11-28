@@ -32,8 +32,6 @@ namespace MeetLife.Data
 
         public IDbSet<StoreMessage> StoreMessages { get; set; }
 
-        public IDbSet<Picture> Pictures { get; set; }
-
 
         public static MeetLifeDbContext Create()
         {

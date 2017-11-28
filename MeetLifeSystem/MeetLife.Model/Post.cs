@@ -22,10 +22,7 @@ namespace MeetLife.Model
 
         public string Disctription { get; set; }
 
-        [Column(TypeName = "image")]
-        public byte[] ImagePost{ get; set; }
-
-        public int PictureId { get; set; }
+        public bool IsProfilePicture { get; set; }
 
         public DateTime DateOnPost { get; set; }
 
@@ -36,6 +33,10 @@ namespace MeetLife.Model
         public string UserId { get; set; }
 
         public virtual User User { get; set; }
+
+        public int? PictureId { get; set; }
+
+        public virtual Picture Picture { get; set; }
 
         public virtual ICollection<CommendsOnPost> Comments
         {

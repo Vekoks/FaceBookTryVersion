@@ -13,7 +13,5 @@ namespace MeetLifeClient.Models
         public int CountAskForFriend { get; set; }
 
         public List<MissMessage> Messages { get; set; }
-
-        public List<HomePostModel> Posts { get; set; }
     }
 }

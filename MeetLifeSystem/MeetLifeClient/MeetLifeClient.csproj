@@ -224,8 +224,7 @@
     <Compile Include="Models\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="Models\AccountViewModels\VerifyCodeViewModel.cs" />
-    <Compile Include="Models\Converters.cs" />
-    <Compile Include="Models\DetailsViewModels\DeatailSearchUserModel.cs" />
+    <Compile Include="Models\Converts.cs" />
     <Compile Include="Models\DetailsViewModels\UserPicturesModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeLikeModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeNoSeenMessageModel.cs" />
@@ -263,8 +262,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\commentsBoxForBegining.css" />
-    <Content Include="Content\commentsBoxForDetails.css" />
     <Content Include="Content\MySite.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -283,8 +280,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\ScriptButtonsOnPosts.js" />
-    <Content Include="Scripts\ScriptForNotificationsOnUser.js" />
     <Content Include="Scripts\ScriptsForButtons.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

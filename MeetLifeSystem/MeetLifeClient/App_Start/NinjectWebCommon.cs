@@ -75,7 +75,7 @@ namespace MeetLifeClient.App_Start
             kernel.Bind<IAllPostInfo>().To<AllPostInf>();
             kernel.Bind<ILikeOnPost>().To<LikeOnPost>();
             kernel.Bind<IAskFriendInfo>().To<AskFriendInfo>();
-            kernel.Bind<IFrieandsInfo>().To<FriendsInfo>();
+            kernel.Bind<IUsersInfo>().To<UsersInfo>();
             kernel.Bind<INoSeenMessage>().To<NoSeenMessage>();
             kernel.Bind<IMessageService>().To<MessageService>();
             kernel.Bind<IPostService>().To<PostService>();

@@ -43,84 +43,80 @@ namespace MeetLife.Services
             this._userDetailRepo.SaveChanges();
         }
 
-        public Picture AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture)
-        {
-            var newPictures =(new Picture
-            {
-                Description = Description,
-                DateUploading = DateTime.Now,
-                Image = Picture,
-                IsProfilPicture = false
-            });
+        //public void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture)
+        //{
+        //    UserDetails.Pitures.Add(new Picture
+        //    {
+        //        Description = Description,
+        //        DateUploading = DateTime.Now,
+        //        Image = Picture,
+        //        IsProfilPicture = false
+        //    });
 
-            UserDetails.Pitures.Add(newPictures);
+        //    _userDetailRepo.SaveChanges();
+        //}
 
-            _userDetailRepo.SaveChanges();
+        //public void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture)
+        //{
+        //    var oldProfilPicture = UserDetails.Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
 
-            return newPictures;
-        }
+        //    if (oldProfilPicture != null)
+        //    {
+        //        oldProfilPicture.IsProfilPicture = false;
+        //    }
 
-        public void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture)
-        {
-            var oldProfilPicture = UserDetails.Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
+        //    UserDetails.Pitures.Add(new Picture
+        //    {
+        //        Description = "",
+        //        DateUploading = DateTime.Now,
+        //        Image = Picture,
+        //        IsProfilPicture = true
+        //    });
 
-            if (oldProfilPicture != null)
-            {
-                oldProfilPicture.IsProfilPicture = false;
-            }
+        //    _userDetailRepo.SaveChanges();
+        //}
 
-            UserDetails.Pitures.Add(new Picture
-            {
-                Description = "",
-                DateUploading = DateTime.Now,
-                Image = Picture,
-                IsProfilPicture = true
-            });
+        //public IEnumerable<Picture> GetAllPisturesOnUser(UserDetails UserDetails)
+        //{
+        //    var resoult = new List<Picture>();
 
-            _userDetailRepo.SaveChanges();
-        }
-
-        public IEnumerable<Picture> GetAllPisturesOnUser(UserDetails UserDetails)
-        {
-            var resoult = new List<Picture>();
-
-            try
-            {
-                resoult = UserDetails.Pitures.OrderBy(x=>x.DateUploading).ToList();
-            }
-            catch (Exception)
-            {
+        //    try
+        //    {
+        //        resoult = UserDetails.Pitures.OrderBy(x=>x.DateUploading).ToList();
+        //    }
+        //    catch (Exception)
+        //    {
                
-            }
+        //    }
 
-            return resoult;
-        }
+        //    return resoult;
+        //}
 
-        public Picture GetProfilePicture(UserDetails UserDetails)
-        {
-            var resoult = new Picture();
+        //public Picture GetProfilePicture(UserDetails UserDetails)
+        //{
+        //    var resoult = new Picture();
 
-            try
-            {
-                resoult = UserDetails.Pitures.Where(x=>x.IsProfilPicture == true).FirstOrDefault();
-            }
-            catch (Exception)
-            {
+        //    try
+        //    {
+        //        resoult = UserDetails.Pitures.Where(x=>x.IsProfilPicture == true).FirstOrDefault();
+        //    }
+        //    catch (Exception)
+        //    {
 
-            }
+        //    }
 
-            return resoult;
-        }
+        //    return resoult;
+        //}
 
         public void ChangeProfilePicture(UserDetails UserDetails, int NewPictureId)
         {
-            var oldProfilePicture = UserDetails.Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
-            oldProfilePicture.IsProfilPicture = false;
+            //var oldProfilePicture = UserDetails.Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
+            //oldProfilePicture.IsProfilPicture = false;
 
-            var newProfilePicture = UserDetails.Pitures.Where(x => x.Id == NewPictureId).FirstOrDefault();
-            newProfilePicture.IsProfilPicture = true;
+            //var newProfilePicture = UserDetails.Pitures.Where(x => x.Id == NewPictureId).FirstOrDefault();
+            //newProfilePicture.IsProfilPicture = true;
 
-            _userDetailRepo.SaveChanges();
+            //_userDetailRepo.SaveChanges();
         }
     }
 }

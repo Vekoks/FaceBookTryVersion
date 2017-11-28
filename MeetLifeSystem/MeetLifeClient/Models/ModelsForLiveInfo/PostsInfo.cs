@@ -1,5 +1,4 @@
 ﻿using MeetLifeClient.Hubs;
-using MeetLifeClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,22 +7,28 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace MeetLifeClient.Models
+namespace MeetLifeClient.Models.ModelsForLiveInfo
 {
-    public class UsersInfo : IUsersInfo
+    public class PostsInfo : IPostsInfo
     {
-        public string Name { get; set; }
+        public DateTime DateOnPost { get; set; }
 
-        public bool IsOnline { get; set; }
+        public string Description { get; set; }
 
-        public IEnumerable<IUsersInfo> GetData()
+        public byte[] ImagePost { get; set; }
+
+        public int PostID { get; set; }
+
+        public string UserId { get; set; }
+
+
+        public IEnumerable<IPostsInfo> GetPosts()
         {
-
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MeetLifeSystem"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT [UserName],[IsOnline]
-               FROM [dbo].[AspNetUsers]", connection))
+                using (SqlCommand command = new SqlCommand(@"SELECT [Id],[Disctription],[ImagePost],[DateOnPost],[UserId]
+                FROM [dbo].[Posts]", connection))
                 {
                     // Make sure the command object does not already have
                     // a notification object associated with it.
@@ -37,18 +42,20 @@ namespace MeetLifeClient.Models
 
                     using (var reader = command.ExecuteReader())
                         return reader.Cast<IDataRecord>()
-                            .Select(x => new UsersInfo()
+                            .Select(x => new PostsInfo()
                             {
-                                Name = x.GetString(0),
-                                IsOnline = x.GetBoolean(1)
+                               PostID = x.GetInt32(0),
+                               Description =x.GetString(1),
+                               ImagePost = (byte[])x.GetValue(2),
+                               DateOnPost = x.GetDateTime(3),
+                               UserId = x.GetString(4)
                             }).ToList();
                 }
             }
         }
-
         private void dependency_OnChangeUser(object sender, SqlNotificationEventArgs e)
         {
-            UserHub.Show();
+            PostHub.Show();
         }
     }
 }

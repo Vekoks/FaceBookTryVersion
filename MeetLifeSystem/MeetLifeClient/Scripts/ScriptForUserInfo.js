@@ -15,7 +15,7 @@ $(function () {
 
 
 function getDataUserInfo() {
-    var $tbl = $('#FriendList');
+    var $tbl = $('#UsersList');
     $.ajax({
         url: 'ResultInfoForUsers',
         type: 'GET',
@@ -40,7 +40,7 @@ function getDataUserInfo() {
 }
 
 //for chat
-$("#FriendList").on("click", "#specifik", function (e) {
+$("#UsersList").on("click", "#specifik", function (e) {
     var userName = $(this).find("#User").text();
 
     var $tbl = $("#Chat");

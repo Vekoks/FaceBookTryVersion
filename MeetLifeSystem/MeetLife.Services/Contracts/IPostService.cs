@@ -9,7 +9,7 @@ namespace MeetLife.Services.Contracts
 {
     public interface IPostService
     {
-        void AddPostToUser(User User, string discriptinPost, byte[] Picture, int PictureId);
+        void AddPostToUser(User User, string discriptinPost, byte[] Picture, bool IsProfilePicture);
 
         void AddCommentToPost(int PostId, User User, string discriptinComment);
 
@@ -17,12 +17,20 @@ namespace MeetLife.Services.Contracts
 
         Post GetPostWithId(int PostId);
 
-        Post GetPostWithPicturesWithPictureId(int PostId);
-
         List<Post> GetPostWithNewComment();
 
         void PutLikeOnThePost(int PostId, User User);
 
         List<Post> GetLikeOnThePost();
+
+        byte[] GetPictureProfileFromPost(User LoggedUser);
+
+        List<Post> GetAllPostWithPictureOnUser(User User);
+
+        void ChangeProfilePicture(User LoggedUser, int NewPictureId);
+
+        byte[] GetPictureOnPost(int? PostId);
+
+        void ClearProfilePictureOnPost(User User);
     }
 }

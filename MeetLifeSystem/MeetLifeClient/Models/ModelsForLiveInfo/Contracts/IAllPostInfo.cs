@@ -14,7 +14,7 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
 
         DateTime DatePost { get; set; }
 
-        byte[] Picture { get; set; }
+        object PictureId { get; set; }
 
         string UserId { get; set; }
 

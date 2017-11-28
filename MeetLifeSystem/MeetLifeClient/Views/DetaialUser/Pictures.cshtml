@@ -36,38 +36,22 @@
         }
 
         <table id="TablePictures">
-            @if (Model.SrcPistures.Count > 3)
+            @if (Model.PostsWithPictures.Count > 3)
             {
-                for (int i = 0; i < Model.SrcPistures.Count; i += 3)
+                for (int i = 0; i < Model.PostsWithPictures.Count; i += 3)
                 {
                     <tr>
                         @for (int j = i; j < i + 3; j++)
                         {
-                            if (j < Model.SrcPistures.Count)
+                            if (j < Model.PostsWithPictures.Count)
                             {
                                 <td>
-                                    <p>@Model.SrcPistures[j].Destriction</p>
-                                    <p>@Model.SrcPistures[j].Date</p>
-                                    <img src="@Model.SrcPistures[j].SrcPistures" alt="Alternate Text" style="max-height:300px;max-width:300px" />
-                                    <p>Like: @Model.SrcPistures[j].Likes</p>
-
-                                    <input id="@Model.SrcPistures[j].PictureId" type="text" name="description" />
-                                    <button id="CommentPictures" name="@Model.SrcPistures[j].PictureId">Create comment</button>
-
-                                    @if (Model.UserName != User.Identity.Name)
+                                    <p>@Model.PostsWithPictures[j].Disctription</p>
+                                    <p>@Model.PostsWithPictures[j].DateOnPost</p>
+                                    <img src="@Model.PostsWithPictures[j].ImagePost" alt="" style="max-height:300px;max-width:300px" />
+                                    @if (!@Model.PostsWithPictures[j].IsProfilePicture)
                                     {
-                                        <button id="LikePictures" name="@Model.SrcPistures[j].PictureId">Like</button>
-                                    }
-
-                                    @if (!@Model.SrcPistures[j].IsProfilePicture && Model.UserName == User.Identity.Name)
-                                    {
-                                        <button id="MekaProfilePicture" name="@Model.SrcPistures[j].PictureId">Make profile picture</button>
-                                    }
-
-                                    <h4>Comments</h4>
-                                    @foreach (var comment in @Model.SrcPistures[j].Comments)
-                                    {
-                                        <p> @comment.Username: @comment.Description</p>
+                                        <button id="MekaProfilePicture" name="@Model.PostsWithPictures[j].PostId">Make profile picture</button>
                                     }
                                 </td>
                             }
@@ -78,32 +62,15 @@
             else
             {
                 <tr>
-                    @foreach (var picture in Model.SrcPistures)
+                    @foreach (var picture in Model.PostsWithPictures)
                     {
                         <td>
-                            <p>@picture.Destriction</p>
-                            <p>@picture.Date</p>
-                            <img src="@picture.SrcPistures" alt="Alternate Text" style="max-height:300px;max-width:300px" />
-                            <p>Like: @picture.Likes</p>
-
-                            <input id="@picture.PictureId" type="text" name="description" />
-                            <button id="CommentPictures" name="@picture.PictureId">Create comment</button>
-
-                            @if (Model.UserName != User.Identity.Name)
+                            <p>@picture.Disctription</p>
+                            <p>@picture.DateOnPost</p>
+                            <img src="@picture.ImagePost" alt="" style="max-height:300px;max-width:300px" />
+                            @if (!picture.IsProfilePicture)
                             {
-                                <button id="LikePictures" name="@picture.PictureId">Like</button>
-                            }
-
-
-                            @if (!picture.IsProfilePicture && Model.UserName == User.Identity.Name)
-                            {
-                                <button id="MekaProfilePicture" name="@picture.PictureId">Make profile picture</button>
-                            }
-
-                            <h4>Comments</h4>
-                            @foreach (var comment in picture.Comments)
-                            {
-                                <p> @comment.Username: @comment.Description</p>
+                                <button id="MekaProfilePicture" name="@picture.PostId">Make profile picture</button>
                             }
                         </td>
                     }
@@ -111,8 +78,28 @@
             }
         </table>
     </div>
+   
+    <script>
+        $("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
 
-    <script src="~/Scripts/ScriptsForButtons.js"></script>
+            var postId = $(this).attr('name');
+
+            $.ajax({
+                url: "/DetaialUser/ChangeProfilePicture",
+                type: "POST",
+                data: JSON.stringify({ PostId: postId.toString() }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.status == "Success") {
+                        window.location.href = '@Url.Action("Pictures/" + User.Identity.Name, "DetaialUser")';
+                    }
+                }
+            });
+
+        });
+    </script>
 
 </body>
 </html>

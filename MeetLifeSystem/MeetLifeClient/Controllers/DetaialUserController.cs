@@ -4,7 +4,6 @@ using MeetLife.Model;
 using MeetLife.Services;
 using MeetLife.Services.Contracts;
 using MeetLifeClient.Models;
-using MeetLifeClient.Models.ModelsForLiveInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +15,14 @@ namespace MeetLifeClient.Controllers
     public class DetaialUserController : Controller
     {
         private readonly IUserDetailService _detailService;
-        private readonly IPostService _postService;
         private readonly IUserService _userService;
-        private readonly ICommentOnThePost _infoCommentsOnThePost;
-        private readonly ILikeOnPost _infoForLIkes;
+        private readonly IPostService _postService;
 
-        public DetaialUserController(IUserService userService, 
-                                     IUserDetailService detailService, 
-                                     IPostService postService,
-                                     ICommentOnThePost infoCommentsOnThePost,
-                                     ILikeOnPost infoLIkes)
+        public DetaialUserController(IUserService userService, IUserDetailService detailService, IPostService postService)
         {
             this._detailService = detailService;
             this._userService = userService;
             this._postService = postService;
-            this._infoCommentsOnThePost = infoCommentsOnThePost;
-            this._infoForLIkes = infoLIkes;
         }
 
         // GET: DetaialUser
@@ -43,9 +34,23 @@ namespace MeetLifeClient.Controllers
 
             var details = _detailService.GetDetailByUserId(userLogged.Id);
 
-            var profilPicture = _detailService.GetProfilePicture(details);
+            var profilPicture = _postService.GetPictureProfileFromPost(userLogged);
 
-            var resultPost = new List<HomePostModel>();
+            var listPost = userLogged.Posts.OrderByDescending(x => x.DateOnPost);
+
+            var viewListPost = new List<PostViewDetais>();
+
+            foreach (var post in listPost)
+            {
+                viewListPost.Add(new PostViewDetais
+                {
+                    Disctription = post.Disctription,
+                    DateOnPost = post.DateOnPost,
+                    PicturePost = _postService.GetPictureOnPost(post.PictureId),
+                    Comments = post.Comments,
+                    Likes = post.Likes
+                });
+            }
 
             if (details == null)
             {
@@ -57,67 +62,22 @@ namespace MeetLifeClient.Controllers
                     Age = 0,
                     ImageBrand = "",
                     Friends = userLogged.Friends,
-                    Post = resultPost
+                    Post = viewListPost
                 };
 
                 return View(model);
             }
             else
             {
-                var postList = userLogged.Posts.OrderByDescending(x => x.DateOnPost);
-
-                foreach (var post in postList)
-                {
-                    var commentsPost = new List<ViewModelComment>();
-
-                    var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.Id).ToList();
-
-                    foreach (var comment in commentList)
-                    {
-                        var profilePicture = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(comment.Username).Id)).Image;
-
-                        commentsPost.Add(new ViewModelComment()
-                        {
-                            Username = comment.Username,
-                            Description = comment.Description,
-                            PictureProfile = Converters.ConvertByteArrToStringForImg(profilePicture)
-                        });
-                    }
-
-                    var likePost = new List<ViewModelLike>();
-                    var likeList = _infoForLIkes.GetDataLikesOnThePost(post.Id).ToList();
-
-                    foreach (var like in likeList)
-                    {
-                        var profilePicture = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(like.UserName).Id)).Image;
-                        likePost.Add(new ViewModelLike()
-                        {
-                            Username = like.UserName,
-                            PictureProfile = Converters.ConvertByteArrToStringForImg(profilePicture)
-                        });
-                    }
-
-                    resultPost.Add(new HomePostModel
-                    {
-                        PostId = post.Id,
-                        UserName = _userService.GetUserById(post.UserId).UserName,
-                        DiscriptionPost = post.Disctription,
-                        PicturePost = Converters.ConvertByteArrToStringForImg(post.ImagePost),
-                        DateOnPost = Converters.CreateStringDate(post.DateOnPost),
-                        Likes = likePost,
-                        Comments = commentsPost
-                    });
-                }
-
                 var model = new UserDetailsViewModel()
                 {
                     FirstName = details.FirstName,
                     LastName = details.LastName,
                     Adress = details.Adress,
                     Age = details.Age,
-                    ImageBrand = Converters.ConvertByteArrToStringForImg(profilPicture.Image),
+                    ImageBrand = Converts.ConvertByteArrToStringForImg(profilPicture),
                     Friends = userLogged.Friends,
-                    Post = resultPost
+                    Post = viewListPost
                 };
 
                 return View(model);
@@ -134,12 +94,12 @@ namespace MeetLifeClient.Controllers
             var userFriend = _userService.GetUserByUserName(UserName);
 
             var details = _detailService.GetDetailByUserId(userFriend.Id);
-            var profilPicture = _detailService.GetProfilePicture(details);
+            var profilPicture = _postService.GetPictureProfileFromPost(userLogged);
 
             var ckeckFriend = _userService.CkeckForFriend(userLogged, userFriend);
 
             var model = new FriendDetailViewModel();
-            var resultPost = new List<HomePostModel>();
+
 
             if (details == null)
             {
@@ -150,91 +110,20 @@ namespace MeetLifeClient.Controllers
                 model.Age = 0;
                 model.ImageUser = "";
                 model.CheckForFriend = ckeckFriend;
-                model.Post = resultPost;
-                model.Friends = new List<User>();
             }
             else
             {
-                var postList = userFriend.Posts.OrderByDescending(x => x.DateOnPost);
-
-                foreach (var post in postList)
-                {
-                    var commentsPost = new List<ViewModelComment>();
-
-                    var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.Id).ToList();
-
-                    foreach (var comment in commentList)
-                    {
-                        var profilePicture = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(comment.Username).Id)).Image;
-
-                        commentsPost.Add(new ViewModelComment()
-                        {
-                            Username = comment.Username,
-                            Description = comment.Description,
-                            PictureProfile = Converters.ConvertByteArrToStringForImg(profilePicture)
-                        });
-                    }
-
-                    var likePost = new List<ViewModelLike>();
-                    var likeList = _infoForLIkes.GetDataLikesOnThePost(post.Id).ToList();
-
-                    foreach (var like in likeList)
-                    {
-                        var profilePicture = _detailService.GetProfilePicture(_detailService.GetDetailByUserId(_userService.GetUserByUserName(like.UserName).Id)).Image;
-                        likePost.Add(new ViewModelLike()
-                        {
-                            Username = like.UserName,
-                            PictureProfile = Converters.ConvertByteArrToStringForImg(profilePicture)
-                        });
-                    }
-
-                    resultPost.Add(new HomePostModel
-                    {
-                        PostId = post.Id,
-                        UserName = _userService.GetUserById(post.UserId).UserName,
-                        DiscriptionPost = post.Disctription,
-                        PicturePost = Converters.ConvertByteArrToStringForImg(post.ImagePost),
-                        DateOnPost = Converters.CreateStringDate(post.DateOnPost),
-                        Likes = likePost,
-                        Comments = commentsPost
-                    });
-                }
-
                 model.UserName = userFriend.UserName;
                 model.FirstName = details.FirstName;
                 model.LastName = details.LastName;
                 model.Adress = details.Adress;
                 model.Age = details.Age;
-                model.ImageUser = Converters.ConvertByteArrToStringForImg(profilPicture.Image);
+                model.ImageUser = Converts.ConvertByteArrToStringForImg(profilPicture);
                 model.CheckForFriend = ckeckFriend;
-                model.Post = resultPost;
-                model.Friends = userFriend.Friends;
             }
 
 
             return View("FriendDetailsView", model);
-        }
-
-
-        [HttpGet]
-        public JsonResult SearchUsers()
-        {
-            var searchUsers = _userService.GetAllUsers().ToList();
-
-            var resoult = new List<DeatailSearchUserModel>();
-
-            foreach (var user in searchUsers)
-            {
-                var profilePicture = _detailService.GetDetailByUserId(user.Id).Pitures.Where(x => x.IsProfilPicture == true).FirstOrDefault();
-
-                resoult.Add(new DeatailSearchUserModel()
-                {
-                    UserName = user.UserName,
-                    ProfilePicture = Converters.ConvertByteArrToStringForImg(profilePicture.Image)
-                });
-            }
-
-            return Json(resoult, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Pictures(string UserName)
@@ -243,39 +132,28 @@ namespace MeetLifeClient.Controllers
 
             var userDetail = _detailService.GetDetailByUserId(user.Id);
 
-            var allPictures = _detailService.GetAllPisturesOnUser(userDetail);
+            var postWithPicture = _postService.GetAllPostWithPictureOnUser(user);
 
-            var listeInfoPuctires = new List<InfoPuctires>();
+            var resoultPost = new List<ListPostWithPicture>();
 
-            foreach (var picture in allPictures)
+            foreach (var post in postWithPicture)
             {
-                var postWithTargetPictures = _postService.GetPostWithPicturesWithPictureId(picture.Id);
-
-                if (postWithTargetPictures == null)
+                resoultPost.Add(new ListPostWithPicture
                 {
-                    postWithTargetPictures = new Post
-                    {
-                        Likes = new List<LikesOnPost>(),
-                        Comments = new List<CommendsOnPost>()
-                    };
-                }
-
-                listeInfoPuctires.Add(new InfoPuctires
-                {
-                    PictureId = picture.Id,
-                    Destriction = picture.Description,
-                    Date = Converters.CreateStringDate(picture.DateUploading),
-                    SrcPistures = Converters.ConvertByteArrToStringForImg(picture.Image),
-                    IsProfilePicture = picture.IsProfilPicture,
-                    Likes = postWithTargetPictures.Likes.Count(),
-                    Comments = postWithTargetPictures.Comments.ToList()
+                    PostId = post.Id,
+                    Disctription = post.Disctription,
+                    ImagePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(post.PictureId)),
+                    DateOnPost = (int)DateTime.Now.Subtract(post.DateOnPost).TotalMinutes,
+                    IsProfilePicture = post.IsProfilePicture,
+                    Comments = post.Comments,
+                    Likes = post.Likes
                 });
             }
 
             var model = new UserPicturesModel
             {
                 UserName = UserName,
-                SrcPistures = listeInfoPuctires
+                PostsWithPictures = resoultPost
             };
 
             return View(model);
@@ -289,12 +167,10 @@ namespace MeetLifeClient.Controllers
 
             var userDetail = _detailService.GetDetailByUserId(user.Id);
 
-            var picutre = new byte[image.ContentLength];
-            image.InputStream.Read(picutre, 0, image.ContentLength);
+            var picture = new byte[image.ContentLength];
+            image.InputStream.Read(picture, 0, image.ContentLength);
 
-            var newPictures = _detailService.AddNewPictureOnUser(userDetail, discriptin, picutre);
-
-            _postService.AddPostToUser(user, discriptin, picutre, newPictures.Id);
+            _postService.AddPostToUser(user, discriptin, picture, false);
 
             return RedirectToAction("Pictures/" + User.Identity.Name, "DetaialUser");
         }
@@ -309,9 +185,6 @@ namespace MeetLifeClient.Controllers
 
             var userDetail = _detailService.GetDetailByUserId(user.Id);
 
-            var pitureBytes = new byte[image.ContentLength];
-            image.InputStream.Read(pitureBytes, 0, image.ContentLength);
-
             if (userDetail != null)
             {
                 userDetail.FirstName = model.FirstName;
@@ -320,7 +193,6 @@ namespace MeetLifeClient.Controllers
                 userDetail.Age = model.Age;
 
                 _detailService.UpdataDetail(userDetail);
-                _detailService.AddNewProfilePicture(userDetail, pitureBytes);
             }
             else
             {
@@ -335,7 +207,16 @@ namespace MeetLifeClient.Controllers
                 };
 
                 _detailService.AddDetails(newDetails);
-                _detailService.AddNewProfilePicture(newDetails, pitureBytes);
+            }
+
+            if (image != null)
+            {
+                var pitureBytes = new byte[image.ContentLength];
+                image.InputStream.Read(pitureBytes, 0, image.ContentLength);
+
+                _postService.ClearProfilePictureOnPost(user);
+                _postService.AddPostToUser(user, "Change your profile picture ", pitureBytes, true);
+
             }
 
             return RedirectToAction("Index", "DetaialUser");
@@ -360,15 +241,13 @@ namespace MeetLifeClient.Controllers
             return RedirectToAction("Begining", "Home");
         }
 
-        public ActionResult ChangeProfilePicture(string PictureId)
+        public ActionResult ChangeProfilePicture(string PostId)
         {
             var name = User.Identity.Name;
 
             var user = _userService.GetUserByUserName(name);
 
-            var userDetail = _detailService.GetDetailByUserId(user.Id);
-
-            _detailService.ChangeProfilePicture(userDetail, int.Parse(PictureId));
+            _postService.ChangeProfilePicture(user, int.Parse(PostId));
 
             return Json(new { status = "Success", message = name });
         }

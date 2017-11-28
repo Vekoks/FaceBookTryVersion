@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MeetLifeClient.Models
 {
-    public static class Converters
+    public static class Converts
     {
         public static string ConvertByteArrToStringForImg(byte[] arr)
         {

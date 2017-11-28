@@ -8,7 +8,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    <link rel="stylesheet" type="text/css" href="~/Content/commentsBoxForDetails.css">
+
     <style>
         #left {
             width: 40%;
@@ -68,7 +68,7 @@
             <button id="EditInfoUser">Idet information</button>
 
             <div id="FormInfo" class="hidden">
-                @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @enctype="multipart/form-data"}))
                 {
                     @Html.AntiForgeryToken()
                     <h4>Edit information for user.</h4>
@@ -112,13 +112,14 @@
             </div>
         </div>
 
-        <a href="/DetaialUser/Pictures/@User.Identity.GetUserName()" class="btn btn-info">Pictures</a>
+        <a href="/DetaialUser/Pictures/@User.Identity.GetUserName()" class = "btn btn-info">Pictures</a>
 
         <div id="central">
-            @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
+                
                 <div class="form-group">
                     <label>Write post information</label>
                     <div>
@@ -126,9 +127,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Pictures </label>
+                    @Html.LabelFor(m => m.ImageBrand, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        <input type="file" id="image" name="Image" value="Upload" />
+                        <input type="file" id="image" name="Image" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -139,41 +140,18 @@
             }
 
             <div id="PostList">
-                @{
+                @{ 
                     foreach (var post in Model.Post)
                     {
                         <table style="border:2px solid red">
                             <tr>
-                                <td style="text-align:center; padding:10px">
-                                    <p>Post: @post.DiscriptionPost</p>
-                                    <p>@post.DateOnPost min</p>
-                                    <img src='@post.PicturePost' style="max-height:200px;max-width:200px" />
-                                    <button id="CountLike" name="@post.PostId">Like: @post.Likes.Count</button>
-
+                                <td>
                                     @{ 
-                                        var likesId = "ListWithLikes" + @post.PostId;
-                                        var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
-                                        var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                                        var base64 = Convert.ToBase64String(post.PicturePost);
+                                        var srcImg = string.Format("data:image/gif;base64,{0}", base64);
                                     }
-
-                                    <div id=@likesId class="hidden myBox">
-                                        @foreach (var like in post.Likes)
-                                        {
-                                            <img src="@like.PictureProfile" style="max-height:30px;max-width:60px" />
-                                            <p>@like.Username</p>
-                                        }
-                                    </div>
-
-                                    <input id="@commendDestrictionId" type="text" name="discriptin" />
-                                    <input id="CommentCreateButtonId" type="button" name="ButtonComment @post.PostId" value="Save comment" />
-
-                                    <div id="@CommentPostWithId" class="myBox">
-                                        @foreach (var comment in post.Comments)
-                                        {
-                                            <img src="@comment.PictureProfile" style="max-height:30px;max-width:60px" />
-                                            <p>@comment.Username : @comment.Description</p>
-                                        }
-                                    </div>
+                                    <p style="text-align:center; padding:10px">@post.Disctription</p>
+                                    <img src="@srcImg" alt="" style="width:200px; height:200px"/>
                                 </td>
                             </tr>
                         </table>
@@ -193,7 +171,6 @@
         </div>
     </div>
 
-    <script src="~/Scripts/ScriptButtonsOnPosts.js"></script>
     <script src="~/Scripts/ScriptsForButtons.js"></script>
 
 </body>

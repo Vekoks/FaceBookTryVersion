@@ -10,23 +10,23 @@ namespace MeetLifeClient.Models
     {
         public string UserName { get; set; }
 
-        public List<InfoPuctires> SrcPistures { get; set; }
+        public List<ListPostWithPicture> PostsWithPictures { get; set; }
     }
 
-    public class InfoPuctires
+    public class ListPostWithPicture
     {
-        public int PictureId { get; set; }
+        public int PostId { get; set; }
 
-        public string Destriction { get; set; }
+        public string Disctription { get; set; }
 
-        public string SrcPistures { get; set; }
-
-        public string Date { get; set; }
+        public String ImagePost { get; set; }
 
         public bool IsProfilePicture { get; set; }
 
-        public int Likes { get; set; }
+        public int DateOnPost { get; set; }
 
-        public List<CommendsOnPost> Comments { get; set; }
+        public ICollection<CommendsOnPost> Comments { get; set; }
+
+        public ICollection<LikesOnPost> Likes { get; set; }
     }
 }

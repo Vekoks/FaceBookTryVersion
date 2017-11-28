@@ -18,9 +18,9 @@ namespace MeetLifeClient.Models
 
         public DateTime DatePost { get; set; }
 
-        public string UserId { get; set; }
+        public object PictureId { get; set; }
 
-        public byte[] Picture { get; set; }
+        public string UserId { get; set; }
 
         public IEnumerable<IAllPostInfo> GetDataAllPost()
         {
@@ -28,7 +28,7 @@ namespace MeetLifeClient.Models
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MeetLifeSystem"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT [Id],[Disctription],[DateOnPost],[UserId],[ImagePost]
+                using (SqlCommand command = new SqlCommand(@"SELECT [Id],[Disctription],[DateOnPost],[PictureId],[UserId]
                FROM [dbo].[Posts]", connection))
                 {
                     // Make sure the command object does not already have
@@ -48,8 +48,8 @@ namespace MeetLifeClient.Models
                                 PostId = x.GetInt32(0),
                                 Discription = x.GetString(1),
                                 DatePost = x.GetDateTime(2),
-                                UserId = x.GetString(3),
-                                Picture = (byte[])x.GetValue(4)
+                                PictureId = x.GetValue(3),
+                                UserId = x.GetString(4),
                             }).ToList();
                 }
             }

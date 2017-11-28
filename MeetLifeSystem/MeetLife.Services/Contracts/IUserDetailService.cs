@@ -18,13 +18,13 @@ namespace MeetLife.Services.Contracts
 
         void UpdataDetail(UserDetails UserDetails);
 
-        Picture AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture);
+        //void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture);
 
-        void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture);
+        //void AddNewProfilePicture(UserDetails UserDetails, byte[] Picture);
 
-        IEnumerable<Picture> GetAllPisturesOnUser(UserDetails UserDetails);
+        //IEnumerable<Picture> GetAllPisturesOnUser(UserDetails UserDetails);
 
-        Picture GetProfilePicture(UserDetails UserDetails);
+        //Picture GetProfilePicture(UserDetails UserDetails);
 
         void ChangeProfilePicture(UserDetails UserDetails, int NewPictureId);
     }
