@@ -20,20 +20,7 @@ namespace MeetLifeClient.Models
 
         public IEnumerable<User> Friends { get; set; }
 
-        public IEnumerable<PostViewDetais> Post { get; set; }
+        public IEnumerable<HomePostModel> Post { get; set; }
 
-    }
-
-    public class PostViewDetais
-    {
-        public string Disctription { get; set; }
-
-        public DateTime DateOnPost { get; set; }
-
-        public byte[] PicturePost { get; set; }
-
-        public ICollection<CommendsOnPost> Comments;
-
-        public ICollection<LikesOnPost> Likes;
     }
 }

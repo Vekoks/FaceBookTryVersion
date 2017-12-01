@@ -1,7 +1,5 @@
 ﻿@model MeetLifeClient.Models.UserPicturesModel
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -34,72 +32,137 @@
                 </div>
             }
         }
-
-        <table id="TablePictures">
-            @if (Model.PostsWithPictures.Count > 3)
-            {
-                for (int i = 0; i < Model.PostsWithPictures.Count; i += 3)
+        <div id="PostList">
+            <table id="TablePictures">
+                @if (Model.PostsWithPictures.Count > 3)
+                {
+                    var i = 0;
+            
+                    foreach (var post in Model.PostsWithPictures)
+                    {
+                        i++;
+            
+                        <tr>
+                            @for (int j = i; j < i + 3; j++)
+                            {
+                                if (j < Model.PostsWithPictures.Count)
+                                {
+                                    <td>
+                                        <div>
+                                            @{
+                                                var likesId = "ListWithLikes" + @post.PostId;
+                                                var ButtonLike = "ButtonLike " + @post.PostId;
+                                                var ButtonComment = "ButtonComment " + @post.PostId;
+                                                var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
+                                                var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                                            }
+            
+                                            <a id="UserName" href="/DetaialUser/Details/@post.UserName">@post.UserName</a>
+                                            <p>Time: @post.DateOnPost min</p>
+                                            <p>Post: @post.DiscriptionPost</p>
+                                            <img src="@post.PicturePost" alt="" style="max-height:300px;max-width:300px" />
+                                            <button id="CountLike" name="@post.PostId">Like: @post.Likes.Count</button>
+                                            <div id="@likesId" class="hidden myBox">
+            
+                                                @foreach (var like in post.Likes)
+                                                {
+                                                    <img src="@like.PictureProfile" style="max-height:30px;max-width:60px" />
+                                                    <p>@like.Username</p>
+                                                }
+            
+                                            </div>
+            
+                                            @if (!Model.UserName.Contains(this.User.Identity.Name))
+                                            {
+                                                <input id="PutLikeButtonId" type="button" name="@ButtonLike" value="Like" />
+                                            }
+            
+                                            @if (!post.IsProfilePicture && Model.UserName == User.Identity.Name)
+                                            {
+                                                <button id="MekaProfilePicture" name="@post.PostId">Make profile picture</button>
+                                            }
+            
+                                            <div>
+                                                <input id="@commendDestrictionId" type="text" name="discriptin" />
+                                            </div>
+                                            <input id="CommentCreateButtonId" type="button" name="@ButtonComment" value="Save comment" />
+                                            <div id="@CommentPostWithId">
+            
+                                                @foreach (var comment in post.Comments)
+                                                {
+                                                    <img src="@comment.PictureProfile" style="max-height:30px;max-width:60px" />
+                                                    <p>@comment.Username : @comment.Description</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        @for (int j = i; j < i + 3; j++)
+                        @foreach (var post in Model.PostsWithPictures)
                         {
-                            if (j < Model.PostsWithPictures.Count)
-                            {
-                                <td>
-                                    <p>@Model.PostsWithPictures[j].Disctription</p>
-                                    <p>@Model.PostsWithPictures[j].DateOnPost</p>
-                                    <img src="@Model.PostsWithPictures[j].ImagePost" alt="" style="max-height:300px;max-width:300px" />
-                                    @if (!@Model.PostsWithPictures[j].IsProfilePicture)
-                                    {
-                                        <button id="MekaProfilePicture" name="@Model.PostsWithPictures[j].PostId">Make profile picture</button>
+                            <td>
+                                <div>
+                                    @{
+                                        var likesId = "ListWithLikes" + @post.PostId;
+                                        var ButtonLike = "ButtonLike " + @post.PostId;
+                                        var ButtonComment = "ButtonComment " + @post.PostId;
+                                        var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
+                                        var CommentPostWithId = "CommentPostWithId" + @post.PostId;
                                     }
-                                </td>
-                            }
+            
+                                    <a id="UserName" href="/DetaialUser/Details/@post.UserName">@post.UserName</a>
+                                    <p>Time: @post.DateOnPost min</p>
+                                    <p>Post: @post.DiscriptionPost</p>
+                                    <img src="@post.PicturePost" alt="" style="max-height:300px;max-width:300px" />
+                                    <button id="CountLike" name="@post.PostId">Like: @post.Likes.Count</button>
+                                    <div id="@likesId" class="hidden myBox">
+            
+                                        @foreach (var like in post.Likes)
+                                        {
+                                            <img src="@like.PictureProfile" style="max-height:30px;max-width:60px" />
+                                            <p>@like.Username</p>
+                                        }
+            
+                                    </div>
+            
+                                    @if (!Model.UserName.Contains(this.User.Identity.Name))
+                                    {
+                                        <input id="PutLikeButtonId" type="button" name="@ButtonLike" value="Like" />
+                                    }
+            
+                                    @if (!post.IsProfilePicture && Model.UserName == User.Identity.Name)
+                                    {
+                                        <button id="MekaProfilePicture" name="@post.PostId">Make profile picture</button>
+                                    }
+                                    
+                                    <div><input id="@commendDestrictionId" type="text" name="discriptin" /></div>
+                                    <input id="CommentCreateButtonId" type="button" name="@ButtonComment" value="Save comment" />
+                                    <div id="@CommentPostWithId">
+            
+                                        @foreach (var comment in post.Comments)
+                                        {
+                                            <img src="@comment.PictureProfile" style="max-height:30px;max-width:60px" />
+                                            <p>@comment.Username : @comment.Description</p>
+                                        }
+                                    </div>
+                                </div>
+            
+                            </td>
                         }
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    @foreach (var picture in Model.PostsWithPictures)
-                    {
-                        <td>
-                            <p>@picture.Disctription</p>
-                            <p>@picture.DateOnPost</p>
-                            <img src="@picture.ImagePost" alt="" style="max-height:300px;max-width:300px" />
-                            @if (!picture.IsProfilePicture)
-                            {
-                                <button id="MekaProfilePicture" name="@picture.PostId">Make profile picture</button>
-                            }
-                        </td>
-                    }
-                </tr>
-            }
-        </table>
+            </table>
+        </div>
     </div>
-   
-    <script>
-        $("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
 
-            var postId = $(this).attr('name');
-
-            $.ajax({
-                url: "/DetaialUser/ChangeProfilePicture",
-                type: "POST",
-                data: JSON.stringify({ PostId: postId.toString() }),
-                dataType: "json",
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    if (data.status == "Success") {
-                        window.location.href = '@Url.Action("Pictures/" + User.Identity.Name, "DetaialUser")';
-                    }
-                }
-            });
-
-        });
-    </script>
+    <script src="~/Scripts/ScriptForRefreshPostDetails.js"></script>
+    <script src="~/Scripts/ScriptsForButtons.js"></script>
 
 </body>
 </html>

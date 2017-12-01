@@ -1,36 +1,59 @@
 ﻿@model MeetLifeClient.Models.HomePostModel
 
-@{
-    Layout = null;
-}
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>DetailsPost</title>
 </head>
 <body>
-    <div>
-        <a id="UserName" href="/DetaialUser/Details/@Model.UserName"> @Model.UserName</a>
-        <p>Time: @Model.DateOnPost min</p>
-        <p>Post: @Model.DiscriptionPost</p>
-        <p id="CountLikeId@Model.PostId">Like: @Model.Likes </p>
-        <input id="PutLikeButtonId" type="button" name="ButtonLike @Model.PostId" value="Like" />
-        <div><input id="CommentDisctriptionId@Model.PostId" type="text" name="discriptin" /></div>
-        <input id="CommentCreateButtonId" type="button" name="ButtonComment @Model.PostId" value="Save comment" />
-        <div id="CommentPostWithId' + @Model.PostId + '">
-
-
-            @foreach (var comment in @Model.Comments)
-            {
-                <p>@comment.Username: @comment.Description</p>
-
+    <div id="PostList">
+        <div>
+            @{
+                var likesId = "ListWithLikes" + Model.PostId;
+                var ButtonLike = "ButtonLike " + Model.PostId;
+                var ButtonComment = "ButtonComment " + Model.PostId;
+                var commendDestrictionId = "CommentDisctriptionId" + Model.PostId;
+                var CommentPostWithId = "CommentPostWithId" + Model.PostId;
             }
+
+            <a id="UserName" href="/DetaialUser/Details/@Model.UserName">@Model.UserName</a>
+            <p>Time: @Model.DateOnPost min</p>
+            <p>Post: @Model.DiscriptionPost</p>
+            <img src="@Model.PicturePost" alt="" style="max-height:300px;max-width:300px" />
+            <button id="CountLike" name="@Model.PostId">Like: @Model.Likes.Count</button>
+            <div id="@likesId" class="hidden myBox">
+
+                @foreach (var like in Model.Likes)
+            {
+                    <img src="@like.PictureProfile" style="max-height:30px;max-width:60px" />
+                    <p>@like.Username</p>
+                }
+
+            </div>
+
+            @if (!Model.UserName.Contains(this.User.Identity.Name))
+            {
+                <input id="PutLikeButtonId" type="button" name="@ButtonLike" value="Like" />
+            }
+
+            <div>
+                <input id="@commendDestrictionId" type="text" name="discriptin" />
+            </div>
+            <input id="CommentCreateButtonId" type="button" name="@ButtonComment" value="Save comment" />
+            <div id="@CommentPostWithId">
+
+                @foreach (var comment in Model.Comments)
+            {
+                    <img src="@comment.PictureProfile" style="max-height:30px;max-width:60px" />
+                    <p>@comment.Username : @comment.Description</p>
+                }
+            </div>
         </div>
     </div>
 
-    <a href="/Home/Index">Home</a>
+    <script src="~/Scripts/ScriptForRefreshPostDetails.js"></script>
+    <script src="~/Scripts/ScriptsForButtons.js"></script>
+
 </body>
 </html>

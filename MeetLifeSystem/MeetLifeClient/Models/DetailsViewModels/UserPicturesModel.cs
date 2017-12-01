@@ -10,7 +10,7 @@ namespace MeetLifeClient.Models
     {
         public string UserName { get; set; }
 
-        public List<ListPostWithPicture> PostsWithPictures { get; set; }
+        public List<HomePostModel> PostsWithPictures { get; set; }
     }
 
     public class ListPostWithPicture
@@ -19,7 +19,7 @@ namespace MeetLifeClient.Models
 
         public string Disctription { get; set; }
 
-        public String ImagePost { get; set; }
+        public string ImagePost { get; set; }
 
         public bool IsProfilePicture { get; set; }
 

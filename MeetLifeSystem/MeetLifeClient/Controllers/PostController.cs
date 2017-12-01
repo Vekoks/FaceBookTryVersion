@@ -48,24 +48,51 @@ namespace MeetLifeClient.Controllers
             foreach (var post in result)
             {
                 var pictureId = 0;
-
                 int.TryParse(post.PictureId.ToString(), out pictureId);
+
+                var commentsPost = new List<ViewModelComment>();
+                var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId).ToList();
+
+                foreach (var comment in commentList)
+                {
+                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+
+                    commentsPost.Add(new ViewModelComment()
+                    {
+                        Username = comment.Username,
+                        Description = comment.Description,
+                        PictureProfile = Converts.ConvertByteArrToStringForImg(profilePicture)
+                    });
+                }
+
+                var likesPost = new List<ViewModelLike>();
+                var likeList = _infoForLIkes.GetDataLikesOnThePost(post.PostId).ToList();
+
+                foreach (var like in likeList)
+                {
+                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+
+                    likesPost.Add(new ViewModelLike()
+                    {
+                        Username = like.UserName,
+                        PictureProfile = Converts.ConvertByteArrToStringForImg(pictureOfProfile)
+                    });
+                }
+
 
                 resultPost.Add(new HomePostModel
                 {
                     PostId = post.PostId,
                     UserName = _userService.GetUserById(post.UserId).UserName,
                     DiscriptionPost = post.Discription,
-                    DateOnPost = (int)DateTime.Now.Subtract(post.DatePost).TotalMinutes,
+                    DateOnPost = Converts.CreateStringDate(post.DatePost),
                     PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
-                    Likes = _infoForLIkes.GetDataLikesOnThePost(post.PostId).Count(),
-                    Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId)
+                    Likes = likesPost,
+                    Comments = commentsPost
                 });
             }
 
-            var resultForView = resultPost.OrderBy(x => x.DateOnPost).ToList();
-
-            return Json(resultForView, JsonRequestBehavior.AllowGet);
+            return Json(resultPost, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -157,14 +184,47 @@ namespace MeetLifeClient.Controllers
         {
             var targetPost = _postService.GetPostWithId(int.Parse(id));
 
+            var pictureId = 0;
+            int.TryParse(targetPost.PictureId.ToString(), out pictureId);
+
+            var commentsPost = new List<ViewModelComment>();
+            var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(targetPost.Id).ToList();
+
+            foreach (var comment in commentList)
+            {
+                var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserById(targetPost.UserId));
+
+                commentsPost.Add(new ViewModelComment()
+                {
+                    Username = comment.Username,
+                    Description = comment.Description,
+                    PictureProfile = Converts.ConvertByteArrToStringForImg(profilePicture)
+                });
+            }
+
+            var likesPost = new List<ViewModelLike>();
+            var likeList = _infoForLIkes.GetDataLikesOnThePost(targetPost.Id).ToList();
+
+            foreach (var like in likeList)
+            {
+                var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(targetPost.UserId));
+
+                likesPost.Add(new ViewModelLike()
+                {
+                    Username = like.UserName,
+                    PictureProfile = Converts.ConvertByteArrToStringForImg(pictureOfProfile)
+                });
+            }
+
             var model = new HomePostModel
             {
                 PostId = targetPost.Id,
                 UserName = _userService.GetUserById(targetPost.UserId).UserName,
                 DiscriptionPost = targetPost.Disctription,
-                DateOnPost = (int)DateTime.Now.Subtract(targetPost.DateOnPost).TotalMinutes,
-                Likes = _infoForLIkes.GetDataLikesOnThePost(targetPost.Id).Count(),
-                Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(targetPost.Id)
+                PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
+                DateOnPost = Converts.CreateStringDate(targetPost.DateOnPost),
+                Likes = likesPost,
+                Comments = commentsPost
             };
 
 

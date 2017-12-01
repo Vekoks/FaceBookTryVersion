@@ -20,5 +20,7 @@ namespace MeetLifeClient.Models
         public string ImageUser { get; set; }
 
         public bool CheckForFriend { get; set; }
+
+        public IEnumerable<HomePostModel> Post { get; set; }
     }
 }

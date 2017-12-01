@@ -49,21 +49,12 @@
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
     <script src="~/Scripts/ScriptAllPostInfo.js"></script>
+    <script src="~/Scripts/ScriptForRefreshPostDetails.js"></script>
+    <script src="~/Scripts/ScriptsForButtons.js"></script>
     <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>
 
 
     <script>
-
-        $('#NotificationsOnUserButton').click(function () {
-            var $allNotifications = $('#AllNotifications');
-
-            if ($allNotifications.hasClass("hidden")) {
-                $allNotifications.removeClass("hidden");
-            }
-            else {
-                $allNotifications.addClass("hidden");
-            }
-        });
 
         $(function () {
             var job = $.connection.notificationsHub;
