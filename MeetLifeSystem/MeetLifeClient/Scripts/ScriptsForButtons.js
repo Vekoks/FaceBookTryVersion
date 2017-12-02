@@ -117,3 +117,43 @@ $("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
     });
 
 });
+
+
+$('#SearchUserId').keyup(function () {
+    var searchUserName = $(this).val();
+
+    var $UserList = $('#ListUsers');
+
+    if (searchUserName == "") {
+        $UserList.empty();
+        return;
+    }
+
+    $.ajax({
+        url: '/Home/SearchUsers',
+        type: 'GET',
+        datatype: 'json',
+        success: function (data) {
+            if (data.length > 0) {
+                $UserList.empty();
+
+                var usersFind = [];
+                var rows = [];
+
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].UserName.includes(searchUserName)) {
+                        usersFind.push(data[i]);
+                    }
+                }
+
+                for (var i = 0; i < usersFind.length; i++) {
+                    rows.push(' <img src="' + usersFind[i].ProfilePicture + '" alt="Alternate Text" style="width:50px;height:50px"/>');
+                    rows.push(' <a href="/DetaialUser/Details/' + usersFind[i].UserName + '">' + usersFind[i].UserName + '</a>');
+                }
+
+                $UserList.append(rows.join(''));
+            }
+        }
+    });
+
+});

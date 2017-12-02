@@ -41,12 +41,19 @@ namespace MeetLifeClient.Controllers
         [HttpGet]
         public JsonResult GetAllPostFromUsers()
         {
-            var result = _infoForAllPost.GetDataAllPost();
+            var result = _infoForAllPost.GetDataAllPost().OrderByDescending(x => x.DatePost);
 
             var resultPost = new List<HomePostModel>();
 
             foreach (var post in result)
             {
+                var timeForShowPosts = (DateTime.Now - post.DatePost);
+
+                if (timeForShowPosts.Minutes > 10 || timeForShowPosts.Hours !=0)
+                {
+                    continue;
+                }
+
                 var pictureId = 0;
                 int.TryParse(post.PictureId.ToString(), out pictureId);
 

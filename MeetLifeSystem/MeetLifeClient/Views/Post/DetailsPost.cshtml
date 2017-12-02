@@ -5,6 +5,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>DetailsPost</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleForPosts.css">
 </head>
 <body>
     <div id="PostList">
@@ -26,7 +27,7 @@
 
                 @foreach (var like in Model.Likes)
             {
-                    <img src="@like.PictureProfile" style="max-height:30px;max-width:60px" />
+                    <img src="@like.PictureProfile" class="imgPostLikeComment" />
                     <p>@like.Username</p>
                 }
 
@@ -41,11 +42,11 @@
                 <input id="@commendDestrictionId" type="text" name="discriptin" />
             </div>
             <input id="CommentCreateButtonId" type="button" name="@ButtonComment" value="Save comment" />
-            <div id="@CommentPostWithId">
+            <div id="@CommentPostWithId" class="myBox">
 
                 @foreach (var comment in Model.Comments)
-            {
-                    <img src="@comment.PictureProfile" style="max-height:30px;max-width:60px" />
+                {
+                    <img src="@comment.PictureProfile" class="imgPostLikeComment" />
                     <p>@comment.Username : @comment.Description</p>
                 }
             </div>

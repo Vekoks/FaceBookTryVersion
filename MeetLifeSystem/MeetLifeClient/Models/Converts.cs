@@ -21,10 +21,10 @@ namespace MeetLifeClient.Models
 
             if (time.Days > 0)
             {
-                return DateOnThePost.Day + " " + TakeMonth(DateOnThePost.Month) + " in " + DateOnThePost.Hour + ":" + DateOnThePost.Minute;
+                return DateOnThePost.Day + " " + TakeMonth(DateOnThePost.Month) + " in " + DateOnThePost.Hour + ":" + MakeMinutesToString(DateOnThePost.Minute);
             }
 
-            var resoultTime = time.Hours.ToString() + ":" + time.Minutes;
+            var resoultTime = time.Hours.ToString() + ":" + MakeMinutesToString(time.Minutes);
 
             return resoultTime;
         }
@@ -47,6 +47,19 @@ namespace MeetLifeClient.Models
                 case 12: return "December";
                 default:
                     return "";
+            }
+        }
+
+        public static string MakeMinutesToString(int Minutes)
+        {
+            if (Minutes < 10)
+            {
+                return "0" + Minutes;
+
+            }
+            else
+            {
+                return Minutes.ToString();
             }
         }
     }

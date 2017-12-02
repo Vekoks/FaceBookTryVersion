@@ -20,9 +20,7 @@ function getDataForAllPost() {
         datatype: 'json',
         success: function (data) {
             if (data.length > 0) {
-                $tbl.empty();
                 var rows = [];
-                rows.push(' <p>Post</p>');
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <div>');
                     rows.push('  <a id="UserName" href="/DetaialUser/Details/' + data[i].UserName + '">' + data[i].UserName + '</a>');
@@ -43,13 +41,17 @@ function getDataForAllPost() {
 
                     for (var j = 0; j < data[i].Comments.length; j++) {
                         rows.push('  <img src="' + data[i].Comments[j].PictureProfile + '" style="max-height:30px;max-width:60px" />');
-                        rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + '/p>');
+                        rows.push('  <p>' + data[i].Comments[j].Username + ': ' + data[i].Comments[j].Description + '</p>');
                     }
 
                     rows.push(' </div>');
                     rows.push(' </div>');
                 }
-                $tbl.append(rows.join(''));
+                var firstChildren = $('#LeftScrollableDiv').children().first();
+
+                $(rows.join('')).prependTo($tbl);
+                
+                //$tbl.append(rows.join(''));
             }
         }
     })

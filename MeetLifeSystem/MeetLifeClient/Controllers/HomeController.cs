@@ -20,6 +20,7 @@ namespace MeetLifeClient.Controllers
         private readonly INoSeenMessage _infoNoSeenMessage;
         private readonly ICommentOnThePost _infoCommentsOnThePost;
         private readonly INotificationOnUser _infoNotificationOnUser;
+        private readonly IPostService _postService;
 
         public HomeController(IUserService userService,
                               IUsersInfo infoUser,
@@ -28,7 +29,8 @@ namespace MeetLifeClient.Controllers
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService,
                               ICommentOnThePost infoCommentsOnThePost,
-                              INotificationOnUser infoNotificationOnUser)
+                              INotificationOnUser infoNotificationOnUser,
+                              IPostService postService)
         {
             this._userService = userService;
             this._messageService = messageService;
@@ -37,6 +39,7 @@ namespace MeetLifeClient.Controllers
             this._infoNoSeenMessage = infoNoSeenMessage;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
             this._infoNotificationOnUser = infoNotificationOnUser;
+            this._postService = postService;
         }
 
         public ActionResult Index()
@@ -60,11 +63,71 @@ namespace MeetLifeClient.Controllers
                 {
                     AllAskForFriend = new List<InvitationForFriend>(),
                     Messages = new List<MissMessage>(),
-                    CountAskForFriend = 0
-                };
+                    CountAskForFriend = 0,
+                    Posts = new List<HomePostModel>()
+            };
 
                 return View(notUserModel);
             }
+
+            //Posts
+            var result = _postService.GetAllPost().OrderByDescending(x=>x.DateOnPost);
+
+            var resultPost = new List<HomePostModel>();
+
+            foreach (var post in result)
+            {
+                var timeForShowPosts = (DateTime.Now - post.DateOnPost);
+
+                if (timeForShowPosts.Minutes < 10 || timeForShowPosts.Hours > 0)
+                {
+                    continue;
+                }
+
+                var commentsPost = new List<ViewModelComment>();
+                var commentList = post.Comments;
+
+                foreach (var comment in commentList)
+                {
+                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+
+                    commentsPost.Add(new ViewModelComment()
+                    {
+                        Username = comment.Username,
+                        Description = comment.Description,
+                        PictureProfile = Converts.ConvertByteArrToStringForImg(profilePicture)
+                    });
+                }
+
+                var likesPost = new List<ViewModelLike>();
+                var likeList = post.Likes;
+
+                foreach (var like in likeList)
+                {
+                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+
+                    likesPost.Add(new ViewModelLike()
+                    {
+                        Username = like.Username,
+                        PictureProfile = Converts.ConvertByteArrToStringForImg(pictureOfProfile)
+                    });
+                }
+
+                var pictureId = 0;
+                int.TryParse(post.PictureId.ToString(), out pictureId);
+
+                resultPost.Add(new HomePostModel
+                {
+                    PostId = post.Id,
+                    UserName = _userService.GetUserById(post.UserId).UserName,
+                    DiscriptionPost = post.Disctription,
+                    PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
+                    DateOnPost = Converts.CreateStringDate(post.DateOnPost),
+                    Likes = likesPost,
+                    Comments = commentsPost
+                });
+            }
+
 
             var allAskForFriend = userLogged.InvitationForFriends.ToList();
             var message = userLogged.MissMessages.ToList();
@@ -73,7 +136,8 @@ namespace MeetLifeClient.Controllers
             {
                 AllAskForFriend = allAskForFriend,
                 Messages = message,
-                CountAskForFriend = allAskForFriend.Count
+                CountAskForFriend = allAskForFriend.Count,
+                Posts = resultPost
             };
 
             return View(model);
@@ -209,6 +273,27 @@ namespace MeetLifeClient.Controllers
             var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id);
 
             return Json(resoultNotifications, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult SearchUsers()
+        {
+            var searchUsers = _userService.GetAllUsers().ToList();
+
+            var resoult = new List<HomeSearchUserModel>();
+
+            foreach (var user in searchUsers)
+            {
+                var profilePicture = user.Posts.Where(x => x.IsProfilePicture == true).FirstOrDefault().Picture;
+
+                resoult.Add(new HomeSearchUserModel()
+                {
+                    UserName = user.UserName,
+                    ProfilePicture = Converts.ConvertByteArrToStringForImg(profilePicture.Image)
+                });
+            }
+
+            return Json(resoult, JsonRequestBehavior.AllowGet);
         }
     }
 }

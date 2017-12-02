@@ -1,0 +1,11 @@
+﻿.myBox {
+    width: 180px;
+    height: 150px;
+    overflow: scroll;
+}
+
+.imgPostLikeComment{
+    max-height:40px;
+    max-width:70px; 
+    float:left
+}
