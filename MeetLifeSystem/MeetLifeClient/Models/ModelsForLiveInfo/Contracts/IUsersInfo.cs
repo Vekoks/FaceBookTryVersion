@@ -12,6 +12,6 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
 
         bool IsOnline { get; set; }
 
-        IEnumerable<IUsersInfo> GetData();
+        IEnumerable<IUsersInfo> GetData(string LoggedUserId);
     }
 }

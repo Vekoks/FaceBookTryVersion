@@ -16,15 +16,18 @@ namespace MeetLifeClient.Models
 
         public bool IsOnline { get; set; }
 
-        public IEnumerable<IUsersInfo> GetData()
+        public IEnumerable<IUsersInfo> GetData(string LoggedUserId)
         {
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MeetLifeSystem"].ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(@"SELECT [UserName],[IsOnline]
-               FROM [dbo].[AspNetUsers]", connection))
+                FROM [dbo].[AspNetUsers] where User_Id = @ID;", connection))
                 {
+
+                    command.Parameters.Add("@ID", SqlDbType.NVarChar);
+                    command.Parameters["@ID"].Value = LoggedUserId;
                     // Make sure the command object does not already have
                     // a notification object associated with it.
                     command.Notification = null;

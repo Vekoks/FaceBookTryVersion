@@ -180,7 +180,16 @@ namespace MeetLifeClient.Controllers
         [HttpGet]
         public JsonResult ResultInfoForUsers()
         {
-            var result = _infoAllUser.GetData();
+            var loggedUserName = this.User.Identity.Name;
+
+            if (loggedUserName == "")
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+
+            var loggedUser = _userService.GetUserByUserName(loggedUserName);
+
+            var result = _infoAllUser.GetData(loggedUser.Id);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

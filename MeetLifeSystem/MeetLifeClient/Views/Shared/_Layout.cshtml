@@ -7,6 +7,16 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <style>
+        #footer {
+            position: fixed;
+            bottom: 0;
+            width:100%;
+            height:8%;
+            background-color:darkseagreen;
+        }
+    </style>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -51,12 +61,12 @@
 
     <div class="container body-content">
         @RenderBody()
-       
-        <footer>
-            <hr />
-            <p>&copy; @DateTime.Now.Year - My ASP.NET FaceBook</p>
-        </footer>
+
     </div>
 
+    <footer id="footer">
+        <hr style="margin:1%;"/>
+        <p>&copy; @DateTime.Now.Year - My ASP.NET FaceBook</p>
+    </footer>
 </body>
 </html>
