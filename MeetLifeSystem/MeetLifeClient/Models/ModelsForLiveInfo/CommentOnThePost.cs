@@ -1,4 +1,5 @@
 ﻿using MeetLifeClient.Hubs;
+using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

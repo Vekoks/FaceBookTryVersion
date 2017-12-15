@@ -3,6 +3,7 @@ using MeetLife.Services.Contracts;
 using MeetLifeClient.Models;
 using MeetLifeClient.Models.HomeViewModels;
 using MeetLifeClient.Models.ModelsForLiveInfo;
+using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -279,9 +280,17 @@ namespace MeetLifeClient.Controllers
         {
             var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
 
-            var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id);
+            var resoultNotifications = _infoNotificationOnUser.GetDataForNotofiactionsOnUser(userLogged.Id).Reverse();
 
-            return Json(resoultNotifications, JsonRequestBehavior.AllowGet);
+            var countNotifications = resoultNotifications.Where(x => x.IsSaw == false).Count();
+
+            var resoultModel = new HomeNotificationModel()
+            {
+                CountNoSeenNotification = countNotifications,
+                Notification = resoultNotifications
+            };
+
+            return Json(resoultModel, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

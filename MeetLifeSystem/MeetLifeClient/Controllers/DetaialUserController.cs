@@ -4,6 +4,8 @@ using MeetLife.Model;
 using MeetLife.Services;
 using MeetLife.Services.Contracts;
 using MeetLifeClient.Models;
+using MeetLifeClient.Models.DetailsViewModels;
+using MeetLifeClient.Models.HomeViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

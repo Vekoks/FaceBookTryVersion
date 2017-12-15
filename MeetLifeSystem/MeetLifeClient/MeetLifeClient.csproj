@@ -228,6 +228,7 @@
     <Compile Include="Models\DetailsViewModels\UserPicturesModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeLikeModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeNoSeenMessageModel.cs" />
+    <Compile Include="Models\HomeViewModels\HomeNotificationModel.cs" />
     <Compile Include="Models\HomeViewModels\HomePostModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeSearchUserModel.cs" />
     <Compile Include="Models\ModelsForLiveInfo\AllPostInf.cs" />
@@ -282,11 +283,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ScriptForNotificationsOnUser.js" />
+    <Content Include="Scripts\ScriptForPosts.js" />
     <Content Include="Scripts\ScriptForRefreshPostDetails.js" />
     <Content Include="Scripts\ScriptsForButtons.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\ScriptAllPostInfo.js" />
     <Content Include="Scripts\ScriptForAskFriend.js" />
     <Content Include="Scripts\ScriptForChat.js" />
     <Content Include="Scripts\ScriptForLikes.js" />

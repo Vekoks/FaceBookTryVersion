@@ -32,5 +32,7 @@ namespace MeetLife.Services.Contracts
         byte[] GetPictureOnPost(int? PostId);
 
         void ClearProfilePictureOnPost(User User);
+
+        void MakeSeenNotification(User User, int NotificationId);
     }
 }

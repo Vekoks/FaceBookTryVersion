@@ -19,7 +19,7 @@
     width:100%;
 }
 
-#TablePost{
+#TablePost tr{
     border:2px solid red; 
     width:100%
 }

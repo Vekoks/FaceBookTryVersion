@@ -16,6 +16,7 @@ namespace MeetLifeClient.App_Start
     using MeetLife.Services.Contracts;
     using Models;
     using Models.ModelsForLiveInfo;
+    using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
 
     public static class NinjectWebCommon 
     {

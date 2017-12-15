@@ -1,5 +1,6 @@
 ﻿using MeetLifeClient.Hubs;
 using MeetLifeClient.Models.ModelsForLiveInfo;
+using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,7 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace MeetLifeClient.Models
+namespace MeetLifeClient.Models.ModelsForLiveInfo
 {
     public class AllPostInf : IAllPostInfo
     {

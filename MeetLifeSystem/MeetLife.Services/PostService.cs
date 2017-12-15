@@ -68,7 +68,8 @@ namespace MeetLife.Services
             {
                 UserName = UserWriteComment.UserName,
                 Disctription = UserWriteComment.UserName + " write comment on your post",
-                Post = targetPost
+                Post = targetPost,
+                IsSaw = false
             });
 
             _postRepo.SaveChanges();
@@ -116,7 +117,8 @@ namespace MeetLife.Services
             {
                 UserName = UserPutLike.UserName,
                 Disctription = UserPutLike.UserName + " like your post",
-                Post = targetPost
+                Post = targetPost,
+                IsSaw = false
             });
 
             _postRepo.SaveChanges();
@@ -205,6 +207,20 @@ namespace MeetLife.Services
 
             }
             
+        }
+
+
+        public void MakeSeenNotification(User User, int NotificationId)
+        {
+            var targetNotification = User.Notifications.Where(x => x.Id == NotificationId).FirstOrDefault();
+
+            if (!targetNotification.IsSaw)
+            {
+                targetNotification.IsSaw = true;
+            }
+           
+
+            _postRepo.SaveChanges();
         }
     }
 }

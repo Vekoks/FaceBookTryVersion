@@ -18,19 +18,26 @@ function getDataForNotifications() {
         type: 'GET',
         datatype: 'json',
         success: function (data) {
-            if (data.length > 0) {
-                $tbl.empty();
-                var rows = [];
+            var $count = $('#NotificationsOnUser').find('#CountNotification');
+            $count.empty();
+            $count.html(' <p class="text-success">' + data.CountNoSeenNotification + '</p>');
 
-                for (var i = 0; i < data.length; i++) {
+            $tbl.empty();
+            var rows = [];
+
+            for (var i = 0; i < data.Notification.length; i++) {
+                if (!data.Notification[i].IsSaw) {
+                    rows.push(' <div style="background:#00ff90">');
+                }
+                else {
                     rows.push(' <div>');
-                    rows.push('  <p>' + data[i].Description + ' <a href="/Post/DetailsPost/?id=' + data[i].PostId + '">view</a> ' + '</p>');
-                    rows.push(' </div>');
                 }
 
-                $tbl.append(rows.join(''));
-
+                rows.push('  <p>' + data.Notification[i].Description + ' <a href="/Post/DetailsPost/?id=' + data.Notification[i].PostId + '&secondId=' + data.Notification[i].NotificationId + '">view</a> ' + '</p>');
+                rows.push(' </div>');
             }
+
+            $tbl.append(rows.join(''));
         }
 
     })

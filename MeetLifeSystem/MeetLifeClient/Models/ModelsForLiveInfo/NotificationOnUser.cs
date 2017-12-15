@@ -1,4 +1,5 @@
 ﻿using MeetLifeClient.Hubs;
+using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,20 +12,26 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
 {
     public class NotificationOnUser : INotificationOnUser
     {
+        public int NotificationId { get; set; }
+
         public string Description { get; set; }
 
         public int PostId { get; set; }
 
         public string Username { get; set; }
 
+        public bool IsSaw { get; set; }
+
         public IEnumerable<INotificationOnUser> GetDataForNotofiactionsOnUser(string IdOfLoggedUser)
         {
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MeetLifeSystem"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT [UserName]
+                using (SqlCommand command = new SqlCommand(@"SELECT [Id]
+                ,[UserName]
                 ,[Disctription]
                 ,[PostId]
+                ,[IsSaw]
                 FROM [dbo].[Notifications] WHERE UserId = @ID;", connection))
                 {
                     command.Parameters.Add("@ID", SqlDbType.NVarChar);
@@ -43,9 +50,11 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
                         return reader.Cast<IDataRecord>()
                             .Select(x => new NotificationOnUser()
                             {
-                                Username = x.GetString(0),
-                                Description = x.GetString(1),
-                                PostId = x.GetInt32(2)
+                                NotificationId = x.GetInt32(0),
+                                Username = x.GetString(1),
+                                Description = x.GetString(2),
+                                PostId = x.GetInt32(3),
+                                IsSaw = x.GetBoolean(4)
                             }).ToList();
                 }
             }

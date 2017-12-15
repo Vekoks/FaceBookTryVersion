@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@model MeetLifeClient.Models.UserDetailsViewModel
+@model MeetLifeClient.Models.DetailsViewModels.UserDetailsViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,19 +126,19 @@
                 </div>
             }
             <div id="PostList">
-                @{
-                    foreach (var post in Model.Post)
-                    {
-                        <table id="TablePost">
+                <table id="TablePost">
+                    @{
+                        foreach (var post in Model.Post)
+                        {
                             <tr>
                                 <td>
                                     <div>
                                         @{
-                                            var likesId = "ListWithLikes" + @post.PostId;
-                                            var ButtonLike = "ButtonLike " + @post.PostId;
-                                            var ButtonComment = "ButtonComment " + @post.PostId;
-                                            var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
-                                            var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                                         var likesId = "ListWithLikes" + @post.PostId;
+                                         var ButtonLike = "ButtonLike " + @post.PostId;
+                                         var ButtonComment = "ButtonComment " + @post.PostId;
+                                         var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
+                                         var CommentPostWithId = "CommentPostWithId" + @post.PostId;
                                         }
 
                                         <a id="UserName" href="/DetaialUser/Details/@post.UserName">@post.UserName</a>
@@ -168,9 +168,10 @@
                                     </div>
                                 </td>
                             </tr>
-                        </table>
+
+                        }
                     }
-                }
+                </table>
             </div>
         </div>
         <div id="right">

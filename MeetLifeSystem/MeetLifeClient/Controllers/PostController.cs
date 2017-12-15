@@ -1,6 +1,9 @@
 ﻿using MeetLife.Services.Contracts;
 using MeetLifeClient.Models;
+using MeetLifeClient.Models.HomeViewModels;
 using MeetLifeClient.Models.ModelsForLiveInfo;
+using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
+using MeetLifeClient.Models.PostViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -187,8 +190,12 @@ namespace MeetLifeClient.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult DetailsPost(string id)
+        public ActionResult DetailsPost(string id, string secondId)
         {
+            var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
+
+            _postService.MakeSeenNotification(userLogged, int.Parse(secondId));
+
             var targetPost = _postService.GetPostWithId(int.Parse(id));
 
             var pictureId = 0;

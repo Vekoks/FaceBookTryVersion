@@ -1,4 +1,4 @@
-﻿@model MeetLifeClient.Models.HomeIndexViewModel
+﻿@model MeetLifeClient.Models.HomeViewModels.HomeIndexViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,8 +30,9 @@
             <div id="AllMessageFromUsers" class="hidden"></div>
         </div>
         <div id="NotificationsOnUser">
+            <div id="CountNotification" style="float:left"></div>
             <input type="button" id="NotificationsOnUserButton" class="btn-primary" value="Notification" />
-            <div id="AllNotifications" class="hidden"></div>
+            <div id="AllNotifications" class="hidden myBox"></div>
         </div>
     </div>
 
@@ -40,19 +41,19 @@
         <div id="ListUsers" style="z-index: 10;"></div>
 
         <div id="PostList">
-            @foreach (var post in Model.Posts)
-            {
-                <table id="TablePost">
+            <table id="TablePost">
+                @foreach (var post in Model.Posts)
+                {
                     <tr>
                         <td>
                             <div>
                                 @{
-                                    var aHref = "/DetaialUser/Details/" + @post.UserName;
-                                    var ListWithLikes = "ListWithLikes" + @post.PostId;
-                                    var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
-                                    var CommentPostWithId = "CommentPostWithId" + @post.PostId;
-                                    var buttonNameLike = "ButtonLike " + @post.PostId;
-                                    var buttonNameComment = "ButtonComment " + @post.PostId;
+                                 var aHref = "/DetaialUser/Details/" + @post.UserName;
+                                 var ListWithLikes = "ListWithLikes" + @post.PostId;
+                                 var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
+                                 var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                                 var buttonNameLike = "ButtonLike " + @post.PostId;
+                                 var buttonNameComment = "ButtonComment " + @post.PostId;
                                 }
                                 <a id="UserName" href="@aHref">@post.UserName</a>
                                 <p>@post.DateOnPost min</p>
@@ -79,8 +80,8 @@
                             </div>
                         </td>
                     </tr>
-                </table>
-            }
+                }
+            </table>
         </div>
 
     </div>
@@ -111,53 +112,12 @@
     <script src="~/Scripts/ScriptForAskFriend.js"></script>
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
-    <script src="~/Scripts/ScriptAllPostInfo.js"></script>
+    <script src="~/Scripts/ScriptForPosts.js"></script>
     <script src="~/Scripts/ScriptForRefreshPostDetails.js"></script>
     <script src="~/Scripts/ScriptsForButtons.js"></script>
     <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>
+    <script src="~/Scripts/ScriptForNotificationsOnUser.js"></script>
 
-    <script>
-
-        $(function () {
-            var job = $.connection.notificationsHub;
-
-            // Declare a function on the job hub so the server can invoke it
-            job.client.displayNotifications = function () {
-                getDataForNotifications();
-            };
-
-            // Start the connection
-            $.connection.hub.start();
-            getDataForNotifications();
-        });
-
-        function getDataForNotifications() {
-            var $tbl = $('#AllNotifications');
-            $.ajax({
-                url: 'GetNotificationsOnUser',
-                type: 'GET',
-                datatype: 'json',
-                success: function (data) {
-                    if (data.length > 0) {
-                        $tbl.empty();
-                        var rows = [];
-
-                        for (var i = 0; i < data.length; i++) {
-                            rows.push(' <div>');
-                            rows.push('  <p>' + data[i].Description + ' <a href="/Post/DetailsPost/?id=' + data[i].PostId + '">view</a> ' + '</p>');
-                            rows.push(' </div>');
-                        }
-
-                        $tbl.append(rows.join(''));
-
-                    }
-                }
-
-            })
-
-        }
-
-    </script>
     <script>
 
         //$(function () {

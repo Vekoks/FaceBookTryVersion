@@ -16,6 +16,8 @@ namespace MeetLife.Model
 
         public string UserId { get; set; }
 
+        public bool IsSaw { get; set; }
+
         public virtual User User { get; set; }
 
         public int PostId { get; set; }
