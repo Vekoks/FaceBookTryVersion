@@ -6,22 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
     <link rel="stylesheet" type="text/css" href="~/Content/StyleForPosts.css">
-    <style>
-        #left {
-            width: 30%;
-            float: left;
-        }
-
-        #central {
-            width: 40%;
-            float: left;
-        }
-
-        #right {
-            width: 20%;
-            float: right;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleForDetailsPage.css">
 </head>
 <body>
     <div id="container">
@@ -55,7 +40,9 @@
                     <h2>@Model.Adress</h2>
                 </div>
             </div>
-            <button id="EditInfoUser">Idet information</button>
+
+            <button id="EditInfoUser" class="btn btn-success">Idet information</button>
+            
             <div id="FormInfo" class="hidden">
                 @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
@@ -100,31 +87,35 @@
                 }
             </div>
         </div>
-        <a href="/DetaialUser/Pictures/@User.Identity.GetUserName()" class="btn btn-info">Pictures</a>
-        <div id="central">
-            @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary("", new { @class = "text-danger" })
+        
+        <a href="/DetaialUser/Pictures/@User.Identity.GetUserName()" class="btn btn-success">Pictures</a>
 
-                <div class="form-group">
-                    <label>Write post information</label>
-                    <div>
-                        <input type="text" name="discriptin" />
+        <div id="central">
+            <div>
+                @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <h4 class="col-md-10">Write post description</h4>
+                        <div>
+                            <input type="text" name="discriptin" style=" width: 100%;"/>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ImageBrand, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        <input type="file" id="image" name="Image" />
+                    <div class="form-group">
+                        <h4 class="col-md-4">Picture post</h4>
+                        <div class="col-md-6">
+                            <input type="file" class="btn btn-primary" id="image" name="Image" style="width:130%"/>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-1 col-md-10">
-                        <input type="submit" class="btn btn-default" value="Create Post" />
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-6">
+                            <input type="submit" class="btn btn-primary" value="Create Post" style="margin-left:60%"/>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
             <div id="PostList">
                 <table id="TablePost">
                     @{
@@ -134,35 +125,39 @@
                                 <td>
                                     <div>
                                         @{
-                                         var likesId = "ListWithLikes" + @post.PostId;
-                                         var ButtonLike = "ButtonLike " + @post.PostId;
-                                         var ButtonComment = "ButtonComment " + @post.PostId;
-                                         var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
-                                         var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                            var likesId = "ListWithLikes" + @post.PostId;
+                            var ButtonLike = "ButtonLike " + @post.PostId;
+                            var ButtonComment = "ButtonComment " + @post.PostId;
+                            var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
+                            var CommentPostWithId = "CommentPostWithId" + @post.PostId;
                                         }
 
-                                        <a id="UserName" href="/DetaialUser/Details/@post.UserName">@post.UserName</a>
-                                        <p>Time: @post.DateOnPost min</p>
-                                        <p>Post: @post.DiscriptionPost</p>
+                                        <a id="UserName" href="/DetaialUser/Details/@post.UserName"><img src="@post.PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@post.UserName</h4></a>
+                                        <p style="margin-left:10%">@post.DateOnPost min</p>
+                                        <p style="margin-left:2%">@post.DiscriptionPost</p>
                                         <img id="imgPost" src="@post.PicturePost" alt="" />
-                                        <button id="CountLike" name="@post.PostId">Like: @post.Likes.Count</button>
+                                        <button id="CountLike" name="@post.PostId" class="btn btn-success">Like: @post.Likes.Count</button>
                                         <div id="@likesId" class="hidden myBox">
 
                                             @foreach (var like in post.Likes)
                                             {
-                                                <img src="@like.PictureProfile" class="imgPostLikeComment" />
-                                                <p>@like.Username</p>
+                                                <div class="divInfo">
+                                                    <img src="@like.PictureProfile" class="imgPostLikeComment" />
+                                                    <p>@like.Username</p>
+                                                </div>
                                             }
 
                                         </div>
-                                        <div><input id="@commendDestrictionId" class="comment" type="text" name="discriptin" /></div>
-                                        <input id="CommentCreateButtonId" type="button" class="comment" name="@ButtonComment" value="Save comment" />
+                                        <div><input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." /></div>
+                                        <input id="CommentCreateButtonId" type="button" class="comment btn btn-success" name="@ButtonComment" value="Save comment" />
                                         <div id="@CommentPostWithId" class="myBox">
 
                                             @foreach (var comment in post.Comments)
                                             {
-                                                <img src="@comment.PictureProfile" class="imgPostLikeComment" />
-                                                <p>@comment.Username : @comment.Description</p>
+                                                <div class="divInfo">
+                                                    <img src="@comment.PictureProfile" class="imgPostLikeComment" />
+                                                    <p>@comment.Username : @comment.Description</p>
+                                                </div>
                                             }
                                         </div>
                                     </div>

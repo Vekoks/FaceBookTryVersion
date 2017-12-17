@@ -1,4 +1,5 @@
-﻿using MeetLifeClient.Models.ModelsForLiveInfo;
+﻿using MeetLifeClient.Models.HomeViewModels;
+using MeetLifeClient.Models.ModelsForLiveInfo;
 using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,6 @@ namespace MeetLifeClient.Models.PostViewModels
     {
         public int IdOnCurrentPost { get; set; }
 
-        public IEnumerable<ICommentOnThePost> Comments { get; set; }
+        public IEnumerable<ViewModelComment> Comments { get; set; }
     }
 }

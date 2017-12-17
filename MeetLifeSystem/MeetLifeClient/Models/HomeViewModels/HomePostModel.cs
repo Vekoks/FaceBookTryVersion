@@ -12,6 +12,8 @@ namespace MeetLifeClient.Models.HomeViewModels
 
         public string UserName { get; set; }
 
+        public string PictureOfUser { get; set; }
+
         public string DiscriptionPost { get; set; }
 
         public string DateOnPost { get; set; }

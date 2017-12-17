@@ -74,10 +74,13 @@ namespace MeetLifeClient.Controllers
                     });
                 }
 
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
+
                 viewListPost.Add(new HomePostModel
                 {
                     PostId = post.Id,
                     UserName = _userService.GetUserById(post.UserId).UserName,
+                    PictureOfUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
                     DiscriptionPost = post.Disctription,
                     DateOnPost = Converts.CreateStringDate(post.DateOnPost),
                     PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
@@ -170,10 +173,13 @@ namespace MeetLifeClient.Controllers
                     });
                 }
 
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
+
                 viewListPost.Add(new HomePostModel
                 {
                     PostId = post.Id,
                     UserName = _userService.GetUserById(post.UserId).UserName,
+                    PictureOfUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
                     DiscriptionPost = post.Disctription,
                     DateOnPost = Converts.CreateStringDate(post.DateOnPost),
                     PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
@@ -251,10 +257,13 @@ namespace MeetLifeClient.Controllers
                     });
                 }
 
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
+
                 resoultPost.Add(new HomePostModel
                 {
                     PostId = post.Id,
                     UserName = _userService.GetUserById(post.UserId).UserName,
+                    PictureOfUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
                     DiscriptionPost = post.Disctription,
                     DateOnPost = Converts.CreateStringDate(post.DateOnPost),
                     PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),

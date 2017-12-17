@@ -1,26 +1,11 @@
-﻿@model MeetLifeClient.Models.FriendDetailViewModel
+﻿@model MeetLifeClient.Models.DetailsViewModels.FriendDetailViewModel
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>FriendDetailsView</title>
     <link rel="stylesheet" type="text/css" href="~/Content/StyleForPosts.css">
-    <style>
-        #left {
-            width: 40%;
-            float: left;
-        }
-
-        #central {
-            width: 20%;
-            float: left;
-        }
-
-        #right {
-            width: 20%;
-            float: right;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleForDetailsPage.css">
 </head>
 <body>
     <div>
@@ -57,61 +42,65 @@
 
         <div id="central">
             <div id="PostList">
-                @{
-                    foreach (var post in Model.Post)
-                    {
-                        <table style="border:2px solid red">
+                <table id="TablePost">
+                    @{
+                        foreach (var post in Model.Post)
+                        {
                             <tr>
                                 <td>
                                     <div>
                                         @{
-                                            var likesId = "ListWithLikes" + @post.PostId;
-                                            var ButtonLike = "ButtonLike " + @post.PostId;
-                                            var ButtonComment = "ButtonComment " + @post.PostId;
-                                            var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
-                                            var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                            var likesId = "ListWithLikes" + @post.PostId;
+                            var ButtonLike = "ButtonLike " + @post.PostId;
+                            var ButtonComment = "ButtonComment " + @post.PostId;
+                            var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
+                            var CommentPostWithId = "CommentPostWithId" + @post.PostId;
                                         }
 
-                                        <a id="UserName" href="/DetaialUser/Details/@post.UserName">@post.UserName</a>
-                                        <p>Time: @post.DateOnPost min</p>
-                                        <p>Post: @post.DiscriptionPost</p>
-                                        <img src="@post.PicturePost" alt="" style="width:100px; height:100px" />
-                                        <button id="CountLike" name="@post.PostId">Like: @post.Likes.Count</button>
+                                        <a id="UserName" href="/DetaialUser/Details/@post.UserName"><img src="@post.PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@post.UserName</h4></a>
+                                        <p style="margin-left:10%">@post.DateOnPost min</p>
+                                        <p style="margin-left:2%">@post.DiscriptionPost</p>
+                                        <img id="imgPost" src="@post.PicturePost" alt="" />
+                                        <button id="CountLike" name="@post.PostId" class="btn btn-success">Like: @post.Likes.Count</button>
                                         <div id="@likesId" class="hidden myBox">
 
                                             @foreach (var like in post.Likes)
                                             {
-                                                <img src="@like.PictureProfile" class="imgPostLikeComment" />
-                                                <p>@like.Username</p>
+                                                <div class="divInfo">
+                                                    <img src="@like.PictureProfile" class="imgPostLikeComment" />
+                                                    <p>@like.Username</p>
+                                                </div>
                                             }
 
                                         </div>
-                                        <input id="PutLikeButtonId" type="button" name="@ButtonLike" value="Like" />
+                                        <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@ButtonLike" value="Like" />
                                         <div><input id="@commendDestrictionId" type="text" name="discriptin" /></div>
-                                        <input id="CommentCreateButtonId" type="button" name="@ButtonComment" value="Save comment" />
+                                        <input id="CommentCreateButtonId" type="button" class="btn btn-success" name="@ButtonComment" value="Save comment" />
                                         <div id="@CommentPostWithId" class="myBox">
 
                                             @foreach (var comment in post.Comments)
                                             {
-                                                <img src="@comment.PictureProfile" class="imgPostLikeComment" />
-                                                <p>@comment.Username : @comment.Description</p>
+                                                <div class="divInfo">
+                                                    <img src="@comment.PictureProfile" class="imgPostLikeComment" />
+                                                    <p>@comment.Username : @comment.Description</p>
+                                                </div>
                                             }
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                        </table>
+                        }
                     }
-                }
+                </table>
             </div>
         </div>
 
         <div id="right">
             <a href="/DetaialUser/Pictures/@Model.UserName.ToString()" class="btn btn-info">Pictures</a>
             @{ if (!Model.CheckForFriend)
-            {
-                    <p>@Html.ActionLink("Add Friend", "AddInvitationFriend/" + Model.UserName.ToString(), "DetaialUser", new { @class = "btn btn-info" })</p>
-                }
+             {
+                <p>@Html.ActionLink("Add Friend", "AddInvitationFriend/" + Model.UserName.ToString(), "DetaialUser", new { @class = "btn btn-info" })</p>
+             }
 
             }
         </div>

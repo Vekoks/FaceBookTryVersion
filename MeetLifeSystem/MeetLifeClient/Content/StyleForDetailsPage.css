@@ -1,0 +1,14 @@
+﻿#left {
+    width: 30%;
+    float: left;
+}
+
+#central {
+    width: 40%;
+    float: left;
+}
+
+#right {
+    width: 20%;
+    float: right;
+}

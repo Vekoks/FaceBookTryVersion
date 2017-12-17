@@ -26,7 +26,7 @@ function getDataUserInfo() {
                 var rows = [];
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <li id="specifik" class="list-group-item">');
-                    rows.push(' <div id="User" class="btn btn-default">' + data[i].Name + '</div>');
+                    rows.push(' <div id="User" class="btn btn-success">' + data[i].Name + '</div>');
                     if (data[i].IsOnline) {
                         rows.push(' <div class="label label-info">Online</div>');
                     }

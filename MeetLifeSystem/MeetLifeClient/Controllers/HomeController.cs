@@ -117,10 +117,13 @@ namespace MeetLifeClient.Controllers
                 var pictureId = 0;
                 int.TryParse(post.PictureId.ToString(), out pictureId);
 
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
+
                 resultPost.Add(new HomePostModel
                 {
                     PostId = post.Id,
                     UserName = _userService.GetUserById(post.UserId).UserName,
+                    PictureOfUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
                     DiscriptionPost = post.Disctription,
                     PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
                     DateOnPost = Converts.CreateStringDate(post.DateOnPost),
@@ -175,7 +178,7 @@ namespace MeetLifeClient.Controllers
                 _userService.RemoveInvitationForFriend(loggedUser, userAsk);
             }
 
-            return RedirectToAction("Begining", "Home");
+            return Json(new { status = "Success", message = "Success" });
         }
 
         [HttpGet]
@@ -284,10 +287,27 @@ namespace MeetLifeClient.Controllers
 
             var countNotifications = resoultNotifications.Where(x => x.IsSaw == false).Count();
 
+            var listNotification = new List<ListNotification>();
+
+            foreach (var notification in resoultNotifications)
+            {
+                var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(notification.Username));
+
+                listNotification.Add(new ListNotification
+                {
+                    Username = notification.Username,
+                    Description = notification.Description,
+                    ImgUser = Converts.ConvertByteArrToStringForImg(pictureOfProfile),
+                    NotificationId = notification.NotificationId,
+                    IsSaw = notification.IsSaw,
+                    PostId = notification.PostId
+            });
+            }
+
             var resoultModel = new HomeNotificationModel()
             {
                 CountNoSeenNotification = countNotifications,
-                Notification = resoultNotifications
+                Notification = listNotification
             };
 
             return Json(resoultModel, JsonRequestBehavior.AllowGet);

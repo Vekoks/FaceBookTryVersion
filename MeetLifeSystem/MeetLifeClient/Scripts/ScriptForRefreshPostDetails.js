@@ -1,5 +1,4 @@
-﻿
-//refresh like
+﻿//refresh like
 $(function () {
     var job = $.connection.likeHub;
 
@@ -19,10 +18,25 @@ function getDataForLikes() {
         type: 'GET',
         datatype: 'json',
         success: function (data) {
+
             for (var i = 0; i < data.length; i++) {
                 var $tbl = $('button[name=' + data[i].IdOnCurrentPost + ']');
                 $tbl.empty();
-                $tbl.text("Like: " + data[i].Likes);
+                $tbl.text("Like: " + data[i].LikesCount);
+
+                var likes = $('#ListWithLikes' + data[i].IdOnCurrentPost + '');
+                likes.empty();
+
+                var rows = [];
+
+                for (var j = 0; j < data[i].Likes.length; j++) {
+                    rows.push('  <div class="divInfo">');
+                    rows.push(' <img src="' + data[i].Likes[j].PictureProfile + '" class="imgPostLikeComment" />');
+                    rows.push(' <p>' + data[i].Likes[j].Username + '</p>');
+                    rows.push('  </div>');
+                }
+
+                likes.append(rows.join(''));
             }
         }
     })
@@ -47,6 +61,7 @@ function GetCommentsOnThePost() {
         url: "/Post/GetCommentsOnThePost",
         type: "GET",
         success: function (data) {
+
             for (var i = 0; i < data.length; i++) {
 
                 var $tbl = $('#CommentPostWithId' + data[i].IdOnCurrentPost);
@@ -54,7 +69,10 @@ function GetCommentsOnThePost() {
 
                 var rows = [];
                 for (var j = 0; j < data[i].Comments.length; j++) {
+                    rows.push('  <div class="divInfo">');
+                    rows.push('  <img src="' + data[i].Comments[j].PictureProfile + '" class="imgPostLikeComment" />');
                     rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + '</p>');
+                    rows.push('  </div>');
                 }
                 $tbl.append(rows.join(''));
             }

@@ -14,7 +14,6 @@ namespace MeetLifeClient.Controllers
 {
     public class PostController : Controller
     {
-
         private readonly IUserService _userService;
         private readonly IPostService _postService;
         private readonly IAllPostInfo _infoForAllPost;
@@ -89,11 +88,13 @@ namespace MeetLifeClient.Controllers
                     });
                 }
 
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
 
                 resultPost.Add(new HomePostModel
                 {
                     PostId = post.PostId,
                     UserName = _userService.GetUserById(post.UserId).UserName,
+                    PictureOfUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
                     DiscriptionPost = post.Discription,
                     DateOnPost = Converts.CreateStringDate(post.DatePost),
                     PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
@@ -146,10 +147,25 @@ namespace MeetLifeClient.Controllers
 
             foreach (var post in curentPosts)
             {
+                var commentsPost = new List<ViewModelComment>();
+                var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.Id);
+
+                foreach (var comment in commentList)
+                {
+                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+
+                    commentsPost.Add(new ViewModelComment()
+                    {
+                        Username = comment.Username,
+                        Description = comment.Description,
+                        PictureProfile = Converts.ConvertByteArrToStringForImg(profilePicture)
+                    });
+                }
+
                 resoult.Add(new PostCommentViewModel
                 {
                     IdOnCurrentPost = post.Id,
-                    Comments = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.Id)
+                    Comments = commentsPost
                 });
             }
 
@@ -178,12 +194,29 @@ namespace MeetLifeClient.Controllers
 
             foreach (var post in curentPosts)
             {
+
+                var likesPost = new List<ViewModelLike>();
+                var likeList = post.Likes;
+
+                foreach (var like in likeList)
+                {
+                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+
+                    likesPost.Add(new ViewModelLike()
+                    {
+                        Username = like.Username,
+                        PictureProfile = Converts.ConvertByteArrToStringForImg(pictureOfProfile)
+                    });
+                }
+
+
                 var liksOnThePost = _infoForLIkes.GetDataLikesOnThePost(post.Id).Count();
 
                 result.Add(new PostLikeViewModel
                 {
                     IdOnCurrentPost = post.Id,
-                    Likes = liksOnThePost
+                    LikesCount = liksOnThePost,
+                    Likes = likesPost
                 });
             }
 
@@ -230,10 +263,13 @@ namespace MeetLifeClient.Controllers
                 });
             }
 
+            var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(targetPost.UserId).Id));
+
             var model = new HomePostModel
             {
                 PostId = targetPost.Id,
                 UserName = _userService.GetUserById(targetPost.UserId).UserName,
+                PictureOfUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
                 DiscriptionPost = targetPost.Disctription,
                 PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
                 DateOnPost = Converts.CreateStringDate(targetPost.DateOnPost),
