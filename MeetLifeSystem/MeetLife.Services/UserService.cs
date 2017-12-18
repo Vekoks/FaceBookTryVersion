@@ -27,6 +27,11 @@ namespace MeetLife.Services
 
         public void ChangeOnline(User loggedUser)
         {
+            if (loggedUser == null)
+            {
+                return;
+            }
+
             if (loggedUser.IsOnline)
             {
                 loggedUser.IsOnline = false;

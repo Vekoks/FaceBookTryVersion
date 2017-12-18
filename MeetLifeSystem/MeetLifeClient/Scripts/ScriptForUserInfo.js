@@ -47,31 +47,31 @@ $("#UsersList").on("click", "#specifik", function (e) {
     //$tbl.empty();
 
     var rows = [];
-    rows.push(' <table id="ChatWith' + userName + '" style="float: left; border:2px solid red">');
+    rows.push(' <table id="ChatWith' + userName + '" class="TableChat"');
     rows.push(' <tr>');
     rows.push(' <td>');
-    rows.push(' <div><a id="UserName" href="/DetaialUser/Details/' + userName + '">' + userName + '</a></div>');
-    rows.push(' <button id="Exit" class="btn btn-danger" name="ExitChatWith ' + userName + '">X</button>');
+    rows.push(' <div><a id="UserName" href="/DetaialUser/Details/' + userName + '">' + userName + '</a><button id="Exit" class="btn btn-danger" name="ExitChatWith ' + userName + '">X</button></div>');
     rows.push(' </td>');
     rows.push(' </tr>');
 
     rows.push(' <tr>');
     rows.push(' <td>');
-    rows.push(' <div><input type="text" id="MessageFor' + userName + '" class="modal-body" value="message " /></div>');
+    rows.push(' <div id="ConversationWith' + userName + '" class="myBoxChat"></div>');
     rows.push(' </td>');
     rows.push(' </tr>');
 
     rows.push(' <tr>');
-    rows.push(' <td style="padding-left: 50px">');
+    rows.push(' <td>');
+    rows.push(' <div><textarea id="MessageFor' + userName + '" class="modal-content textChat" placeholder="Write your message.."></textarea></div>');
+    rows.push(' </td>');
+    rows.push(' </tr>');
+
+    rows.push(' <tr>');
+    rows.push(' <td>');
     rows.push(' <button id="send-message" class="btn btn-info" name="ButtonFor ' + userName + '">Send</button>');
     rows.push(' </td>');
     rows.push(' </tr>');
 
-    rows.push(' <tr>');
-    rows.push(' <td>');
-    rows.push(' <div id="ConversationWith' + userName + '"></div>');
-    rows.push(' </td>');
-    rows.push(' </tr>');
     rows.push(' </table>');
 
     $tbl.append(rows.join(''));

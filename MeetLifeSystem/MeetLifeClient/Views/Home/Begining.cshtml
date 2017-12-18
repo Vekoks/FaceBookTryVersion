@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Begining</title>
     <link rel="stylesheet" type="text/css" href="~/Content/StyleForPosts.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleForChat.css">
     <style>
         #left {
             width: 30%;
@@ -94,12 +95,13 @@
         <div id="AskFriendList"></div>
 
         <div class="row">
-            <div id="Chat"></div>
             <div style="float: right; right: 5%">
                 <h2>Friend:</h2>
                 <ul id="UsersList" class="list-group" style="border: 2px solid; float:right"></ul>
             </div>
         </div>
+
+        <div id="Chat"></div>
         @*<h3>Messages: </h3>
             @{
                 foreach (var message in Model.Messages)
@@ -122,52 +124,5 @@
     <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>
     <script src="~/Scripts/ScriptForNotificationsOnUser.js"></script>
 
-    <script>
-
-        //$(function () {
-
-        //    // Proxy created on the fly
-        //    var job = $.connection.noSeenMessageHub;
-
-        //    // Declare a function on the job hub so the server can invoke it
-        //    job.client.displayAllNoSeenMessage = function () {
-        //        getDataForAllNoSeenMessage();
-        //    };
-
-        //    // Start the connection
-        //    $.connection.hub.start();
-        //    getDataForAllNoSeenMessage();
-        //});
-
-
-        //function getDataForAllNoSeenMessage() {
-        //    var $tbl = $('#NoSeenMessage');
-
-        //    $.ajax({
-        //        url: 'GetAllNoSeenMessage',
-        //        type: 'GET',
-        //        datatype: 'json',
-        //        success: function (data) {
-        //            if (data.length > 0) {
-        //                $tbl.empty();
-        //                var rows = [];
-        //                rows.push(' <h3>Messages: </h3>');
-
-        //                for (var i = 0; i < data.length; i++) {
-        //                    rows.push(' <div>');
-        //                    rows.push('  <p>' + data[i].FormUser + ': ' + data[i].Message + '</p>');
-        //                    rows.push(' </div>');
-        //                }
-
-        //                $tbl.append(rows.join(''));
-        //            }
-        //        }
-        //    });
-        //}
-
-
-
-
-    </script>
 </body>
 </html>

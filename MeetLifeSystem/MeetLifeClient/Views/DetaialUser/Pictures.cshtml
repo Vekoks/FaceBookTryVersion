@@ -37,35 +37,32 @@
             <table id="TablePictures">
                 @if (Model.PostsWithPictures.Count > 3)
                 {
-                    var i = 0;
-
-                    foreach (var post in Model.PostsWithPictures)
+                    var listPost = Model.PostsWithPictures;
+                    for (int i = 0; i < listPost.Count; i += 3)
                     {
-                        i++;
-
                         <tr>
                             @for (int j = i; j < i + 3; j++)
                             {
-                                if (j < Model.PostsWithPictures.Count)
+                                if (j < listPost.Count)
                                 {
                                     <td>
                                         <div>
                                             @{
-                                    var likesId = "ListWithLikes" + @post.PostId;
-                                    var ButtonLike = "ButtonLike " + @post.PostId;
-                                    var ButtonComment = "ButtonComment " + @post.PostId;
-                                    var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
-                                    var CommentPostWithId = "CommentPostWithId" + @post.PostId;
+                                    var likesId = "ListWithLikes" + @listPost[j].PostId;
+                                    var ButtonLike = "ButtonLike " + @listPost[j].PostId;
+                                    var ButtonComment = "ButtonComment " + @listPost[j].PostId;
+                                    var commendDestrictionId = "CommentDisctriptionId" + @listPost[j].PostId;
+                                    var CommentPostWithId = "CommentPostWithId" + @listPost[j].PostId;
                                             }
 
-                                            <a id="UserName" href="/DetaialUser/Details/@post.UserName"><img src="@post.PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@post.UserName</h4></a>
-                                            <p style="margin-left:2%">@post.DateOnPost min</p>
-                                            <p style="margin-left:2%">@post.DiscriptionPost</p>
-                                            <img id="imgPost" src="@post.PicturePost" alt="" />
-                                            <button id="CountLike" name="@post.PostId" class="btn btn-success">Like: @post.Likes.Count</button>
+                                            <a id="UserName" href="/DetaialUser/Details/@listPost[j].UserName"><img src="@listPost[j].PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@listPost[j].UserName</h4></a>
+                                            <p style="margin-left:2%">@listPost[j].DateOnPost min</p>
+                                            <p style="margin-left:2%">@listPost[j].DiscriptionPost</p>
+                                            <img id="imgPost" src="@listPost[j].PicturePost" alt="" />
+                                            <button id="CountLike" name="@listPost[j].PostId" class="btn btn-success">Like: @listPost[j].Likes.Count</button>
                                             <div id="@likesId" class="hidden myBox">
 
-                                                @foreach (var like in post.Likes)
+                                                @foreach (var like in listPost[j].Likes)
                                                 {
                                                     <div class="divInfo">
                                                         <img src="@like.PictureProfile" class="imgPostLikeComment" />
@@ -80,9 +77,9 @@
                                                 <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@ButtonLike" value="Like" />
                                             }
 
-                                            @if (!post.IsProfilePicture && Model.UserName == User.Identity.Name)
+                                            @if (!listPost[j].IsProfilePicture && Model.UserName == User.Identity.Name)
                                             {
-                                                <button id="MekaProfilePicture" class="btn btn-success" name="@post.PostId">Make profile picture</button>
+                                                <button id="MekaProfilePicture" class="btn btn-success" name="@listPost[j].PostId">Make profile picture</button>
                                             }
 
                                             <div>
@@ -91,7 +88,7 @@
                                             <input id="CommentCreateButtonId" type="button" class="btn btn-success" name="@ButtonComment" value="Save comment" />
                                             <div id="@CommentPostWithId" class="myBox">
 
-                                                @foreach (var comment in post.Comments)
+                                                @foreach (var comment in listPost[j].Comments)
                                                 {
                                                     <div class="divInfo">
                                                         <img src="@comment.PictureProfile" class="imgPostLikeComment" />
