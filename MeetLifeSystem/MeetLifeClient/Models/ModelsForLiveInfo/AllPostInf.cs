@@ -30,8 +30,12 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(@"SELECT [Id],[Disctription],[DateOnPost],[PictureId],[UserId]
-               FROM [dbo].[Posts]", connection))
+               FROM [dbo].[Posts] WHERE [DateOnPost] > @DateTime;", connection))
                 {
+                    var dateForLastPostInTneMinutes = DateTime.Now.AddMinutes(-10);
+
+                    command.Parameters.Add("@DateTime", SqlDbType.NVarChar);
+                    command.Parameters["@DateTime"].Value = dateForLastPostInTneMinutes;
                     // Make sure the command object does not already have
                     // a notification object associated with it.
                     command.Notification = null;

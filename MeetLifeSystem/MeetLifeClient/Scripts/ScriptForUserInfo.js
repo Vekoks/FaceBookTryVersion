@@ -93,7 +93,9 @@ $("#UsersList").on("click", "#specifik", function (e) {
             var rowsCon = [];
 
             for (var i = 0; i < data.length; i++) {
-                rowsCon.push(' <div>' + data[i].Sender + ':' + data[i].Letter + '</div>');
+                rowsCon.push(' <div class="containerChat">');
+                rowsCon.push(' <span>' + data[i].Sender + ':' + data[i].Letter + '</span>');
+                rowsCon.push(' </div>');
             }
 
             $con.append(rowsCon.join(''));

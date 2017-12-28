@@ -49,13 +49,6 @@ namespace MeetLifeClient.Controllers
 
             foreach (var post in result)
             {
-                var timeForShowPosts = (DateTime.Now - post.DatePost);
-
-                if (timeForShowPosts.Minutes > 10 || timeForShowPosts.Hours !=0)
-                {
-                    continue;
-                }
-
                 var pictureId = 0;
                 int.TryParse(post.PictureId.ToString(), out pictureId);
 

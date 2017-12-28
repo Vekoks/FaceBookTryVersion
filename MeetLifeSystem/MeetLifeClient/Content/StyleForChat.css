@@ -1,17 +1,18 @@
 ﻿#Chat {
     position: fixed;
-    bottom: 8%;
-    right: 10%;
-    width: 17%;
-    height: 25%;
+    bottom: 300px;
+    right: 100px;
+    width: 800px;
+    height: 250px;
     float: left;
+    border: 2px solid red;
 }
 
 .TableChat {
     border: 2px solid green;
     float: left;
-    width: 80%;
-    height: 100%;
+    width: 500px;
+    height: 400px;
     background-color: #eee;
 }
 #send-message{
@@ -26,12 +27,24 @@
 .textChat{
     width:100%;
     height:100%;
+
 }
 
 .myBoxChat {
-    width: 100%;
-    height: 100px;
+    width: 500px;
+    height: 200px;
     overflow: auto;
     border: 2px solid green;
     border-radius: 5%
+}
+
+
+.containerChat{
+    max-width: 500px;
+    margin: 2px;
+}
+
+span{
+    width: 10px;
+    
 }

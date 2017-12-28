@@ -73,8 +73,8 @@ function addMessage(message, username, userNameLogged) {
     var meesagesListOnSender = "#ConversationWith" + username;
     var meesagesListOnReceiver = "#ConversationWith" + userNameLogged;
     
-    $(meesagesListOnSender).append('<div>' + message + '</div>');
-    $(meesagesListOnReceiver).append('<div>' + message + '</div>');
+    $(meesagesListOnSender).append('<p>' + message + '</p>');
+    $(meesagesListOnReceiver).append('<p>' + message + '</p>');
 }
 
 function joinRoom(room) {
