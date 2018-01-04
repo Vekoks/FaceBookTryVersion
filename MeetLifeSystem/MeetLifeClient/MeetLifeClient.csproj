@@ -227,6 +227,7 @@
     <Compile Include="Models\Converts.cs" />
     <Compile Include="Models\DetailsViewModels\UserPicturesModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeChatModel.cs" />
+    <Compile Include="Models\HomeViewModels\HomeFriendModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeLikeModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeNoSeenMessageModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeNotificationModel.cs" />

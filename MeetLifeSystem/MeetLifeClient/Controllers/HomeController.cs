@@ -191,11 +191,28 @@ namespace MeetLifeClient.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
 
+            
+
             var loggedUser = _userService.GetUserByUserName(loggedUserName);
 
             var result = _infoAllUser.GetData(loggedUser.Id);
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var listFriend = new List<HomeFriendModel>();
+
+            foreach (var friend in result)
+            {
+                var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(friend.Name));
+
+                listFriend.Add(new HomeFriendModel()
+                {
+                    Name = friend.Name,
+                    IsOnline = friend.IsOnline,
+                    ProfilPicture = Converts.ConvertByteArrToStringForImg(pictureOfProfile),
+                });
+            }
+
+
+            return Json(listFriend, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

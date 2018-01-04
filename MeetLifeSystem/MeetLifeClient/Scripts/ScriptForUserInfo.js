@@ -27,6 +27,7 @@ function getDataUserInfo() {
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <li id="specifik" class="list-group-item">');
                     rows.push(' <div id="User" class="btn btn-success">' + data[i].Name + '</div>');
+                    rows.push(' <img id="UserPicture" src="' + data[i].ProfilPicture + '" class="imgPostLikeComment" />');
                     if (data[i].IsOnline) {
                         rows.push(' <div class="label label-info">Online</div>');
                     }
@@ -43,6 +44,8 @@ function getDataUserInfo() {
 $("#UsersList").on("click", "#specifik", function (e) {
     var userName = $(this).find("#User").text();
 
+    var userProfilePucture = $(this).find("#UserPicture").attr('src');
+
     var $tbl = $("#sidebar_secondary");
     //$tbl.empty();
 
@@ -50,7 +53,7 @@ $("#UsersList").on("click", "#specifik", function (e) {
         '<div class="popup-head">' +
     '<div class="popup-head-left pull-left">'+
     '<a design and developmenta href="/DetaialUser/Details/' + userName + '">' +
-    '<img class="md-user-image" alt="' + userName + '" src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg">' +
+    '<img class="md-user-image" alt="' + userName + '" src="' + userProfilePucture + '">' +
     '<h1>' + userName + '</h1>' +
     '</a>'+
     '</div>'+
