@@ -16,12 +16,16 @@ namespace MeetLifeClient.Hubs
         {
             var userNameLogged = Context.User.Identity.Name;
 
-            var msg = string.Format("{0}: {1}", userNameLogged, message);
+            //var msg = string.Format("{0}: {1}", userNameLogged, message);
             //Clients.All.addMessage(msg);
             //Clients.Group(Context.User.Identity.Name).addMessage(message);
 
-            Clients.User(Context.User.Identity.Name).addMessage(msg, username, userNameLogged);
-            Clients.User(username).addMessage(msg, username, userNameLogged);
+            var dateNow = DateTime.Now;
+
+            var stringDate = string.Format("{0}:{1}", dateNow.Hour, dateNow.Minute);
+
+            Clients.User(Context.User.Identity.Name).addMessage(message, username, userNameLogged, stringDate);
+            Clients.User(username).addMessage(message, username, userNameLogged, stringDate);
 
         }
 

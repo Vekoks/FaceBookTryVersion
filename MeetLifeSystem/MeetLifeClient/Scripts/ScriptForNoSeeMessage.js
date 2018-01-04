@@ -1,36 +1,34 @@
 ﻿function chatCreate(userName) {
-    var $tbl = $("#Chat");
+    var $tbl = $("#sidebar_secondary");
     $tbl.empty();
 
-    var rows = [];
-    rows.push(' <table id="ChatWith' + userName + '" style="float: left; border:2px solid red">');
-    rows.push(' <tr>');
-    rows.push(' <td>');
-    rows.push(' <div><a id="UserName" href="/DetaialUser/Details/' + userName + '">' + userName + '</a></div>');
-    rows.push(' <button id="Exit" class="btn btn-danger" name="ExitChatWith ' + userName + '">X</button>');
-    rows.push(' </td>');
-    rows.push(' </tr>');
+    var control = '<div id="ChatWith' + userName + '">' +
+       '<div class="popup-head">' +
+   '<div class="popup-head-left pull-left">' +
+   '<a design and developmenta href="/DetaialUser/Details/' + userName + '">' +
+   '<img class="md-user-image" alt="' + userName + '" src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg">' +
+   '<h1>' + userName + '</h1>' +
+   '</a>' +
+   '</div>' +
+   '<div class="popup-head-right pull-right">' +
+   '<button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button"><i id="Exit" class="glyphicon glyphicon-remove" name="ExitChatWith ' + userName + '"></i></button>' +
+   '</div>' +
+   '</div>' +
+   '<div id="chat" class="chat_box_wrapper chat_box_small chat_box_active" style="opacity: 1; display: block; transform: translateX(0px);">' +
+   '<div id="ConversationWith' + userName + '" class="chat_box touchscroll chat_box_colors_a">' +
+   '</div>' +
+   '</div>' +
+   '<div class="chat_submit_box">' +
+   '<div class="uk-input-group">' +
+   '<div class="gurdeep-chat-box">' +
+   '<input type="text" placeholder="Type a message" id="MessageFor' + userName + '" name="submit_message" class="md-input">' +
+   '<button id="send-message" name="ButtonFor ' + userName + '">Click</button>' +
+   '</div>' +
+   '</div>' +
+   '</div>' +
+   '</div>';
 
-    rows.push(' <tr>');
-    rows.push(' <td>');
-    rows.push(' <div><input type="text" id="MessageFor' + userName + '" class="modal-body" value="message " /></div>');
-    rows.push(' </td>');
-    rows.push(' </tr>');
-
-    rows.push(' <tr>');
-    rows.push(' <td style="padding-left: 50px">');
-    rows.push(' <button id="send-message" class="btn btn-info" name="ButtonFor ' + userName + '">Send</button>');
-    rows.push(' </td>');
-    rows.push(' </tr>');
-
-    rows.push(' <tr>');
-    rows.push(' <td>');
-    rows.push(' <div id="ConversationWith' + userName + '"></div>');
-    rows.push(' </td>');
-    rows.push(' </tr>');
-    rows.push(' </table>');
-
-    $tbl.append(rows.join(''));
+    $tbl.append(control);
 
     //load conversation
     $.ajax({
@@ -49,10 +47,36 @@
             var rowsCon = [];
 
             for (var i = 0; i < data.length; i++) {
-                rowsCon.push(' <div>' + data[i].Sender + ':' + data[i].Letter + '</div>');
-            }
 
-            $con.append(rowsCon.join(''));
+                if (data[i].IsMe) {
+                    var control =
+                     '<div class="chat_message_wrapper chat_message_right">' +
+                        '<div class="chat_user_avatar">' +
+                            '<img id="ChatPitureOn' + data[i].UserName + '" alt="" src="' + data[i].Picture + '" class="md-user-image">' +
+                        '</div>' +
+                    '<ul class="chat_message">' +
+                            '<li>' +
+                                '<p>' + data[i].Letter + '<span class="chat_message_time">' + data[i].Date + '</span></p>' +
+                            '</li>' +
+                        '</ul>' +
+                        '</div>';
+                }
+                else {
+                    var control =
+                         '<div class="chat_message_wrapper">' +
+                            '<div class="chat_user_avatar">' +
+                                    '<img id="ChatPitureOn' + data[i].UserName + '" alt="" src="' + data[i].Picture + '" class="md-user-image">' +
+                            '</div>' +
+                        '<ul class="chat_message">' +
+                                '<li>' +
+                                    '<p>' + data[i].Letter + '<span class="chat_message_time">' + data[i].Date + '</span></p>' +
+                                '</li>' +
+                            '</ul>' +
+                            '</div>';
+                }
+
+                $con.append(control);
+            }
         }
     });
 

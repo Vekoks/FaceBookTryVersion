@@ -275,7 +275,37 @@ namespace MeetLifeClient.Controllers
 
             var conversation = _messageService.GetConversation(userLogged, UserName);
 
-            return Json(conversation, JsonRequestBehavior.AllowGet);
+            var conversationModel = new List<HomeChatModel>();
+
+            foreach (var part in conversation)
+            {
+                var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(part.Sender));
+
+                if (part.Sender.Contains(this.User.Identity.Name))
+                {
+                    conversationModel.Add(new HomeChatModel()
+                    {
+                        IsMe = true,
+                        UserName = part.Sender,
+                        Picture = Converts.ConvertByteArrToStringForImg(pictureOfProfile),
+                        Letter = part.Letter,
+                        Date = Converts.CreateStringDate(part.Date),
+                    });
+                }
+                else
+                {
+                    conversationModel.Add(new HomeChatModel()
+                    {
+                        IsMe = false,
+                        UserName = part.Sender,
+                        Picture = Converts.ConvertByteArrToStringForImg(pictureOfProfile),
+                        Letter = part.Letter,
+                        Date = Converts.CreateStringDate(part.Date),
+                    });
+                }
+            }
+
+            return Json(conversationModel, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

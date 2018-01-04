@@ -1,16 +1,16 @@
-﻿$("#Chat").on("click", "#Exit", function (e) {
+﻿$("#sidebar_secondary").on("click", "#Exit", function (e) {
 
     var nameOnButtonArr = $(this).attr('name').split(" ");
     var userName = nameOnButtonArr[1];
 
     var chatTableId = "#ChatWith" + userName;
 
-    var $tbl = $("#Chat").find(chatTableId).remove();
+    var $tbl = $("#sidebar_secondary").find(chatTableId).remove();
     //$tbl.empty();
 
 });
 
-$("#Chat").on("click", "#send-message", function (e) {
+$("#sidebar_secondary").on("click", "#send-message", function (e) {
 
     var chat = $.connection.chat;
 
@@ -20,6 +20,8 @@ $("#Chat").on("click", "#send-message", function (e) {
     var meesagesList = "#MessageFor" + userName;
 
     var msg = $(meesagesList).val();
+
+    $(meesagesList).val("");
 
     //add no seen message
     $.ajax({
@@ -69,12 +71,42 @@ $(document).ready(function () {
     chat.client.joinRoom = joinRoom;
 });
 
-function addMessage(message, username, userNameLogged) {
+function addMessage(message, username, userNameLogged, stringDate) {
     var meesagesListOnSender = "#ConversationWith" + username;
     var meesagesListOnReceiver = "#ConversationWith" + userNameLogged;
     
-    $(meesagesListOnSender).append('<p>' + message + '</p>');
-    $(meesagesListOnReceiver).append('<p>' + message + '</p>');
+    var pictureOnUserNameLogged = "#ChatPitureOn" + userNameLogged;
+    var pictureOnUsername = "#ChatPitureOn" + username;
+
+    var imagesOnUserNameLogged = $(pictureOnUserNameLogged).attr('src');
+    var imagesOnUsername = $(pictureOnUsername).attr('src');
+
+    var controlUserNameLogged =
+                    '<div class="chat_message_wrapper chat_message_right">' +
+                       '<div class="chat_user_avatar">' +
+                           '<img id="ChatPitureOn' + userNameLogged + '" alt="" src="' + imagesOnUserNameLogged + '" class="md-user-image">' +
+                       '</div>' +
+                   '<ul class="chat_message">' +
+                           '<li>' +
+                               '<p>' + message + '<span class="chat_message_time">' + stringDate + '</span></p>' +
+                           '</li>' +
+                       '</ul>' +
+                       '</div>';
+
+    var controlOnUsername = '<div class="chat_message_wrapper">' +
+                           '<div class="chat_user_avatar">' +
+                                   '<img id="ChatPitureOn' + username + '" alt="" src="' + imagesOnUsername + '" class="md-user-image">' +
+                           '</div>' +
+                       '<ul class="chat_message">' +
+                               '<li>' +
+                                   '<p>' + message + '<span class="chat_message_time">' + stringDate + '</span></p>' +
+                               '</li>' +
+                           '</ul>' +
+                           '</div>';
+
+
+    $(meesagesListOnSender).append(controlUserNameLogged);
+    $(meesagesListOnReceiver).append(controlOnUsername);
 }
 
 function joinRoom(room) {
