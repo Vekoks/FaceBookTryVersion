@@ -75,8 +75,8 @@ function addMessage(message, username, userNameLogged, stringDate) {
     var meesagesListOnSender = "#ConversationWith" + username;
     var meesagesListOnReceiver = "#ConversationWith" + userNameLogged;
     
-    var pictureOnUserNameLogged = "#ChatPitureOn" + userNameLogged;
-    var pictureOnUsername = "#ChatPitureOn" + username;
+    var pictureOnUserNameLogged = '#ProfilePictureLoggedUser';
+    var pictureOnUsername = "#UserPicture" + userNameLogged;
 
     var imagesOnUserNameLogged = $(pictureOnUserNameLogged).attr('src');
     var imagesOnUsername = $(pictureOnUsername).attr('src');
@@ -84,7 +84,7 @@ function addMessage(message, username, userNameLogged, stringDate) {
     var controlUserNameLogged =
                     '<div class="chat_message_wrapper chat_message_right">' +
                        '<div class="chat_user_avatar">' +
-                           '<img id="ChatPitureOn' + userNameLogged + '" alt="" src="' + imagesOnUserNameLogged + '" class="md-user-image">' +
+                           '<img  alt="" src="' + imagesOnUserNameLogged + '" class="md-user-image">' +
                        '</div>' +
                    '<ul class="chat_message">' +
                            '<li>' +
@@ -95,7 +95,7 @@ function addMessage(message, username, userNameLogged, stringDate) {
 
     var controlOnUsername = '<div class="chat_message_wrapper">' +
                            '<div class="chat_user_avatar">' +
-                                   '<img id="ChatPitureOn' + username + '" alt="" src="' + imagesOnUsername + '" class="md-user-image">' +
+                                   '<img alt="" src="' + imagesOnUsername + '" class="md-user-image">' +
                            '</div>' +
                        '<ul class="chat_message">' +
                                '<li>' +

@@ -13,7 +13,7 @@ namespace MeetLifeClient.Controllers
 {
     public class HomeController : Controller
     {
-        
+
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
         private readonly IUsersInfo _infoAllUser;
@@ -66,13 +66,13 @@ namespace MeetLifeClient.Controllers
                     Messages = new List<MissMessage>(),
                     CountAskForFriend = 0,
                     Posts = new List<HomePostModel>()
-            };
+                };
 
                 return View(notUserModel);
             }
 
             //Posts
-            var result = _postService.GetAllPost().OrderByDescending(x=>x.DateOnPost);
+            var result = _postService.GetAllPost().OrderByDescending(x => x.DateOnPost);
 
             var resultPost = new List<HomePostModel>();
 
@@ -191,7 +191,7 @@ namespace MeetLifeClient.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
 
-            
+
 
             var loggedUser = _userService.GetUserByUserName(loggedUserName);
 
@@ -296,15 +296,12 @@ namespace MeetLifeClient.Controllers
 
             foreach (var part in conversation)
             {
-                var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(part.Sender));
-
                 if (part.Sender.Contains(this.User.Identity.Name))
                 {
                     conversationModel.Add(new HomeChatModel()
                     {
                         IsMe = true,
                         UserName = part.Sender,
-                        Picture = Converts.ConvertByteArrToStringForImg(pictureOfProfile),
                         Letter = part.Letter,
                         Date = Converts.CreateStringDate(part.Date),
                     });
@@ -315,7 +312,6 @@ namespace MeetLifeClient.Controllers
                     {
                         IsMe = false,
                         UserName = part.Sender,
-                        Picture = Converts.ConvertByteArrToStringForImg(pictureOfProfile),
                         Letter = part.Letter,
                         Date = Converts.CreateStringDate(part.Date),
                     });
@@ -348,7 +344,7 @@ namespace MeetLifeClient.Controllers
                     NotificationId = notification.NotificationId,
                     IsSaw = notification.IsSaw,
                     PostId = notification.PostId
-            });
+                });
             }
 
             var resoultModel = new HomeNotificationModel()
@@ -379,6 +375,32 @@ namespace MeetLifeClient.Controllers
             }
 
             return Json(resoult, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetProfilePictureLoggedUser()
+        {
+            var loggedUser = _userService.GetUserByUserName(this.User.Identity.Name);
+
+            var picture = "";
+
+            if (loggedUser == null)
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                var profilePicture = loggedUser.Posts.Where(x => x.IsProfilePicture == true).FirstOrDefault().Picture;
+                picture = Converts.ConvertByteArrToStringForImg(profilePicture.Image);
+            }
+            catch (Exception)
+            {
+
+            }
+
+            
+
+            return Json(picture, JsonRequestBehavior.AllowGet);
         }
     }
 }

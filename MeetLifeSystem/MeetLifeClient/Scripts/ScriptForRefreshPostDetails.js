@@ -71,7 +71,7 @@ function GetCommentsOnThePost() {
                 for (var j = 0; j < data[i].Comments.length; j++) {
                     rows.push('  <div class="divInfo">');
                     rows.push('  <img src="' + data[i].Comments[j].PictureProfile + '" class="imgPostLikeComment" />');
-                    rows.push('  <p>' + data[i].Comments[j].Username + ':' + data[i].Comments[j].Description + '</p>');
+                    rows.push('  <p>' + data[i].Comments[j].Username + ' ' + data[i].Comments[j].Description + '</p>');
                     rows.push('  </div>');
                 }
                 $tbl.append(rows.join(''));

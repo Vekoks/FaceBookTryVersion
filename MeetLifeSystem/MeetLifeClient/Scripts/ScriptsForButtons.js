@@ -147,8 +147,10 @@ $('#SearchUserId').keyup(function () {
                 }
 
                 for (var i = 0; i < usersFind.length; i++) {
+                    rows.push(' <li>');
                     rows.push(' <img src="' + usersFind[i].ProfilePicture + '" alt="Alternate Text" style="width:50px;height:50px"/>');
                     rows.push(' <a href="/DetaialUser/Details/' + usersFind[i].UserName + '">' + usersFind[i].UserName + '</a>');
+                    rows.push(' </li>');
                 }
 
                 $UserList.append(rows.join(''));

@@ -39,14 +39,16 @@ function getDataForAllPost() {
                     }
                     rows.push(' </div>');
                     rows.push('  <input id="PutLikeButtonId" type="button" class="btn btn-success" name="ButtonLike ' + data[i].PostId + '" value="Like" />');
-                    rows.push('  <div><input id="CommentDisctriptionId' + data[i].PostId + '" type="text" name="discriptin"  placeholder="Write your comment.."/></div>');
-                    rows.push('  <input id="CommentCreateButtonId" type="button" class="btn btn-success" name="ButtonComment ' + data[i].PostId + '" value="Save comment" />');
+                    rows.push(' <div>');
+                    rows.push('  <input id="CommentDisctriptionId' + data[i].PostId + '" class="comment" type="text" name="discriptin"  placeholder="Write your comment.."/>');
+                    rows.push('  <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="ButtonComment ' + data[i].PostId + '" value="Save comment" />');
+                    rows.push(' </div>');
                     rows.push(' <div id="CommentPostWithId' + data[i].PostId + '" class="myBox">');
 
                     for (var j = 0; j < data[i].Comments.length; j++) {
                         rows.push('  <div class="divInfo">');
                         rows.push('  <img src="' + data[i].Comments[j].PictureProfile + '" class="imgPostLikeComment" />');
-                        rows.push('  <p>' + data[i].Comments[j].Username + ': ' + data[i].Comments[j].Description + '</p>');
+                        rows.push('  <p>' + data[i].Comments[j].Username + ' ' + data[i].Comments[j].Description + '</p>');
                         rows.push('  </div>');
                     }
 

@@ -7,6 +7,9 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
+            <img id="ProfilePictureLoggedUser" src="#" alt="" style="max-height:40px;max-width:70px;float:left;position:relative;top: 5px;border-radius: 50%;" />
+        </li>
+        <li>
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "DetaialUser")
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
@@ -20,3 +23,21 @@ else
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
+
+@Scripts.Render("~/bundles/jquery")
+
+<script> 
+
+    $.ajax({
+        url: "/Home/GetProfilePictureLoggedUser",
+        type: "GET",
+        dataType: "json",
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+            var img = $('#ProfilePictureLoggedUser');
+            $(img).attr('src', data);
+        }
+    });
+</script>

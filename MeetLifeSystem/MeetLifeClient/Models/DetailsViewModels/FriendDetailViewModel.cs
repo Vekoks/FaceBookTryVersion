@@ -22,6 +22,8 @@ namespace MeetLifeClient.Models.DetailsViewModels
 
         public bool CheckForFriend { get; set; }
 
+        public IEnumerable<FriendViewModel> Friends { get; set; }
+
         public IEnumerable<HomePostModel> Post { get; set; }
     }
 }

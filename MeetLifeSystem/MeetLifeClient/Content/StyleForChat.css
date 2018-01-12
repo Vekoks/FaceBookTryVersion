@@ -1,57 +1,4 @@
-﻿/*#Chat {
-    position: fixed;
-    bottom: 300px;
-    right: 100px;
-    width: 800px;
-    height: 250px;
-    float: left;
-    border: 2px solid red;
-}
-
-.TableChat {
-    border: 2px solid green;
-    float: left;
-    width: 500px;
-    height: 400px;
-    background-color: #eee;
-}
-#send-message{
-    margin-left: 40%
-}
-
-#Exit{
-    position: relative;
-    float:right;
-}
-
-.textChat{
-    width:100%;
-    height:100%;
-
-}
-
-.myBoxChat {
-    width: 500px;
-    height: 200px;
-    overflow-x: hidden;
-    border: 2px solid green;
-    border-radius: 5%
-}
-
-
-.containerChat{
-    max-width: 500px;
-    margin: 2px;
-}
-
-span{
-    width: 1000px;
-    
-}*/
-
-
-@import url(https://fonts.googleapis.com/css?family=Oswald:400,300);
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+﻿
 body
 {
 font-family: 'Open Sans', sans-serif;
@@ -162,13 +109,13 @@ aside {
    display: inline-block;
    float: left;
    position: fixed;
-   bottom: 70px;
-   right: 0;
-   height: 460px;
-   max-width: 1400px;
+   bottom: 30%;
+   right: 0%;
+   height: 48%;
+   max-width: 100%;
 }
 .chat_box {
-    padding: 16px;
+    padding: 3%;
     background: #58c653 none repeat scroll 0 0;
 }
 .chat_box .chat_message_wrapper::after {

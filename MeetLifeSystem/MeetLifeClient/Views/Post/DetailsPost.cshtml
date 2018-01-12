@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/StyleForPosts.css">
 </head>
 <body>
-    <div id="PostList">
+    <div id="PostList" class="detailPost">
         <div>
             @{
                 var likesId = "ListWithLikes" + Model.PostId;
@@ -21,7 +21,7 @@
             <a id="UserName" href="/DetaialUser/Details/@Model.UserName"><img src="@Model.PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@Model.UserName</h4></a>
             <p style="margin-left:4%">@Model.DateOnPost min</p>
             <p style="margin-left:1%">@Model.DiscriptionPost</p>
-            <img id="imgPost"  src="@Model.PicturePost" alt="" />
+            <img id="imgPost" src="@Model.PicturePost" alt="" />
             <button id="CountLike" name="@Model.PostId" class="btn btn-success">Like: @Model.Likes.Count</button>
             <div id="@likesId" class="hidden myBox">
 
@@ -41,9 +41,9 @@
             }
 
             <div>
-                <input id="@commendDestrictionId" type="text" name="discriptin" placeholder="Write your comment.." />
+                <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." />
+                <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@ButtonComment" value="Save comment" />
             </div>
-            <input id="CommentCreateButtonId" type="button" class="btn btn-success" name="@ButtonComment" value="Save comment" />
             <div id="@CommentPostWithId" class="myBox">
 
                 @foreach (var comment in Model.Comments)

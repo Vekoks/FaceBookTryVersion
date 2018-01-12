@@ -6,6 +6,7 @@
     <title>Begining</title>
     <link rel="stylesheet" type="text/css" href="~/Content/StyleForPosts.css">
     <link rel="stylesheet" type="text/css" href="~/Content/StyleForChat.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleForMeesageAndNotification.css">
     <style>
         #left {
             width: 30%;
@@ -27,19 +28,22 @@
     <div id="left">
         <div id="NoSeenMessage">
             <div id="CountMissMessage" style="float:left"></div>
-            <input type="button" id="NotificationMessageMiss" class="btn btn-success" value="Message" />
-            <div id="AllMessageFromUsers" class="hidden"></div>
+            <button id="NotificationMessageMiss" class="NotificationIcon"><img src="~/Content/Image/Messages.png" /></button>  
         </div>
         <div id="NotificationsOnUser">
             <div id="CountNotification" style="float:left"></div>
-            <input type="button" id="NotificationsOnUserButton" class="btn btn-success" value="Notification" />
-            <div id="AllNotifications" class="hidden myBox"></div>
+            <button id="NotificationsOnUserButton" class="NotificationIcon"><img src="~/Content/Image/Notification.png" /></button> 
         </div>
+
+        <div id="AllMessageFromUsers" class="hidden myBoxNotification"></div>
+        <div id="AllNotifications" class="hidden myBoxNotification"></div>
     </div>
 
+
     <div id="central">
-        <input id="SearchUserId" type="text" name="search" placeholder="Search user.." style="position:relative;left:20%;bottom:20%" />
-        <div id="ListUsers" style="z-index: 10;"></div>
+        <input id="SearchUserId" type="text" name="search" placeholder="Search user.." style="position:relative;left:20%;bottom:20%; margin: 2%" />
+        <i style="margin:0 18% 0;" class="glyphicon glyphicon-search"></i>
+        <ul id="ListUsers" style="z-index: 10; margin: 2%"></ul>
 
         <div id="PostList">
             <table id="TablePost">
@@ -71,14 +75,16 @@
                                     }
                                 </div>
                                 <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@buttonNameLike" value="Like" />
-                                <div><input id="@commendDestrictionId" type="text" name="discriptin" placeholder="Write your comment.." /></div>
-                                <input id="CommentCreateButtonId" type="button" class="btn btn-success" name="@buttonNameComment" value="Save comment" />
+                                <div>
+                                    <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." />
+                                    <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@buttonNameComment" value="Save comment" />
+                                </div>
                                 <div id="@CommentPostWithId" class="myBox">
                                     @foreach (var comment in post.Comments)
                                     {
                                         <div class="divInfo">
                                             <img src="@comment.PictureProfile" class="imgPostLikeComment" />
-                                            <p>@comment.Username : @comment.Description</p>
+                                            <p>@comment.Username  @comment.Description</p>
                                         </div>
                                     }
                                 </div>

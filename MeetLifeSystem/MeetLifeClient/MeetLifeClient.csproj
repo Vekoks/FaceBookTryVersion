@@ -225,6 +225,7 @@
     <Compile Include="Models\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="Models\AccountViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="Models\Converts.cs" />
+    <Compile Include="Models\DetailsViewModels\FriendViewModel.cs" />
     <Compile Include="Models\DetailsViewModels\UserPicturesModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeChatModel.cs" />
     <Compile Include="Models\HomeViewModels\HomeFriendModel.cs" />
@@ -266,9 +267,13 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\Messages.png" />
+    <Content Include="Content\Image\Notification.png" />
+    <Content Include="Content\Image\social-network.jpg" />
     <Content Include="Content\MySite.css" />
     <Content Include="Content\StyleForChat.css" />
     <Content Include="Content\StyleForDetailsPage.css" />
+    <Content Include="Content\StyleForMeesageAndNotification.css" />
     <Content Include="Content\StyleForPosts.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

@@ -6,9 +6,11 @@
 #central {
     width: 40%;
     float: left;
+    margin-left: 10%;
 }
 
 #right {
-    width: 20%;
-    float: right;
+    position: absolute;
+    top: 10%;
+    right: 5%;
 }

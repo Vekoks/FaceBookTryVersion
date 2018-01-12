@@ -11,7 +11,6 @@ namespace MeetLife.Model
     {
         public int Id { get; set; }
 
-        [Column(TypeName = "image")]
         public byte[] Image { get; set; }
     }
 }

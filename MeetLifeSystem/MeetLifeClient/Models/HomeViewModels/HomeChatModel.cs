@@ -11,8 +11,6 @@ namespace MeetLifeClient.Models.HomeViewModels
 
         public string UserName { get; set; }
 
-        public string Picture { get; set; }
-
         public string Letter { get; set; }
 
         public string Date { get; set; }

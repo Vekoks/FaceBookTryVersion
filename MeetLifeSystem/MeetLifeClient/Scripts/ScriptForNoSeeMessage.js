@@ -2,11 +2,15 @@
     var $tbl = $("#sidebar_secondary");
     $tbl.empty();
 
+    var imgProfile = "#UserPicture" + userName;
+
+    var userProfilePucture = $(imgProfile).attr('src');
+
     var control = '<div id="ChatWith' + userName + '">' +
        '<div class="popup-head">' +
    '<div class="popup-head-left pull-left">' +
    '<a design and developmenta href="/DetaialUser/Details/' + userName + '">' +
-   '<img class="md-user-image" alt="' + userName + '" src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg">' +
+   '<img class="imgPostLikeComment" alt="' + userName + '" src="' + userProfilePucture + '">' +
    '<h1>' + userName + '</h1>' +
    '</a>' +
    '</div>' +
@@ -46,13 +50,16 @@
             $con.empty();
             var rowsCon = [];
 
+            var pictureOnUserLogged = '#ProfilePictureLoggedUser';
+            var imagesOnUserLogged = $(pictureOnUserLogged).attr('src');
+
             for (var i = 0; i < data.length; i++) {
 
                 if (data[i].IsMe) {
                     var control =
                      '<div class="chat_message_wrapper chat_message_right">' +
                         '<div class="chat_user_avatar">' +
-                            '<img id="ChatPitureOn' + data[i].UserName + '" alt="" src="' + data[i].Picture + '" class="md-user-image">' +
+                            '<img alt="" src="' + imagesOnUserLogged + '" class="md-user-image">' +
                         '</div>' +
                     '<ul class="chat_message">' +
                             '<li>' +
@@ -62,10 +69,13 @@
                         '</div>';
                 }
                 else {
+                    var pictureOnUsername = "#UserPicture" + data[i].UserName;
+                    var imagesOnUsername = $(pictureOnUsername).attr('src');
+
                     var control =
                          '<div class="chat_message_wrapper">' +
                             '<div class="chat_user_avatar">' +
-                                    '<img id="ChatPitureOn' + data[i].UserName + '" alt="" src="' + data[i].Picture + '" class="md-user-image">' +
+                                    '<img alt="" src="' + imagesOnUsername + '" class="md-user-image">' +
                             '</div>' +
                         '<ul class="chat_message">' +
                                 '<li>' +
@@ -136,8 +146,7 @@ function getDataForAllNoSeenMessage() {
                     if (data[i].IsOnline) {
 
                         var chatTableId = "#ChatWith" + data[i].FormUser;
-
-                        var $tblChat = $("#Chat").find(chatTableId);
+                        var $tblChat = $(chatTableId);
 
                         if ($tblChat.length == 0) {
                             chatCreate(data[i].FormUser);
@@ -145,9 +154,10 @@ function getDataForAllNoSeenMessage() {
                     }
 
                     else {
-                        rows.push(' <div class="alert alert-dismissible alert-info" style="width:25%; text-align:center">')
-                        rows.push(' <div id="ListWithMissMessage"> You have miss message from')
-                        rows.push(' <p id="Sender" class="text-danger">' + data[i].FormUser + '</p>');
+                        rows.push(' <div>')
+                        rows.push(' <div id="ListWithMissMessage" style="border-bottom: 1px solid black">')
+                        rows.push(' <p style="text-align:center"> You have miss message from </p>');
+                        rows.push(' <p id="Sender" class="text-danger" style="text-align:center">' + data[i].FormUser + '</p>');
                         rows.push(' </div>')
                         rows.push(' </div>')
                     }

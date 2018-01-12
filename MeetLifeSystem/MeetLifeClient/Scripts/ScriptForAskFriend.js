@@ -27,8 +27,8 @@ function getDataForAskFriend() {
                 var rows = [];
                 rows.push(' <p>Invitations from Friend:' + data.length + '</p>');
                 for (var i = 0; i < data.length; i++) {
-                    rows.push(' <div>');
-                    rows.push('  <p>' + data[i].Name + '</p>');
+                    rows.push(' <div id="AskFriend' + data[i].Name + '">');
+                    rows.push('  <h4>' + data[i].Name + '</h4>');
                     rows.push('  <input id="Confirm" type="button" class = "btn btn-info" name="Accept ' + data[i].Name + '" value="Accept invitation" />');
                     rows.push('  <input id="Confirm" type="button" class = "btn btn-info" name="Delete ' + data[i].Name + '" value="Delete invitation" />');
 
@@ -46,6 +46,10 @@ function getDataForAskFriend() {
         var confirmNameButton = nameOnButtonArr[0];
         var userName = nameOnButtonArr[1];
 
+        var indexAskFriend = "#AskFriend" + userName.toString();
+        var nameOnButtonArr = $('#AskFriendList').find(indexAskFriend).remove();
+
+
         $.ajax({
             url: "/Home/ConferFriend",
             type: "POST",
@@ -55,7 +59,6 @@ function getDataForAskFriend() {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data.status == "Success") {
-                    
                 }
             }
         });

@@ -20,17 +20,20 @@ function getDataForNotifications() {
         success: function (data) {
             var $count = $('#NotificationsOnUser').find('#CountNotification');
             $count.empty();
-            $count.html(' <p class="text-success">' + data.CountNoSeenNotification + '</p>');
+
+            if (data.CountNoSeenNotification != 0) {
+                $count.html(' <p class="text-success">' + data.CountNoSeenNotification + '</p>');
+            }
 
             $tbl.empty();
             var rows = [];
 
             for (var i = 0; i < data.Notification.length; i++) {
                 if (!data.Notification[i].IsSaw) {
-                    rows.push(' <div style="background:#00ff90" class="divInfo">');
+                    rows.push(' <div style="background:#00ff90" class="divInfoNotification">');
                 }
                 else {
-                    rows.push(' <div  class="divInfo">');
+                    rows.push(' <div  class="divInfoNotification">');
                 }
                 rows.push('  <a id="UserName" href="/DetaialUser/Details/' + data.Notification[i].Username + '">');
                 rows.push('  <img src="' + data.Notification[i].ImgUser + '" class="imgPostLikeComment" />');

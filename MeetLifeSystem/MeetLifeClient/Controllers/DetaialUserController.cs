@@ -51,7 +51,7 @@ namespace MeetLifeClient.Controllers
 
                 foreach (var comment in post.Comments)
                 {
-                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(comment.Username));
 
                     commentsPost.Add(new ViewModelComment()
                     {
@@ -65,7 +65,7 @@ namespace MeetLifeClient.Controllers
 
                 foreach (var like in post.Likes)
                 {
-                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(like.Username));
 
                     likesPost.Add(new ViewModelLike()
                     {
@@ -74,7 +74,7 @@ namespace MeetLifeClient.Controllers
                     });
                 }
 
-                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
 
                 viewListPost.Add(new HomePostModel
                 {
@@ -89,6 +89,20 @@ namespace MeetLifeClient.Controllers
                 });
             }
 
+            var friendUser = userLogged.Friends;
+            var listFriend = new List<FriendViewModel>();
+
+            foreach (var friend in friendUser)
+            {
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(friend.Id));
+
+                listFriend.Add(new FriendViewModel
+                {
+                    UserName = friend.UserName,
+                    PictureUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
+                });
+            }
+
             if (details == null)
             {
                 var model = new UserDetailsViewModel()
@@ -98,7 +112,7 @@ namespace MeetLifeClient.Controllers
                     Adress = "undefined",
                     Age = 0,
                     ImageBrand = "",
-                    Friends = userLogged.Friends,
+                    Friends = listFriend,
                     Post = viewListPost
                 };
 
@@ -113,7 +127,7 @@ namespace MeetLifeClient.Controllers
                     Adress = details.Adress,
                     Age = details.Age,
                     ImageBrand = Converts.ConvertByteArrToStringForImg(profilPicture),
-                    Friends = userLogged.Friends,
+                    Friends = listFriend,
                     Post = viewListPost
                 };
 
@@ -150,7 +164,7 @@ namespace MeetLifeClient.Controllers
 
                 foreach (var comment in post.Comments)
                 {
-                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(comment.Username));
 
                     commentsPost.Add(new ViewModelComment()
                     {
@@ -164,7 +178,7 @@ namespace MeetLifeClient.Controllers
 
                 foreach (var like in post.Likes)
                 {
-                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(like.Username));
 
                     likesPost.Add(new ViewModelLike()
                     {
@@ -173,7 +187,7 @@ namespace MeetLifeClient.Controllers
                     });
                 }
 
-                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
 
                 viewListPost.Add(new HomePostModel
                 {
@@ -188,6 +202,20 @@ namespace MeetLifeClient.Controllers
                 });
             }
 
+            var friendUser = userFriend.Friends;
+            var listFriend = new List<FriendViewModel>();
+
+            foreach (var friend in friendUser)
+            {
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(friend.Id));
+
+                listFriend.Add(new FriendViewModel
+                {
+                    UserName = friend.UserName,
+                    PictureUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
+                });
+            }
+
             if (details == null)
             {
                 model.UserName = userFriend.UserName;
@@ -198,6 +226,7 @@ namespace MeetLifeClient.Controllers
                 model.ImageUser = "";
                 model.CheckForFriend = ckeckFriend;
                 model.Post = viewListPost;
+                model.Friends = listFriend;
             }
             else
             {
@@ -209,6 +238,7 @@ namespace MeetLifeClient.Controllers
                 model.ImageUser = Converts.ConvertByteArrToStringForImg(profilPicture);
                 model.CheckForFriend = ckeckFriend;
                 model.Post = viewListPost;
+                model.Friends = listFriend;
             }
 
 
@@ -234,7 +264,7 @@ namespace MeetLifeClient.Controllers
 
                 foreach (var comment in post.Comments)
                 {
-                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+                    var profilePicture = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(comment.Username));
 
                     commentsPost.Add(new ViewModelComment()
                     {
@@ -248,7 +278,7 @@ namespace MeetLifeClient.Controllers
 
                 foreach (var like in post.Likes)
                 {
-                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(like.Username));
 
                     likesPost.Add(new ViewModelLike()
                     {
@@ -257,7 +287,7 @@ namespace MeetLifeClient.Controllers
                     });
                 }
 
-                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(_userService.GetUserById(post.UserId).Id));
+                var pictureOfUser = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
 
                 resoultPost.Add(new HomePostModel
                 {

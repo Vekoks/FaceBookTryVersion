@@ -1,0 +1,94 @@
+﻿.NotificationIcon{
+    width: 20%;
+    height: 22%;
+    margin:0;
+    padding:0;
+    float: left;
+}
+
+.myBoxNotification{
+    width: 90%;
+    height: 300px;
+    overflow: scroll;
+    background: #d5d5d5;
+    margin-top: 2%;
+}
+
+.divInfoNotification{
+    height:20%;
+    border-top:2px solid;
+    padding-top: 2%;
+}
+
+.divInfoNotification:hover{
+    background: #8a97e8;
+}
+
+#ListWithMissMessage:hover{
+    background: #6cbf63;
+}
+
+a:hover {
+ text-decoration: none;
+}
+
+.imgFriendUsers{
+    margin-top: 3%;
+    height:40px;
+    width:50px; 
+    float:left;
+    border-radius: 50%;
+}
+
+.PostFormat{
+    border: 2px solid;
+    border-radius: 5%;
+    margin: 2% 0 1%;
+    text-align: center;
+}
+
+.PictureBeginForm{
+    position:relative; 
+    left: 30%; 
+    border:2px solid; 
+    width: 40%; 
+    margin: 1% 0 1%;
+    border-radius: 10%;
+    text-align: center;
+}
+
+#TablePictures{
+    width: 100%;
+    list-style-type: none;
+    position: relative;
+    bottom: 50px;
+    margin-top: 5%;
+}
+
+#TablePictures li{
+    float: left;
+    border: 2px solid green;
+    width: 30%;
+    height: 800px;
+    padding: 5px;
+}
+
+#ListUsers{
+    list-style-type: none;
+    position: absolute;
+    top: 9%;
+    left: 38%;
+    background: #c6fac0;
+    width: 15%;
+    padding-left:3%;
+    padding-right:3%;
+}
+
+#ListUsers li{
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+#ListUsers li:hover{
+    border: 2px solid red;
+}

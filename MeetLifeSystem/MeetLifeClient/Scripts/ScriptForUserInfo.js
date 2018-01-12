@@ -27,7 +27,7 @@ function getDataUserInfo() {
                 for (var i = 0; i < data.length; i++) {
                     rows.push(' <li id="specifik" class="list-group-item">');
                     rows.push(' <div id="User" class="btn btn-success">' + data[i].Name + '</div>');
-                    rows.push(' <img id="UserPicture" src="' + data[i].ProfilPicture + '" class="imgPostLikeComment" />');
+                    rows.push(' <img id="UserPicture' + data[i].Name + '" src="' + data[i].ProfilPicture + '" class="imgPostLikeComment" />');
                     if (data[i].IsOnline) {
                         rows.push(' <div class="label label-info">Online</div>');
                     }
@@ -44,7 +44,16 @@ function getDataUserInfo() {
 $("#UsersList").on("click", "#specifik", function (e) {
     var userName = $(this).find("#User").text();
 
-    var userProfilePucture = $(this).find("#UserPicture").attr('src');
+
+    var chatTableId = "#ChatWith" + userName;
+    var $tblChat = $(chatTableId);
+
+    if ($tblChat.length !== 0) {
+        return;
+    }
+
+    var imgProfile = "#UserPicture" + userName;
+    var userProfilePucture = $(this).find(imgProfile).attr('src');
 
     var $tbl = $("#sidebar_secondary");
     //$tbl.empty();
@@ -53,7 +62,7 @@ $("#UsersList").on("click", "#specifik", function (e) {
         '<div class="popup-head">' +
     '<div class="popup-head-left pull-left">'+
     '<a design and developmenta href="/DetaialUser/Details/' + userName + '">' +
-    '<img class="md-user-image" alt="' + userName + '" src="' + userProfilePucture + '">' +
+    '<img class="imgPostLikeComment" alt="' + userName + '" src="' + userProfilePucture + '">' +
     '<h1>' + userName + '</h1>' +
     '</a>'+
     '</div>'+
@@ -93,13 +102,16 @@ $("#UsersList").on("click", "#specifik", function (e) {
             $con.empty();
             var rowsCon = [];
 
+            var pictureOnUserLogged = '#ProfilePictureLoggedUser';
+            var imagesOnUserLogged = $(pictureOnUserLogged).attr('src');
+
             for (var i = 0; i < data.length; i++) {
 
                 if (data[i].IsMe) {
                     var control =
                      '<div class="chat_message_wrapper chat_message_right">' +
                         '<div class="chat_user_avatar">' +
-                            '<img id="ChatPitureOn' + data[i].UserName + '" alt="" src="' + data[i].Picture + '" class="md-user-image">' +
+                            '<img alt="" src="' + imagesOnUserLogged + '" class="md-user-image">' +
                         '</div>' +
                     '<ul class="chat_message">' +
                             '<li>' +
@@ -109,10 +121,14 @@ $("#UsersList").on("click", "#specifik", function (e) {
                         '</div>';
                 }
                 else {
+
+                    var pictureOnUsername = "#UserPicture" + data[i].UserName;
+                    var imagesOnUsername = $(pictureOnUsername).attr('src');
+
                     var control =
                          '<div class="chat_message_wrapper">' +
                             '<div class="chat_user_avatar">' +
-                                    '<img id="ChatPitureOn' + data[i].UserName + '" alt="" src="' + data[i].Picture + '" class="md-user-image">' +
+                                    '<img alt="" src="' + imagesOnUsername + '" class="md-user-image">' +
                             '</div>' +
                         '<ul class="chat_message">' +
                                 '<li>' +

@@ -38,6 +38,7 @@
                     <h2>@Model.Adress</h2>
                 </div>
             </div>
+            <a href="/DetaialUser/Pictures/@Model.UserName.ToString()" class="btn btn-info">Pictures</a>
         </div>
 
         <div id="central">
@@ -73,20 +74,23 @@
                                             }
 
                                         </div>
-                                        <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@ButtonLike" value="Like" />
-                                        <div><input id="@commendDestrictionId" type="text" name="discriptin" /></div>
-                                        <input id="CommentCreateButtonId" type="button" class="btn btn-success" name="@ButtonComment" value="Save comment" />
-                                        <div id="@CommentPostWithId" class="myBox">
+                                        <div>
+                                            <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@ButtonLike" value="Like" />
+                                            <div>
+                                                <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" />
+                                                <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@ButtonComment" value="Save comment" />
+                                            </div>
+                                            <div id="@CommentPostWithId" class="myBox">
 
-                                            @foreach (var comment in post.Comments)
-                                            {
-                                                <div class="divInfo">
-                                                    <img src="@comment.PictureProfile" class="imgPostLikeComment" />
-                                                    <p>@comment.Username : @comment.Description</p>
-                                                </div>
-                                            }
+                                                @foreach (var comment in post.Comments)
+                                                {
+                                                    <div class="divInfo">
+                                                        <img src="@comment.PictureProfile" class="imgPostLikeComment" />
+                                                        <p>@comment.Username  @comment.Description</p>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
                                 </td>
                             </tr>
                         }
@@ -96,13 +100,22 @@
         </div>
 
         <div id="right">
-            <a href="/DetaialUser/Pictures/@Model.UserName.ToString()" class="btn btn-info">Pictures</a>
             @{ if (!Model.CheckForFriend)
              {
                 <p>@Html.ActionLink("Add Friend", "AddInvitationFriend/" + Model.UserName.ToString(), "DetaialUser", new { @class = "btn btn-info" })</p>
              }
 
             }
+            <h3>Friend</h3>
+            @{
+                foreach (var friend in Model.Friends)
+                {
+                    <div style="margin-bottom: 15%">
+                        <img src="@friend.PictureUser" class="imgPostLikeComment" alt="" />@Html.ActionLink(@friend.UserName, "Details/" + friend.UserName.ToString(), "DetaialUser")
+                    </div>
+                }
+            }
+
         </div>
     </div>
 
