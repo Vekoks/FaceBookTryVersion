@@ -16,21 +16,21 @@ namespace MeetLifeClient.Controllers
     {
         private readonly IUserService _userService;
         private readonly IPostService _postService;
-        private readonly IAllPostInfo _infoForAllPost;
+        private readonly IAllPost _postInfo; 
         private readonly ICommentOnThePost _infoCommentsOnThePost;
         private readonly ILikeOnPost _infoForLIkes;
 
         public PostController(IUserService userService,
                               IPostService postService,
-                              IAllPostInfo infoPost,
                               ICommentOnThePost infoCommentsOnThePost,
-                              ILikeOnPost infoLIkes)
+                              ILikeOnPost infoLIkes,
+                              IAllPost postInfo)
         {
             this._userService = userService;
             this._postService = postService;
-            this._infoForAllPost = infoPost;
             this._infoCommentsOnThePost = infoCommentsOnThePost;
             this._infoForLIkes = infoLIkes;
+            this._postInfo = postInfo;
         }
 
         // GET: Post
@@ -39,11 +39,14 @@ namespace MeetLifeClient.Controllers
             return View();
         }
 
-
         [HttpGet]
         public JsonResult GetAllPostFromUsers()
         {
-            var result = _infoForAllPost.GetDataAllPost().OrderByDescending(x => x.DatePost);
+            var postResult = _postInfo.GetDataAllPost();
+
+            var dateForLastPostInTneMinutes = DateTime.Now.AddMinutes(-10);
+
+            var result = _postService.GetAllPost().Where(x => x.DateOnPost > dateForLastPostInTneMinutes).ToList();
 
             var resultPost = new List<HomePostModel>();
 
@@ -53,7 +56,7 @@ namespace MeetLifeClient.Controllers
                 int.TryParse(post.PictureId.ToString(), out pictureId);
 
                 var commentsPost = new List<ViewModelComment>();
-                var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.PostId).ToList();
+                var commentList = _infoCommentsOnThePost.GetDataForCommentsOnThePost(post.Id).ToList();
 
                 foreach (var comment in commentList)
                 {
@@ -68,7 +71,7 @@ namespace MeetLifeClient.Controllers
                 }
 
                 var likesPost = new List<ViewModelLike>();
-                var likeList = _infoForLIkes.GetDataLikesOnThePost(post.PostId).ToList();
+                var likeList = _infoForLIkes.GetDataLikesOnThePost(post.Id).ToList();
 
                 foreach (var like in likeList)
                 {
@@ -85,11 +88,11 @@ namespace MeetLifeClient.Controllers
 
                 resultPost.Add(new HomePostModel
                 {
-                    PostId = post.PostId,
+                    PostId = post.Id,
                     UserName = _userService.GetUserById(post.UserId).UserName,
                     PictureOfUser = Converts.ConvertByteArrToStringForImg(pictureOfUser),
-                    DiscriptionPost = post.Discription,
-                    DateOnPost = Converts.CreateStringDate(post.DatePost),
+                    DiscriptionPost = post.Disctription,
+                    DateOnPost = Converts.CreateStringDate(post.DateOnPost),
                     PicturePost = Converts.ConvertByteArrToStringForImg(_postService.GetPictureOnPost(pictureId)),
                     Likes = likesPost,
                     Comments = commentsPost
@@ -189,26 +192,23 @@ namespace MeetLifeClient.Controllers
             {
 
                 var likesPost = new List<ViewModelLike>();
-                var likeList = post.Likes;
+                var likeList = _infoForLIkes.GetDataLikesOnThePost(post.Id);
 
                 foreach (var like in likeList)
                 {
-                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserById(post.UserId));
+                    var pictureOfProfile = _postService.GetPictureProfileFromPost(_userService.GetUserByUserName(like.UserName));
 
                     likesPost.Add(new ViewModelLike()
                     {
-                        Username = like.Username,
+                        Username = like.UserName,
                         PictureProfile = Converts.ConvertByteArrToStringForImg(pictureOfProfile)
                     });
                 }
 
-
-                var liksOnThePost = _infoForLIkes.GetDataLikesOnThePost(post.Id).Count();
-
                 result.Add(new PostLikeViewModel
                 {
                     IdOnCurrentPost = post.Id,
-                    LikesCount = liksOnThePost,
+                    LikesCount = likeList.Count(),
                     Likes = likesPost
                 });
             }

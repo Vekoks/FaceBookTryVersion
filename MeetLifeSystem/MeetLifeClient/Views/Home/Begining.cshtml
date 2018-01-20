@@ -28,11 +28,11 @@
     <div id="left">
         <div id="NoSeenMessage">
             <div id="CountMissMessage" style="float:left"></div>
-            <button id="NotificationMessageMiss" class="NotificationIcon"><img src="~/Content/Image/Messages.png" /></button>  
+            <button id="NotificationMessageMiss" class="NotificationIcon"><img src="~/Content/Image/Messages.png" /></button>
         </div>
         <div id="NotificationsOnUser">
             <div id="CountNotification" style="float:left"></div>
-            <button id="NotificationsOnUserButton" class="NotificationIcon"><img src="~/Content/Image/Notification.png" /></button> 
+            <button id="NotificationsOnUserButton" class="NotificationIcon"><img src="~/Content/Image/Notification.png" /></button>
         </div>
 
         <div id="AllMessageFromUsers" class="hidden myBoxNotification"></div>
@@ -46,53 +46,53 @@
         <ul id="ListUsers" style="z-index: 10; margin: 2%"></ul>
 
         <div id="PostList">
-            <table id="TablePost">
+            <ul id="TablePost">
                 @foreach (var post in Model.Posts)
                 {
-                    <tr>
-                        <td>
-                            <div>
-                                @{
+                    <li class="PostRow">
+                        <div id="PostWithId + @post.PostId">
+                            @{
                     var aHref = "/DetaialUser/Details/" + @post.UserName;
                     var ListWithLikes = "ListWithLikes" + @post.PostId;
                     var commendDestrictionId = "CommentDisctriptionId" + @post.PostId;
                     var CommentPostWithId = "CommentPostWithId" + @post.PostId;
                     var buttonNameLike = "ButtonLike " + @post.PostId;
                     var buttonNameComment = "ButtonComment " + @post.PostId;
-                                }
-                                <a id="UserName" href="@aHref"><img src="@post.PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@post.UserName</h4></a>
-                                <p style="margin-left:10%">@post.DateOnPost min</p>
-                                <p style="margin-left:2%"> @post.DiscriptionPost</p>
-                                <img id="imgPost" src="@post.PicturePost" />
+                            }
+                            <a id="UserName" href="@aHref"><img src="@post.PictureOfUser" class="imgPostLikeComment"/><h4 style="margin-bottom:0">@post.UserName</h4></a>
+                            <p style="margin-left:10%">@post.DateOnPost min</p>
+                            <p style="margin-left:2%"> @post.DiscriptionPost</p>
+                            <img id="imgPost" src="@post.PicturePost" />
+                            <div>
                                 <button id="CountLike" name="@post.PostId" class="btn btn-success">Like: @post.Likes.Count</button>
-                                <div id="@ListWithLikes" class="hidden myBox">
-                                    @foreach (var like in post.Likes)
-                                    {
-                                        <div class="divInfo">
-                                            <img src="@like.PictureProfile" class="imgPostLikeComment" />
-                                            <p>@like.Username</p>
-                                        </div>
-                                    }
-                                </div>
-                                <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@buttonNameLike" value="Like" />
-                                <div>
-                                    <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." />
-                                    <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@buttonNameComment" value="Save comment" />
-                                </div>
-                                <div id="@CommentPostWithId" class="myBox">
-                                    @foreach (var comment in post.Comments)
-                                    {
-                                        <div class="divInfo">
-                                            <img src="@comment.PictureProfile" class="imgPostLikeComment" />
-                                            <p>@comment.Username  @comment.Description</p>
-                                        </div>
-                                    }
-                                </div>
+                                <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." />
+                                <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@buttonNameComment" value="Save comment" />
                             </div>
-                        </td>
-                    </tr>
+                            <button id="ShowComments" name="@post.PostId" class="btn btn-success">Comments</button>
+                            <button id="PutLikeButtonId" type="button" class="btn btn-success" name="@buttonNameLike">Like</button>
+
+                            <div id="@ListWithLikes" class="hidden myBox">
+                                @foreach (var like in post.Likes)
+                                {
+                                    <div class="divInfo">
+                                        <img src="@like.PictureProfile" class="imgPostLikeComment" />
+                                        <p>@like.Username</p>
+                                    </div>
+                                }
+                            </div>
+                            <div id="@CommentPostWithId" class="hidden myBox">
+                                @foreach (var comment in post.Comments)
+                                {
+                                    <div class="divInfoComments">
+                                        <img src="@comment.PictureProfile" class="imgPostLikeComment" />
+                                        <p class="DescriptComment">@comment.Username  @comment.Description</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </li>
                 }
-            </table>
+            </ul>
         </div>
 
     </div>
@@ -110,27 +110,25 @@
 
     </div>
 
-        
-        @*<h3>Messages: </h3>
-            @{
-                foreach (var message in Model.Messages)
-                {
-                    <div>
-                        <p style="float:left">@message.UserName:</p>
-                        <p> @message.Letter</p>
-                    </div>
-                }
-            }*@
-    
-    <aside id="sidebar_secondary" class="tabbed_sidebar ng-scope chat_sidebar popup-box-on">
 
-    </aside>
-    
+    @*<h3>Messages: </h3>
+        @{
+            foreach (var message in Model.Messages)
+            {
+                <div>
+                    <p style="float:left">@message.UserName:</p>
+                    <p> @message.Letter</p>
+                </div>
+            }
+        }*@
+
+    <aside id="sidebar_secondary" class="tabbed_sidebar ng-scope chat_sidebar popup-box-on"></aside>
+
 
     <script src="~/Scripts/ScriptForAskFriend.js"></script>
     <script src="~/Scripts/ScriptForChat.js"></script>
     <script src="~/Scripts/ScriptForUserInfo.js"></script>
-    <script src="~/Scripts/ScriptForPosts.js"></script>
+    <script src="~/Scripts/JavaScriptAllPostInfo.js"></script>
     <script src="~/Scripts/ScriptForRefreshPostDetails.js"></script>
     <script src="~/Scripts/ScriptsForButtons.js"></script>
     <script src="~/Scripts/ScriptForNoSeeMessage.js"></script>

@@ -209,7 +209,6 @@ namespace MeetLife.Services
             
         }
 
-
         public void MakeSeenNotification(User User, int NotificationId)
         {
             var targetNotification = User.Notifications.Where(x => x.Id == NotificationId).FirstOrDefault();

@@ -73,7 +73,6 @@ namespace MeetLifeClient.App_Start
 
             kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<IUserDetailService>().To<UserDetailService>();
-            kernel.Bind<IAllPostInfo>().To<AllPostInf>();
             kernel.Bind<ILikeOnPost>().To<LikeOnPost>();
             kernel.Bind<IAskFriendInfo>().To<AskFriendInfo>();
             kernel.Bind<IUsersInfo>().To<UsersInfo>();
@@ -82,6 +81,7 @@ namespace MeetLifeClient.App_Start
             kernel.Bind<IPostService>().To<PostService>();
             kernel.Bind<ICommentOnThePost>().To<CommentOnThePost>();
             kernel.Bind<INotificationOnUser>().To<NotificationOnUser>();
+            kernel.Bind<IAllPost>().To<AllPost>();
         }        
     }
 }

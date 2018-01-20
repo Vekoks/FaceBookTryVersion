@@ -11,7 +11,7 @@ namespace MeetLifeClient.Hubs
         public static void Show()
         {
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<PostHub>();
-            context.Clients.All.displayAllPost();
+            context.Clients.All.displayPost();
         }
     }
 }

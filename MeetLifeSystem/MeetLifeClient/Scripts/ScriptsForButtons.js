@@ -50,6 +50,20 @@ $('#PostList').on('click', '#CountLike', function () {
     }
 })
 
+$('#PostList').on('click', '#ShowComments', function () {
+
+    var idOnPost = $(this).attr('name');
+
+    var $editInfo = $('#CommentPostWithId' + idOnPost);
+
+    if ($editInfo.hasClass("hidden")) {
+        $editInfo.removeClass("hidden");
+    }
+    else {
+        $editInfo.addClass("hidden");
+    }
+})
+
 
 //create commnet on target post event
 $('#PostList').on('click', '#CommentCreateButtonId', function () {
@@ -111,7 +125,8 @@ $("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             if (data.status == "Success") {
-                window.location.href = '@Url.Action("Pictures/" + User.Identity.Name, "DetaialUser")';
+               //window.location.href = '@Url.Action("Pictures/"' + data.message + ', "DetaialUser")';
+                window.location.reload();
             }
         }
     });

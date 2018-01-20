@@ -26,7 +26,6 @@ namespace MeetLifeClient.Controllers
         public HomeController(IUserService userService,
                               IUsersInfo infoUser,
                               IAskFriendInfo infoFriend,
-                              IAllPostInfo infoPost,
                               INoSeenMessage infoNoSeenMessage,
                               IMessageService messageService,
                               ICommentOnThePost infoCommentsOnThePost,
@@ -160,7 +159,6 @@ namespace MeetLifeClient.Controllers
 
             return View();
         }
-
 
         public ActionResult ConferFriend(string UserName, string confirm)
         {
