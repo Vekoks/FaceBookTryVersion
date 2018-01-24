@@ -107,9 +107,9 @@ namespace MeetLifeClient.Controllers
             {
                 var model = new UserDetailsViewModel()
                 {
-                    FirstName = "undefined",
-                    LastName = "undefined",
-                    Adress = "undefined",
+                    FirstName = "",
+                    LastName = "",
+                    Adress = "",
                     Age = 0,
                     ImageBrand = "",
                     Friends = listFriend,

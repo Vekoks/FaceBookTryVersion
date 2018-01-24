@@ -107,6 +107,13 @@ function addMessage(message, username, userNameLogged, stringDate) {
 
     $(meesagesListOnSender).append(controlUserNameLogged);
     $(meesagesListOnReceiver).append(controlOnUsername);
+
+    //scroll everytime down
+    var chat = $('#ChatWith' + username)
+    var scrollHeight = chat.find(meesagesListOnSender);
+    var height = scrollHeight.height();
+
+    chat.find('#chat').scrollTop(height);
 }
 
 function joinRoom(room) {

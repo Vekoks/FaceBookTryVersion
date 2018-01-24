@@ -99,9 +99,16 @@ namespace MeetLife.Services
             return currentPosts;
         }
 
-        public void PutLikeOnThePost(int PostId, User UserPutLike)
+        public string PutLikeOnThePost(int PostId, User UserPutLike)
         {
             var targetPost = _postRepo.All().Where(x => x.Id == PostId).FirstOrDefault();
+
+            var isHaveLike = targetPost.Likes.Where(x => x.Username.Contains(UserPutLike.UserName)).FirstOrDefault();
+
+            if (isHaveLike != null)
+            {
+                return "no success";
+            }
 
             targetPost.Likes.Add(new LikesOnPost()
             {
@@ -122,6 +129,8 @@ namespace MeetLife.Services
             });
 
             _postRepo.SaveChanges();
+
+            return "success";
         }
 
         public List<Post> GetLikeOnThePost()

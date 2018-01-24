@@ -46,7 +46,7 @@ namespace MeetLifeClient.Controllers
 
             var dateForLastPostInTneMinutes = DateTime.Now.AddMinutes(-10);
 
-            var result = _postService.GetAllPost().Where(x => x.DateOnPost > dateForLastPostInTneMinutes).ToList();
+            var result = _postService.GetAllPost().Where(x => x.DateOnPost > dateForLastPostInTneMinutes).ToList().OrderByDescending(x => x.DateOnPost); ;
 
             var resultPost = new List<HomePostModel>();
 
@@ -169,16 +169,16 @@ namespace MeetLifeClient.Controllers
         }
 
         [HttpPost]
-        public ActionResult PutLikeOnThePOst(string model)
+        public JsonResult PutLikeOnThePOst(string model)
         {
             var name = this.User.Identity.Name;
             var userLogged = _userService.GetUserByUserName(name);
 
             var PostId = int.Parse(model);
 
-            _postService.PutLikeOnThePost(PostId, userLogged);
+            var resoult = _postService.PutLikeOnThePost(PostId, userLogged);
 
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json(new { status = resoult }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

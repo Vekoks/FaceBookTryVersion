@@ -57,22 +57,6 @@ a:hover {
     text-align: center;
 }
 
-#TablePictures{
-    width: 100%;
-    list-style-type: none;
-    position: relative;
-    bottom: 50px;
-    margin-top: 5%;
-}
-
-#TablePictures li{
-    float: left;
-    border: 2px solid green;
-    width: 30%;
-    height: 800px;
-    padding: 5px;
-}
-
 #ListUsers{
     list-style-type: none;
     position: absolute;
@@ -91,4 +75,14 @@ a:hover {
 
 #ListUsers li:hover{
     border: 2px solid red;
+}
+
+#InformationForUser{
+    margin-left:4%;
+    position:fixed;
+    background:#8a97e8;
+    padding: 1%;
+    text-align:center;
+    color:#ff0000;
+    border-radius: 20px;
 }

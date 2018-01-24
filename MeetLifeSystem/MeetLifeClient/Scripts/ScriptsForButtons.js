@@ -52,9 +52,9 @@ $('#PostList').on('click', '#CountLike', function () {
 
 $('#PostList').on('click', '#ShowComments', function () {
 
-    var idOnPost = $(this).attr('name');
+    var idOnPost = $(this).attr('name').split(" ");;
 
-    var $editInfo = $('#CommentPostWithId' + idOnPost);
+    var $editInfo = $('#CommentPostWithId' + idOnPost[1]);
 
     if ($editInfo.hasClass("hidden")) {
         $editInfo.removeClass("hidden");
@@ -103,11 +103,25 @@ $('#PostList').on('click', '#PutLikeButtonId', function () {
         traditional: true,
         contentType: "application/json; charset=utf-8",
         success: function (data) {
+            if (data.status == "no success") {
 
+                var infoUser = $('#InformationForUser');
+                infoUser.empty();
+                
+                var infoDiv =
+                    '<div>' +
+                       '<p>This post is like already</p>' +
+                    '</div>';
+
+                $(infoUser).append(infoDiv);
+
+                infoUser.removeClass("hidden")
+
+                setTimeout(function(){
+                    $('#InformationForUser').addClass("hidden");
+                }, 3000);
+            }
         },
-        error: function (data) {
-            alert("An error has occured!!!");
-        }
     });
 })
 

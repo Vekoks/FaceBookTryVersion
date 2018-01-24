@@ -1,12 +1,11 @@
 ﻿function chatCreate(userName) {
     var $tbl = $("#sidebar_secondary");
-    $tbl.empty();
 
     var imgProfile = "#UserPicture" + userName;
 
     var userProfilePucture = $(imgProfile).attr('src');
 
-    var control = '<div id="ChatWith' + userName + '">' +
+    var control = '<div id="ChatWith' + userName + '" class="Test">' +
        '<div class="popup-head">' +
    '<div class="popup-head-left pull-left">' +
    '<a design and developmenta href="/DetaialUser/Details/' + userName + '">' +
@@ -87,6 +86,13 @@
 
                 $con.append(control);
             }
+
+            //scroll everytime down
+            var chat = $('#ChatWith' + userName)
+            var scrollHeight = chat.find(meesagesList);
+            var height = scrollHeight.height();
+
+            chat.find('#chat').scrollTop(height);
         }
     });
 

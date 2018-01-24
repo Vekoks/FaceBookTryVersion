@@ -45,6 +45,8 @@
         <i style="margin:0 18% 0;" class="glyphicon glyphicon-search"></i>
         <ul id="ListUsers" style="z-index: 10; margin: 2%"></ul>
 
+        <div id="InformationForUser" class="hidden"></div>
+
         <div id="PostList">
             <ul id="TablePost">
                 @foreach (var post in Model.Posts)
@@ -58,6 +60,7 @@
                     var CommentPostWithId = "CommentPostWithId" + @post.PostId;
                     var buttonNameLike = "ButtonLike " + @post.PostId;
                     var buttonNameComment = "ButtonComment " + @post.PostId;
+                    var buttonNameCommentShow = "ButtonShowComment " + @post.PostId;
                             }
                             <a id="UserName" href="@aHref"><img src="@post.PictureOfUser" class="imgPostLikeComment"/><h4 style="margin-bottom:0">@post.UserName</h4></a>
                             <p style="margin-left:10%">@post.DateOnPost min</p>
@@ -68,9 +71,6 @@
                                 <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." />
                                 <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@buttonNameComment" value="Save comment" />
                             </div>
-                            <button id="ShowComments" name="@post.PostId" class="btn btn-success">Comments</button>
-                            <button id="PutLikeButtonId" type="button" class="btn btn-success" name="@buttonNameLike">Like</button>
-
                             <div id="@ListWithLikes" class="hidden myBox">
                                 @foreach (var like in post.Likes)
                                 {
@@ -80,7 +80,11 @@
                                     </div>
                                 }
                             </div>
-                            <div id="@CommentPostWithId" class="hidden myBox">
+
+                            <button id="ShowComments" name="@buttonNameCommentShow" class="btn btn-success">Comments @post.Comments.Count()</button>
+                            <button id="PutLikeButtonId" type="button" class="btn btn-success" name="@buttonNameLike">Like</button>
+                           
+                             <div id="@CommentPostWithId" class="hidden myBox">
                                 @foreach (var comment in post.Comments)
                                 {
                                     <div class="divInfoComments">

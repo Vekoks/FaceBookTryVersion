@@ -19,7 +19,7 @@ namespace MeetLife.Services.Contracts
 
         List<Post> GetPostWithNewComment();
 
-        void PutLikeOnThePost(int PostId, User User);
+        string PutLikeOnThePost(int PostId, User User);
 
         List<Post> GetLikeOnThePost();
 

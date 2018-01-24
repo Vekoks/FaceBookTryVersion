@@ -20,6 +20,7 @@ function getDataForLikes() {
         success: function (data) {
 
             for (var i = 0; i < data.length; i++) {
+                
                 var $tbl = $('button[name=' + data[i].IdOnCurrentPost + ']');
                 $tbl.empty();
                 $tbl.text("Like: " + data[i].LikesCount);
@@ -64,14 +65,18 @@ function GetCommentsOnThePost() {
 
             for (var i = 0; i < data.length; i++) {
 
+                var $tbl = $('button[name="ButtonShowComment ' + data[i].IdOnCurrentPost + '"]');
+                $tbl.empty();
+                $tbl.text("Comments " + data[i].Comments.length);
+
                 var $tbl = $('#CommentPostWithId' + data[i].IdOnCurrentPost);
                 $tbl.empty();
 
                 var rows = [];
                 for (var j = 0; j < data[i].Comments.length; j++) {
-                    rows.push('  <div class="divInfo">');
+                    rows.push('  <div class="divInfoComments">');
                     rows.push('  <img src="' + data[i].Comments[j].PictureProfile + '" class="imgPostLikeComment" />');
-                    rows.push('  <p>' + data[i].Comments[j].Username + ' ' + data[i].Comments[j].Description + '</p>');
+                    rows.push('  <p class="DescriptComment">' + data[i].Comments[j].Username + ' ' + data[i].Comments[j].Description + '</p>');
                     rows.push('  </div>');
                 }
                 $tbl.append(rows.join(''));

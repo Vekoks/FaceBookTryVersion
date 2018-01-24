@@ -3,7 +3,6 @@
     overflow: scroll;
     background: #d5d5d5;
     width: 23%;
-    margin-top: 10px;
     height: 20%;
 }
 
@@ -90,5 +89,38 @@
 
 .DescriptComment{
     margin-left:10%;
-    margin-top: 20%;
+    margin-top: 3%;
+}
+
+#TablePictures{
+    width: 100%;
+    list-style-type: none;
+    position: relative;
+    bottom: 250px;
+    margin-top: 23%;
+}
+
+#TablePictures li{
+    float: left;
+    border: 2px solid green;
+    width: 33%;
+    height: 690px;
+    padding: 5px;
+    margin-bottom:1%;
+}
+.myBoxForPictures {
+    position:absolute;
+    overflow: scroll;
+    background: #d5d5d5;
+    width: 31%;
+    height: 200px;
+}
+
+#MekaProfilePicture{
+    margin:1% 0;
+    width:100%;
+}
+
+.CountLikeButton{
+    width:100%;
 }

@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width" />
     <title>DetailsPost</title>
     <link rel="stylesheet" type="text/css" href="~/Content/StyleForPosts.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleForMeesageAndNotification.css">
 </head>
 <body>
+    <div id="InformationForUser" class="hidden"></div>
     <div id="PostList" class="detailPost">
         <div>
             @{
@@ -16,13 +18,19 @@
                 var ButtonComment = "ButtonComment " + Model.PostId;
                 var commendDestrictionId = "CommentDisctriptionId" + Model.PostId;
                 var CommentPostWithId = "CommentPostWithId" + Model.PostId;
+                var buttonNameCommentShow = "ButtonShowComment " + Model.PostId;                
             }
 
             <a id="UserName" href="/DetaialUser/Details/@Model.UserName"><img src="@Model.PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@Model.UserName</h4></a>
             <p style="margin-left:4%">@Model.DateOnPost min</p>
             <p style="margin-left:1%">@Model.DiscriptionPost</p>
             <img id="imgPost" src="@Model.PicturePost" alt="" />
-            <button id="CountLike" name="@Model.PostId" class="btn btn-success">Like: @Model.Likes.Count</button>
+            <div>
+                <button id="CountLike" name="@Model.PostId" class="btn btn-success">Like: @Model.Likes.Count</button>
+                <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." />
+                <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@ButtonComment" value="Save comment" />
+            </div>
+
             <div id="@likesId" class="hidden myBox">
 
                 @foreach (var like in Model.Likes)
@@ -35,22 +43,16 @@
 
             </div>
 
-            @if (!Model.UserName.Contains(this.User.Identity.Name))
-            {
-                <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@ButtonLike" value="Like" />
-            }
+            <input id="PutLikeButtonId" type="button" class="btn btn-success" name="@ButtonLike" value="Like" />
+            <button id="ShowComments" name="@buttonNameCommentShow" class="btn btn-success">Comments @Model.Comments.Count()</button>
 
-            <div>
-                <input id="@commendDestrictionId" class="comment" type="text" name="discriptin" placeholder="Write your comment.." />
-                <input id="CommentCreateButtonId" type="button" class="commentButton btn btn-success" name="@ButtonComment" value="Save comment" />
-            </div>
-            <div id="@CommentPostWithId" class="myBox">
+            <div id="@CommentPostWithId" class="hidden myBox">
 
                 @foreach (var comment in Model.Comments)
                 {
-                    <div class="divInfo">
+                    <div class="divInfoComments">
                         <img src="@comment.PictureProfile" class="imgPostLikeComment" />
-                        <p>@comment.Username : @comment.Description</p>
+                        <p class="DescriptComment">@comment.Username : @comment.Description</p>
                     </div>
                 }
             </div>

@@ -24,7 +24,7 @@ namespace MeetLifeClient.Models.HomeViewModels
 
         public List<ViewModelLike> Likes { get; set; }
 
-        public IEnumerable<ViewModelComment> Comments { get; set; }
+        public List<ViewModelComment> Comments { get; set; }
 
     }
 

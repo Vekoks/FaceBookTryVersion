@@ -141,6 +141,13 @@ $("#UsersList").on("click", "#specifik", function (e) {
                 $con.append(control);
             }
 
+
+            //scroll everytime down
+            var chat = $('#ChatWith' + userName)
+            var scrollHeight = chat.find(meesagesList);
+            var height = scrollHeight.height();
+
+            chat.find('#chat').scrollTop(height);
         }
     });
 });
