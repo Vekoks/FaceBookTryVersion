@@ -332,6 +332,7 @@ namespace MeetLifeClient.Controllers
 
         // POST: DetaialUser/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(UserDetailsViewModel model, HttpPostedFileBase image)
         {
             var name = User.Identity.Name;

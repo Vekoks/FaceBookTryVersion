@@ -103,6 +103,7 @@ namespace MeetLifeClient.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreatePost(string discriptin, HttpPostedFileBase image)
         {
             var userLogged = _userService.GetUserByUserName(this.User.Identity.Name);
@@ -121,6 +122,7 @@ namespace MeetLifeClient.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateComment(string model, string postId)
         {
             var name = this.User.Identity.Name;
