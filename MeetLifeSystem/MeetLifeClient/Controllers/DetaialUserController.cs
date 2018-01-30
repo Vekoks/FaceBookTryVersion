@@ -109,7 +109,7 @@ namespace MeetLifeClient.Controllers
                 {
                     FirstName = "",
                     LastName = "",
-                    Email = "",
+                    Email = userLogged.Email,
                     Adress = "",
                     Age = 0,
                     ImageBrand = "",

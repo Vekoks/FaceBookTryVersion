@@ -276,5 +276,13 @@ namespace MeetLifeClient.Controllers
             return View(model);
 
         }
+
+        [HttpPost]
+        public JsonResult DeletePost(string PostId)
+        {
+            _postService.DeletePost(int.Parse(PostId));
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
     }
 }

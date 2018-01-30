@@ -230,5 +230,15 @@ namespace MeetLife.Services
 
             _postRepo.SaveChanges();
         }
+
+
+        public void DeletePost(int PostId)
+        {
+            var targetPost = this.GetAllPost().Where(x=>x.Id == PostId).FirstOrDefault();
+
+            _postRepo.Delete(targetPost);
+
+            _postRepo.SaveChanges();
+        }
     }
 }

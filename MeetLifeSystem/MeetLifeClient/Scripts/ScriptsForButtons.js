@@ -107,7 +107,7 @@ $('#PostList').on('click', '#PutLikeButtonId', function () {
 
                 var infoUser = $('#InformationForUser');
                 infoUser.empty();
-                
+
                 var infoDiv =
                     '<div>' +
                        '<p>This post is like already</p>' +
@@ -117,7 +117,7 @@ $('#PostList').on('click', '#PutLikeButtonId', function () {
 
                 infoUser.removeClass("hidden")
 
-                setTimeout(function(){
+                setTimeout(function () {
                     $('#InformationForUser').addClass("hidden");
                 }, 3000);
             }
@@ -139,7 +139,7 @@ $("#TablePictures").on("click", "#MekaProfilePicture", function (e) {
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             if (data.status == "Success") {
-               //window.location.href = '@Url.Action("Pictures/"' + data.message + ', "DetaialUser")';
+                //window.location.href = '@Url.Action("Pictures/"' + data.message + ', "DetaialUser")';
                 window.location.reload();
             }
         }
@@ -187,4 +187,30 @@ $('#SearchUserId').keyup(function () {
         }
     });
 
+});
+
+$('#PostList').on('click', '#DeteletePost', function () {
+
+    var idOnPost = $(this).attr('name')
+
+    var txt;
+    var r = confirm("Are you sure?");
+    if (r == true) {
+        $.ajax({
+            url: "/Post/DeletePost",
+            type: "POST",
+            data: JSON.stringify({ PostId: idOnPost }),
+            dataType: "json",
+            traditional: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                alert("An error has occured!!!");
+            }
+        });
+    } else {
+        txt = "You pressed Cancel!";
+    }
 });

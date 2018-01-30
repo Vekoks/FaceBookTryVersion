@@ -34,5 +34,7 @@ namespace MeetLife.Services.Contracts
         void ClearProfilePictureOnPost(User User);
 
         void MakeSeenNotification(User User, int NotificationId);
+
+        void DeletePost(int PostId);
     }
 }

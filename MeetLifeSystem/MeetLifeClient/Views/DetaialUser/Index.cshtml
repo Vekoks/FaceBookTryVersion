@@ -13,7 +13,7 @@
     <div id="container">
         <div id="left">
             <div style="margin-top:1%;">
-                <button id="EditInfoUser" class="btn btn-success">Idet information</button>
+                <button id="EditInfoUser" class="btn btn-success">Edit information</button>
                 <a href="/DetaialUser/Pictures/@User.Identity.GetUserName()" class="btn btn-success">Pictures</a>
             </div>
             <h1>@User.Identity.GetUserName()</h1>
@@ -150,6 +150,7 @@
                                     }
 
                                     <a id="UserName" href="/DetaialUser/Details/@post.UserName"><img src="@post.PictureOfUser" class="imgPostLikeComment" alt="" /><h4 style="margin-bottom:0">@post.UserName</h4></a>
+                                    <button id="DeteletePost" name="@post.PostId" class="btn btn-danger" title="Delete post" style="position:relative; float:right;">X</button>
                                     <p style="margin-left:10%">@post.DateOnPost min</p>
                                     <p style="margin-left:2%">@post.DiscriptionPost</p>
                                     <img id="imgPost" src="@post.PicturePost" alt="" />
