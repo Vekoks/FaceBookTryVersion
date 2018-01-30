@@ -35,6 +35,13 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    <h2>@Model.Email</h2>
+                </div>
+            </div>
+
+            <div class="form-group">
                 @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     <h2>@Model.Age</h2>
@@ -47,13 +54,12 @@
                 </div>
             </div>
 
-
-
             <div id="FormInfo" class="hidden">
+                <h4>Edit information for user.</h4>
+                <a href="/Manage/ChangePassword" class="btn btn-success">Change password</a>
                 @using (Html.BeginForm("Create", "DetaialUser", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
-                    <h4>Edit information for user.</h4>
                     @Html.ValidationSummary("", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(m => m.FirstName, new { @class = "col-md-5 control-label" })
@@ -65,6 +71,12 @@
                         @Html.LabelFor(m => m.LastName, new { @class = "col-md-5 control-label" })
                         <div class="col-md-10">
                             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group">

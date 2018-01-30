@@ -109,6 +109,7 @@ namespace MeetLifeClient.Controllers
                 {
                     FirstName = "",
                     LastName = "",
+                    Email = "",
                     Adress = "",
                     Age = 0,
                     ImageBrand = "",
@@ -124,6 +125,7 @@ namespace MeetLifeClient.Controllers
                 {
                     FirstName = details.FirstName,
                     LastName = details.LastName,
+                    Email = userLogged.Email,
                     Adress = details.Adress,
                     Age = details.Age,
                     ImageBrand = Converts.ConvertByteArrToStringForImg(profilPicture),
@@ -345,6 +347,8 @@ namespace MeetLifeClient.Controllers
                 userDetail.Adress = model.Adress;
                 userDetail.Age = model.Age;
 
+                user.Email = model.Email;
+
                 _detailService.UpdataDetail(userDetail);
             }
             else
@@ -358,6 +362,8 @@ namespace MeetLifeClient.Controllers
                     Age = model.Age,
                     UserId = user.Id,
                 };
+
+                user.Email = model.Email;
 
                 _detailService.AddDetails(newDetails);
             }
