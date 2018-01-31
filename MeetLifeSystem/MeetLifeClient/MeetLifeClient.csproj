@@ -342,6 +342,7 @@
     <Content Include="Views\Home\Begining.cshtml" />
     <Content Include="Views\Post\DetailsPost.cshtml" />
     <Content Include="Views\DetaialUser\Pictures.cshtml" />
+    <Content Include="Views\DetaialUser\FirstEditDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

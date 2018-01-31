@@ -411,5 +411,24 @@ namespace MeetLifeClient.Controllers
 
             return Json(new { status = "Success", message = name });
         }
+
+        public ActionResult FirstEditDetail()
+        {
+            var name = User.Identity.Name;
+
+            var userLogged = _userService.GetUserByUserName(name);
+
+            var model = new UserDetailsViewModel()
+            {
+                FirstName = "",
+                LastName = "",
+                Email = userLogged.Email,
+                Adress = "",
+                Age = 0,
+                ImageBrand = ""
+            };
+
+            return View(model);
+        }
     }
 }
