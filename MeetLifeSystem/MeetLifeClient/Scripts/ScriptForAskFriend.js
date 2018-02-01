@@ -48,6 +48,7 @@ function getDataForAskFriend() {
 
         var indexAskFriend = "#AskFriend" + userName.toString();
         var nameOnButtonArr = $('#AskFriendList').find(indexAskFriend).remove();
+        var nameOnButtonArr = $('#AskFriendList').find('p').remove();
 
 
         $.ajax({
