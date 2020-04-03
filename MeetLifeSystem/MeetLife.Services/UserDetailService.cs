@@ -1,4 +1,5 @@
 ﻿using MeetLife.Data.Repository;
+using MeetLife.Data.UnitToWork;
 using MeetLife.Model;
 using MeetLife.Services.Contracts;
 using System;
@@ -13,16 +14,19 @@ namespace MeetLife.Services
     public class UserDetailService : IUserDetailService
     {
         private readonly IRepository<UserDetails> _userDetailRepo;
+        private readonly IUnitToWorkDbContext _iUnitToWorkDbContext;
 
-        public  UserDetailService(IRepository<UserDetails> userDetailRepo)
+        public  UserDetailService(IRepository<UserDetails> userDetailRepo, IUnitToWorkDbContext iUnitToWorkDbContext)
         {
             this._userDetailRepo = userDetailRepo;
+            this._iUnitToWorkDbContext = iUnitToWorkDbContext;
         }
 
         public void AddDetails(UserDetails UserDetails)
         {
             this._userDetailRepo.Add(UserDetails);
-            this._userDetailRepo.SaveChanges();
+            //this._userDetailRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         public UserDetails GetDetailByUserId(string UserId)
@@ -40,7 +44,8 @@ namespace MeetLife.Services
         public void UpdataDetail(UserDetails UserDetails)
         {
             this._userDetailRepo.Update(UserDetails);
-            this._userDetailRepo.SaveChanges();
+            //this._userDetailRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         //public void AddNewPictureOnUser(UserDetails UserDetails, string Description, byte[] Picture)

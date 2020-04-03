@@ -17,7 +17,7 @@ namespace MeetLifeClient.App_Start
     using Models;
     using Models.ModelsForLiveInfo;
     using MeetLifeClient.Models.ModelsForLiveInfo.Contracts;
-
+    using MeetLife.Data.UnitToWork;
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -82,6 +82,7 @@ namespace MeetLifeClient.App_Start
             kernel.Bind<ICommentOnThePost>().To<CommentOnThePost>();
             kernel.Bind<INotificationOnUser>().To<NotificationOnUser>();
             kernel.Bind<IAllPost>().To<AllPost>();
+            kernel.Bind<IUnitToWorkDbContext>().To<UnitToWorkDbContext>();
         }        
     }
 }

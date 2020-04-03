@@ -42,6 +42,8 @@ namespace MeetLifeClient.Controllers
         [HttpGet]
         public JsonResult GetAllPostFromUsers()
         {
+            var usr = _userService.GetAllUsers().ToList();
+
             var postResult = _postInfo.GetDataAllPost();
 
             var dateForLastPostInTneMinutes = DateTime.Now.AddMinutes(-10);
@@ -122,7 +124,7 @@ namespace MeetLifeClient.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult CreateComment(string model, string postId)
         {
             var name = this.User.Identity.Name;

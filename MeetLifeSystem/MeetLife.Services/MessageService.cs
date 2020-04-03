@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MeetLife.Model;
 using MeetLife.Data.Repository;
+using MeetLife.Data.UnitToWork;
 
 namespace MeetLife.Services
 {
@@ -13,11 +14,13 @@ namespace MeetLife.Services
     {
         private readonly IRepository<User> _userRepo;
         private readonly IRepository<StoreMessage> _storeRepo;
+        private readonly IUnitToWorkDbContext _iUnitToWorkDbContext;
 
-        public MessageService(IRepository<User> userRepo, IRepository<StoreMessage> storeRepo)
+        public MessageService(IRepository<User> userRepo, IRepository<StoreMessage> storeRepo, IUnitToWorkDbContext iUnitToWorkDbContext)
         {
             this._userRepo = userRepo;
             this._storeRepo = storeRepo;
+            this._iUnitToWorkDbContext = iUnitToWorkDbContext;
         }
 
         public void AddNewNoSeenMessage(User userLogged, string Message, User userReceiverMessage)
@@ -38,7 +41,8 @@ namespace MeetLife.Services
                 Conversation = userLogged.UserName + "And" + userReceiverMessage.UserName
             });
 
-            _storeRepo.SaveChanges();
+            //_storeRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         public string DeletellNotificationForNoSeenMessageFromUser(string Sender, User UserLogged)
@@ -50,7 +54,8 @@ namespace MeetLife.Services
                 UserLogged.MissMessages.Remove(notification);
             }
 
-            _userRepo.SaveChanges();
+            //_userRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
 
             return "secces";
         }

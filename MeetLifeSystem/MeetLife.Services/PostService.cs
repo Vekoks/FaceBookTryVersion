@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MeetLife.Model;
 using MeetLife.Data.Repository;
+using MeetLife.Data.UnitToWork;
 
 namespace MeetLife.Services
 {
@@ -14,12 +15,17 @@ namespace MeetLife.Services
         private readonly IRepository<User> _userRepo;
         private readonly IRepository<Post> _postRepo;
         private readonly IRepository<Picture> _pictureRepo;
+        private readonly IUnitToWorkDbContext _iUnitToWorkDbContext;
 
-        public PostService(IRepository<User> userRepo, IRepository<Post> postRepo, IRepository<Picture> pictureRepo)
+        public PostService(IRepository<User> userRepo, 
+                            IRepository<Post> postRepo, 
+                            IRepository<Picture> pictureRepo, 
+                            IUnitToWorkDbContext iUnitToWorkDbContext)
         {
             this._userRepo = userRepo;
             this._postRepo = postRepo;
             this._pictureRepo = pictureRepo;
+            this._iUnitToWorkDbContext = iUnitToWorkDbContext;
         }
 
         public void AddPostToUser(User User, string discriptinPost, byte[] Picture, bool IsProfilePicture)
@@ -33,7 +39,8 @@ namespace MeetLife.Services
                 };
 
                 _pictureRepo.Add(picturePost);
-                _pictureRepo.SaveChanges();
+                //_pictureRepo.SaveChanges();
+                _iUnitToWorkDbContext.Commit();
 
                 pictureId = picturePost.Id;
             }
@@ -46,7 +53,8 @@ namespace MeetLife.Services
                 PictureId = pictureId
             });
 
-            _userRepo.SaveChanges();
+            //_userRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         public void AddCommentToPost(int PostId, User UserWriteComment, string discriptinComment)
@@ -72,7 +80,8 @@ namespace MeetLife.Services
                 IsSaw = false
             });
 
-            _postRepo.SaveChanges();
+            //_postRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         public List<Post> GetAllPost()
@@ -94,7 +103,8 @@ namespace MeetLife.Services
                 post.WorkOnComment = false;
             }
 
-            _postRepo.SaveChanges();
+            //_postRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
 
             return currentPosts;
         }
@@ -128,7 +138,8 @@ namespace MeetLife.Services
                 IsSaw = false
             });
 
-            _postRepo.SaveChanges();
+            //_postRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
 
             return "success";
         }
@@ -142,7 +153,8 @@ namespace MeetLife.Services
                 post.WorkOnLike = false;
             }
 
-            _postRepo.SaveChanges();
+            //_postRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
 
             return currentPosts;
         }
@@ -184,7 +196,8 @@ namespace MeetLife.Services
             var newProfilePicture = LoggedUser.Posts.Where(x => x.Id == NewPicturePostId).FirstOrDefault();
             newProfilePicture.IsProfilePicture = true;
 
-            _postRepo.SaveChanges();
+            //_postRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         public byte[] GetPictureOnPost(int? PostId)
@@ -211,7 +224,8 @@ namespace MeetLife.Services
                 {
                     oldPostWithProfilePicture.IsProfilePicture = false;
 
-                    _postRepo.SaveChanges();
+                    //_postRepo.SaveChanges();
+                    _iUnitToWorkDbContext.Commit();
                 }
 
             }
@@ -226,9 +240,10 @@ namespace MeetLife.Services
             {
                 targetNotification.IsSaw = true;
             }
-           
 
-            _postRepo.SaveChanges();
+
+            //_postRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
 
@@ -238,7 +253,8 @@ namespace MeetLife.Services
 
             _postRepo.Delete(targetPost);
 
-            _postRepo.SaveChanges();
+            //_postRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
     }
 }

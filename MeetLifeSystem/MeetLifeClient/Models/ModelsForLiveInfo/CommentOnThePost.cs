@@ -40,7 +40,8 @@ namespace MeetLifeClient.Models.ModelsForLiveInfo
                         return reader.Cast<IDataRecord>()
                             .Select(x => new CommentOnThePost()
                             {
-                                Username = x.GetString(0),
+                                //Username = x.GetString(0),
+                                Username = reader["Username"].ToString(),
                                 Description = x.GetString(1)
                             }).ToList();
                 }

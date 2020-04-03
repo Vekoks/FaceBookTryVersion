@@ -1,4 +1,5 @@
 ﻿using MeetLife.Data.Repository;
+using MeetLife.Data.UnitToWork;
 using MeetLife.Model;
 using MeetLife.Services.Contracts;
 using System;
@@ -13,16 +14,20 @@ namespace MeetLife.Services
     {
         private readonly IRepository<User> _userRepo;
 
-        public UserService(IRepository<User> userRepo)
+        private readonly IUnitToWorkDbContext _iUnitToWorkDbContext;
+
+        public UserService(IRepository<User> userRepo, IUnitToWorkDbContext iUnitToWorkDbContext)
         {
             this._userRepo = userRepo;
+            this._iUnitToWorkDbContext = iUnitToWorkDbContext;
         }
 
 
         public void AddInvitationForFriend(User logged, InvitationForFriend friend)
         {
             logged.InvitationForFriends.Add(friend);
-            _userRepo.SaveChanges();
+            //_userRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         public void ChangeOnline(User loggedUser)
@@ -35,12 +40,14 @@ namespace MeetLife.Services
             if (loggedUser.IsOnline)
             {
                 loggedUser.IsOnline = false;
-                _userRepo.SaveChanges();
+                //_userRepo.SaveChanges();
+                _iUnitToWorkDbContext.Commit();
             }
             else
             {
                 loggedUser.IsOnline = true;
-                _userRepo.SaveChanges();
+                //_userRepo.SaveChanges();
+                _iUnitToWorkDbContext.Commit();
             }
 
         }
@@ -55,7 +62,8 @@ namespace MeetLife.Services
             var askForFriend = logged.InvitationForFriends.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
             logged.InvitationForFriends.Remove(askForFriend);
 
-            _userRepo.SaveChanges();
+            //_userRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
 
@@ -64,7 +72,8 @@ namespace MeetLife.Services
             var askForFriend = logged.InvitationForFriends.Where(x => x.Username == userAskForFriend.UserName).FirstOrDefault();
             logged.InvitationForFriends.Remove(askForFriend);
 
-            _userRepo.SaveChanges();
+            //_userRepo.SaveChanges();
+            _iUnitToWorkDbContext.Commit();
         }
 
         //check friend for show button for add
@@ -78,6 +87,7 @@ namespace MeetLife.Services
             }
             catch (NullReferenceException e)
             {
+                var err = e;
                 return false;
             }
 

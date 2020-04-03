@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{5CE7DB3D-2CDC-4B42-83B3-FB95709F1DC3}"
 EndProject
@@ -16,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetLife.Model", "MeetLife.Model\MeetLife.Model.csproj", "{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetLife.Services", "MeetLife.Services\MeetLife.Services.csproj", "{9670B051-2162-45D0-A816-E96A0182E130}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{1B731AC5-A799-4182-9E61-61999B22C3E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestServices", "UnitTestServices\UnitTestServices.csproj", "{652B80D1-B0C1-49B1-A8E1-E1D8D4322C18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,10 @@ Global
 		{9670B051-2162-45D0-A816-E96A0182E130}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9670B051-2162-45D0-A816-E96A0182E130}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9670B051-2162-45D0-A816-E96A0182E130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{652B80D1-B0C1-49B1-A8E1-E1D8D4322C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{652B80D1-B0C1-49B1-A8E1-E1D8D4322C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{652B80D1-B0C1-49B1-A8E1-E1D8D4322C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{652B80D1-B0C1-49B1-A8E1-E1D8D4322C18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +56,6 @@ Global
 		{B510A28A-6FBD-4B37-9B5E-46BB6BE7947A} = {5CE7DB3D-2CDC-4B42-83B3-FB95709F1DC3}
 		{5DAF34F1-3A00-4A8C-B7F4-96D30C279AEB} = {5CE7DB3D-2CDC-4B42-83B3-FB95709F1DC3}
 		{9670B051-2162-45D0-A816-E96A0182E130} = {ABB42CB9-0A0C-4B66-8767-9A53AC048361}
+		{652B80D1-B0C1-49B1-A8E1-E1D8D4322C18} = {1B731AC5-A799-4182-9E61-61999B22C3E6}
 	EndGlobalSection
 EndGlobal

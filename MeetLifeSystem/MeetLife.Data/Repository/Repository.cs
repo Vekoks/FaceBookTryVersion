@@ -11,19 +11,22 @@ namespace MeetLife.Data.Repository
     {
         private readonly IMeetLifeDbContext _dbContext;
 
+        private readonly DbSet<T> Dbset;
+
         public Repository(IMeetLifeDbContext dbContext)
         {
             _dbContext = dbContext;
+            this.Dbset = _dbContext.Set<T>();
         }
 
         public void Add(T entity)
         {
-            _dbContext.Set<T>().Add(entity);
+            Dbset.Add(entity);
         }
 
         public IEnumerable<T> All()
         {
-            return _dbContext.Set<T>().AsEnumerable();
+            return Dbset.AsEnumerable();
         }
 
         public void Delete(object id)
@@ -45,14 +48,14 @@ namespace MeetLife.Data.Repository
             }
             else
             {
-                this._dbContext.Set<T>().Attach(entity);
-                this._dbContext.Set<T>().Remove(entity);
+                this.Dbset.Attach(entity);
+                this.Dbset.Remove(entity);
             }
         }
 
         public T GetById(object id)
         {
-            return _dbContext.Set<T>().Find(id);
+            return Dbset.Find(id);
         }
 
         public void Update(T entity)
@@ -60,7 +63,7 @@ namespace MeetLife.Data.Repository
             var entry = this._dbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
-                this._dbContext.Set<T>().Attach(entity);
+                this.Dbset.Attach(entity);
             }
 
             entry.State = EntityState.Modified;
