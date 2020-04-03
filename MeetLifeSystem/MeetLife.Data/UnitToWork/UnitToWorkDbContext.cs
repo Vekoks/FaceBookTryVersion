@@ -15,6 +15,7 @@ namespace MeetLife.Data.UnitToWork
             this._dbContext = dbContext;
         }
 
+        //Save in DateBase
         public void Commit()
         {
             this._dbContext.SaveChanges();
