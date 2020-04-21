@@ -15,7 +15,7 @@ namespace MeetLifeClient.Models.DetailsViewModels
         public string FirstName { get; set; }
 
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "FirstName")]
+        [Display(Name = "LastName")]
         public string LastName { get; set; }
 
         [EmailAddress]
